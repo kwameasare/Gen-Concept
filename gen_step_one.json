@@ -1,0 +1,230 @@
+{
+    "projectName": "My Enterprise Project",
+    "projectDescription": "This is a description of my project",
+    "projectType": "Enterprise",
+    "isMultiTenant": true,
+    "entities": [
+        {
+            "entityName": "User",
+            "entityDescription": "This is a description of my entity",
+            "implementsRBAC": true,
+            "isAuthentocationRequired": true,
+            "implementsAudit": true,
+            "implementsChangeManagement": true,
+            "isReadOnly": false,
+            "isIndependentEntity": true,
+            "dependsOnEntities": [],
+            "version": "1.0",
+            "isBackendOnly": false,
+            "preferredDB": "Postgres",
+            "modeOfDBInteraction": "ORM",
+            "entityFields": [
+                {
+                    "fieldName": "name",
+                    "displayName": "Name",
+                    "fieldType": "String",
+                    "fieldDescription": "This is a description of my field",
+                    "isMandatory": true,
+                    "isUnique": false,
+                    "isReadOnly": false,
+                    "isSensitive": false,
+                    "isEditable": true,
+                    "isDerived": false,
+                    "isList": false,
+                    "listType": "None",
+                    "isEnum": false,
+                    "enumValues": [],
+                    "derivativeType": "None",
+                    "derivativeExpression": "None",
+                    "isBackendOnly": false,
+                    "displayStatus": "Show",
+                    "sampleData": "John Doe",
+                    "inputValidation":{
+                        "description":"This is a description of my validation",
+                        "abortOnFailure":true,
+                        "customErrorMessage":"This is a custom error message"
+
+                    }
+                },
+                {
+                    "fieldName": "email",
+                    "displayName": "Email",
+                    "fieldType": "String",
+                    "fieldDescription": "This is a description of my field",
+                    "isMandatory": true,
+                    "isUnique": false,
+                    "isReadOnly": false,
+                    "isSensitive": false,
+                    "isEditable": true,
+                    "isDerived": false,
+                    "isList": false,
+                    "listType": "None",
+                    "isEnum": false,
+                    "enumValues": [],
+                    "derivativeType": "None",
+                    "derivativeExpression": "None",
+                    "isBackendOnly": false,
+                    "displayStatus": "Detail",
+                    "sampleData":"john.doe@email.com",
+                    "inputValidation":{
+                        "description":"This is a description of my validation",
+                        "abortOnFailure":true,
+                        "customErrorMessage":"This is a custom error message"
+
+                    }
+                },
+                {
+                    "fieldName": "password",
+                    "displayName": "Password",
+                    "fieldType": "String",
+                    "fieldDescription": "This is a description of my field",
+                    "isMandatory": true,
+                    "isUnique": false,
+                    "isReadOnly": false,
+                    "isSensitive": true,
+                    "isEditable": true,
+                    "isDerived": false,
+                    "isList": false,
+                    "listType": "None",
+                    "isEnum": false,
+                    "enumValues": [],
+                    "derivativeType": "None",
+                    "derivativeExpression": "None",
+                    "isBackendOnly": false,
+                    "displayStatus": "hide",
+                    "sampleData":"password",
+                    "inputValidation":{
+                        "description":"This is a description of my validation",
+                        "abortOnFailure":true,
+                        "customErrorMessage":"This is a custom error message"
+
+                    }
+            
+                }
+            ]
+        },
+        {
+            "entityName":"DependentEntity",
+            "entityDescription":"This is a description of my entity",
+            "implementsRBAC":true,
+            "isAuthentocationRequired":true,
+            "implementsAudit":true,
+            "implementsChangeManagement":true,
+            "isReadOnly":false,
+            "isIndependentEntity":false,
+            "dependsOnEntities":[{ "entityName":"User", 
+            "fieldName":"users",
+            "relationType":"OneToMany",
+            "preferredDB":"Postgres",
+            "modeOfDBInteraction":"StoredProcedures"
+        }
+        ],
+            "isBackendOnly":false,
+            "entityFields":[
+                {
+                    "fieldName":"name",
+                    "displayName":"Name",
+                    "fieldType":"String",
+                    "fieldDescription":"This is a description of my field",
+                    "isMandatory":true,
+                    "isUnique":false,
+                    "isReadOnly":false,
+                    "isSensitive":false,
+                    "isEditable":true,
+                    "isDerived":false,
+                    "isList":false,
+                    "listType":"None",
+                    "isEnum": false,
+                    "enumValues": [],
+                    "derivativeType":"None",
+                    "derivativeExpression":"None",
+                    "isBackendOnly":false,
+                    "displayStatus":"Show",
+                    "sampleData":"Test Name",
+                    "inputValidation":{
+                        "description":"This is a description of my validation",
+                        "abortOnFailure":true,
+                        "customErrorMessage":"This is a custom error message"
+
+                    }
+                },
+                {
+                    "fieldName":"users",
+                    "displayName":"Users",
+                    "fieldType":"List",
+                    "fieldDescription":"This is a description of my field",
+                    "isMandatory":true,
+                    "isUnique":false,
+                    "isReadOnly":false,
+                    "isSensitive":false,
+                    "isEditable":true,
+                    "isDerived":false,
+                    "isList":true,
+                    "listType":"User",
+                    "isEnum": false,
+                    "enumValues": [],
+                    "derivativeType":"None",
+                    "derivativeExpression":"None",
+                    "isBackendOnly":false,
+                    "displayStatus":"Detail",
+                    "inputValidation":{
+                        "description":"This is a description of my validation",
+                        "abortOnFailure":true,
+                        "customErrorMessage":"This is a custom error message"
+
+                    }
+                
+                }
+            ]
+        }
+
+    ]
+
+}
+
+
+
+    // The above JSON is a representation of the first step of the generator. 
+    // The JSON is used to create the project structure and the entities in the project.
+    // The JSON contains the following fields:
+    // 1. projectName: The name of the project
+    // 2. projectDescription: The description of the project
+    // 3. projectType: The type of the project
+    // 4. isMultiTenant: A boolean value to determine if the project is multi-tenant
+    // 5. entities: An array of entities in the project
+    // Each entity contains the following fields:
+    // 1. entityName: The name of the entity
+    // 2. entityDescription: The description of the entity
+    // 3. implementsRBAC: A boolean value to determine if the entity implements Role-Based Access Control
+    // 4. isAuthentocationRequired: A boolean value to determine if the entity requires authentication
+    // 5. implementsAudit: A boolean value to determine if the entity implements auditing
+    // 6. implementsChangeManagement: A boolean value to determine if the entity implements change management
+    // 7. isReadOnly: A boolean value to determine if the entity is read-only
+    // 8. isIndependentEntity: A boolean value to determine if the entity is independent
+    // 9. dependsOnEntities: An array of entities that the entity depends on
+    // Each entity field contains the following fields:
+    // 1. fieldName: The name of the field
+    // 2. displayName: The display name of the field
+    // 3. fieldType: The type of the field
+    // 4. fieldDescription: The description of the field
+    // 5. isMandatory: A boolean value to determine if the field is mandatory
+    // 6. isUnique: A boolean value to determine if the field is unique
+    // 7. isReadOnly: A boolean value to determine if the field is read-only
+    // 8. isSensitive: A boolean value to determine if the field is sensitive
+    // 9. isEditable: A boolean value to determine if the field is editable
+    // 10. isDerived: A boolean value to determine if the field is derived
+    // 11. isList: A boolean value to determine if the field is a list
+    // 12. listType: The type of the list
+    // 13. isEnum: A boolean value to determine
+    // 14. enumValues: An array of enum values
+    // 15. derivativeType: The type of the derivative 
+    // 16. derivativeExpression: The expression for the derivative
+    // 17. isBackendOnly: A boolean value to determine if the field is backend-only
+    // 18. displayStatus: The display status of the field
+    // 19. sampleData: The sample data for the field
+    // 20. inputValidation: The input validation for the field
+    // Each input validation contains the following fields:
+    // 1. description: The description of the validation   
+    // 2. abortOnFailure: A boolean value to determine if the validation should abort on failure
+    // 3. customErrorMessage: The custom error message for the validation
+

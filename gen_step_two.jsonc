@@ -1,0 +1,251 @@
+[
+    {
+        "entityId": "3425800",
+        "entityName": "Example",
+        "operations": [
+            {
+                "type": "Create",
+                "name": "CreateExample",
+                "description": "Create a new example",
+                "frontendJourney": [],
+                "backendJourney": [
+                    {
+                        "index": 0,
+                        "type": "BUSINESS_VALIDATION",
+                        "description": "exampleField1 multiplied by exampleField2 should be greater than 100",
+                        "fieldsInvolved": [
+                            {
+                                "id": "433",
+                                "name": "exampleField1"
+                            },
+                            {
+                                "id": "434",
+                                "name": "exampleField2"
+                            }
+                        ],
+                        "condition": "exampleField1 * exampleField2 > 100",
+                        "abortOnFail": true,
+                        "error": "exampleField1 multiplied by exampleField2 should be greater than 100"
+                    },
+                    {
+                        "index": 1,
+                        "type": "API_CALL",
+                        "curl": "curl -X POST 'https://api.example.com/v1/example' -H 'Content-Type: application/json' -d '{\"exampleField1\": \"{{exampleField1}}\", \"exampleField2\": \"{{exampleField2}}\"}'",
+                        "sampleResponse": "{\"statusCode\":\"\",\"exampleResultField1\": \"Example res 1\", \"exampleResultField2\": \"Example res 2\"}",
+                        "retry": true,
+                        "retryCount": 3,
+                        "retryInterval": 5,
+                        "retryConditions": [
+                            {
+                                "condition": "statusCode == 5000",
+                                "error": "Internal Server Error"
+                            }
+                        ],
+                        "responseActions": [
+                            {
+                                "index": 0,
+                                "type": "SET_FIELD",
+                                "fieldId": "435",
+                                "value": "exampleResultField1"
+                            },
+                            {
+                                "index": 1,
+                                "type": "BUSINESS_VALIDATION",
+                                "description": "exampleResultField1 should be equal to SOME_CONSTANT",
+                                "fieldsInvolved": [
+                                    {
+                                        "id": "",
+                                        "name": "exampleResultField1",
+                                        "source": "API_Response"
+                                    }
+                                ],
+                                "condition": "exampleResultField1 == SOME_CONSTANT",
+                                "abortOnFail": true,
+                                "error": "exampleResultField1 should be equal to SOME_CONSTANT"
+                            }
+                        ]
+                    },
+                    {
+                        "index":2,
+                        "type":"DATABASE_OPERATION",
+                        "dbAction":"INSERT"
+                    },
+                    {
+                        "index":3,
+                        "type":"NOTIFICATION",
+                        "channels":["EMAIL","SMS"],
+                        "message":"Example [entityId:421] created successfully",
+                        "recipients":["{{userEmail}}"]
+                    },
+                    {
+                        "index":4,
+                        "type":"RETURN"
+                    }
+                ]
+            },
+            {
+                "type": "Read",
+                "name": "ReadExample",
+                "description": "Read an example",
+                "frontendJourney": [],
+                "backendJourney": [
+                    {
+                        "index": 0,
+                        "type": "DATABASE_OPERATION",
+                        "dbAction": "READ"
+                    },
+                    {
+                        "index":2,
+                        "type":"RETURN"
+                    }
+                ],
+                "filters": [
+                    {
+                        "name":"testRange",
+                        "type":"DATE_RANGE",
+                        "fieldId":"433",
+                        "maxRange":{
+                            "value":30,
+                            "unit":"DAY"
+                        },
+                        "minRange":{
+                            "value":1,
+                            "unit":"DAY"
+                        },
+                        "error":"Date range should be between 1 and 30 days"
+                    },
+                    {
+                        "name":"someFilter",
+                        "type":"FIELD",
+                        "fieldId":"434",
+                        "operator":"EQUALS"
+                    }
+                ],
+                "sort": [
+                    {
+                        "fieldId":"433"
+                    },
+                    {
+                        "fieldId":"434"
+                    },
+                    {
+                        "fieldId":"435"
+                    }
+                ]
+            },
+            {
+                "type":"ReadById",
+                "name":"ReadExampleById",
+                "description":"Read an example by id",
+                "frontendJourney":[],
+                "backendJourney":[
+                    {
+                        "index":0,
+                        "type":"READ_CACHE",
+                        "chaheAction":"READ",
+                        "failOnNotFound":false
+                    },
+                    {
+                        "index":1,
+                        "type":"DATABASE_OPERATION",
+                        "dbAction":"READ"
+                    },
+                    {
+                        "index":2,
+                        "type":"CACHE_OPERATION",
+                        "chaheAction":"INSERT"
+                    },
+                    {
+                        "index":3,
+                        "type":"RETURN"
+                    }
+                ]
+            },
+            {
+                "type":"Update",
+                "name":"UpdateExample",
+                "description":"Update an example",
+                "frontendJourney":[],
+                "backendJourney":[
+                    {
+                        "index":0,
+                        "type":"DATABASE_OPERATION",
+                        "dbAction":"UPDATE"
+                    },
+                    {
+                        "index":1,
+                        "type":"RETURN"
+                    }
+                ]
+            },
+            {
+                "type":"Delete",
+                "name":"DeleteExample",
+                "description":"Delete an example",
+                "frontendJourney":[],
+                "backendJourney":[
+                    {
+                        "index":0,
+                        "type":"DATABASE_OPERATION",
+                        "dbAction":"DELETE"
+                    },
+                    {
+                        "index":1,
+                        "type":"RETURN"
+                    }
+                ]
+            },
+            {
+                "type":"Custom",
+                "name":"CustomExample",
+                "description":"Custom operation for example",
+                "frontendJourney":[],
+                "backendJourney":[
+                    {
+                        "index":0,
+                        "type":"API_CALL",
+                        "curl":"curl -X POST 'https://api.example.com/v1/custom' -H 'Content-Type: application/json' -d '{\"exampleField1\": \"{{exampleField1}}\", \"exampleField2\": \"{{exampleField2}}\"}'",
+                        "sampleResponse":"{\"statusCode\":\"\",\"exampleResultField1\": \"Example res 1\", \"exampleResultField2\": \"Example res 2\"}",
+                        "retry":true,
+                        "retryCount":3,
+                        "retryInterval":5,
+                        "retryConditions":[
+                            {
+                                "condition":"statusCode == 5000",
+                                "error":"Internal Server Error"
+                            }
+                        ],
+                        "responseActions":[
+                            {
+                                "index":0,
+                                "type":"SET_FIELD",
+                                "fieldId":"435",
+                                "value":"exampleResultField1"
+                            },
+                            {
+                                "index":1,
+                                "type":"BUSINESS_VALIDATION",
+                                "description":"exampleResultField1 should be equal to SOME_CONSTANT",
+                                "fieldsInvolved":[
+                                    {
+                                        "id":"",
+                                        "name":"exampleResultField1",
+                                        "source":"API_Response"
+                                    }
+                                ],
+                                "condition":"exampleResultField1 == SOME_CONSTANT",
+                                "abortOnFail":true,
+                                "error":"exampleResultField1 should be equal to SOME_CONSTANT"
+                            }
+                        ]
+                    },
+                    {
+                        "index":1,
+                        "type":"RETURN"
+                    }
+                ]
+            }
+
+        ]
+    }
+]
