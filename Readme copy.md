@@ -2,11 +2,11 @@
 
 ## System Design Diagram
 
-<p align="center"><img src='/docs/files/system_diagram.png' alt='Golang Web API System Design Diagram' /></p>
+<p align="center"><img src='./docs/files/system_diagram.png' alt='Golang Web API System Design Diagram' /></p>
 
 ## Database Design Diagram
 
-<p align="center"><img src='/docs/files/db_diagram.png' alt='Golang Web API System Design Diagram' /></p>
+<p align="center"><img src='./docs/files/db_diagram.png' alt='Golang Web API System Design Diagram' /></p>
 
 ## Give a Star! :star:
 
@@ -37,11 +37,13 @@ If you like this repo or found it helpful, please give it a star. Thanks!
 ### Run on local system
 
 #### Start dependencies on docker
-```bash 
+
+```bash
 docker compose -f "docker/docker-compose.yml" up -d setup elasticsearch kibana filebeat postgres pgadmin redis prometheus node-exporter alertmanager grafana
 ```
 
 #### Install swagger and run app
+
 ```bash
 cd src
 go install github.com/swaggo/swag/cmd/swag@latest
@@ -52,6 +54,7 @@ go run main.go
 ##### Address: [http://localhost:5005](http://localhost:5005)
 
 #### Stop
+
 ```bash
 docker compose -f "docker/docker-compose.yml" down
 ```
@@ -59,6 +62,7 @@ docker compose -f "docker/docker-compose.yml" down
 #### Examples
 
 ##### Login
+
 ```bash
 curl -X 'POST' \
   'http://localhost:5005/api/v1/users/login-by-username' \
@@ -94,8 +98,7 @@ curl -X 'POST' \
 }
 ```
 
-
-###### City in range filter 
+###### City in range filter
 
 ```json
 {
@@ -224,12 +227,12 @@ sudo journalctl -u go-api -e
 
 ## Swagger
 
-<p align="center"><img src='/docs/files/swagger.png' alt='Golang Web API preview' /></p>
+<p align="center"><img src='./docs/files/swagger.png' alt='Golang Web API preview' /></p>
 
 ## Grafana
 
-<p align="center"><img src='/docs/files/grafana.png' alt='Golang Web API grafana dashboard' /></p>
+<p align="center"><img src='./docs/files/grafana.png' alt='Golang Web API grafana dashboard' /></p>
 
 ## Kibana
 
-<p align="center"><img src='/docs/files/kibana.png' alt='Golang Web API grafana dashboard' /></p>
+<p align="center"><img src='./docs/files/kibana.png' alt='Golang Web API grafana dashboard' /></p>
