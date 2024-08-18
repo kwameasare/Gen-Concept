@@ -48,6 +48,8 @@ func (d *DataType) UnmarshalJSON(data []byte) error {
 		*d = Bool
 	case "DateTime":
 		*d = DateTime
+	case "Enum":
+		*d = Enum
 	case "Collection":
 		*d = Collection
 	case "Entity":
