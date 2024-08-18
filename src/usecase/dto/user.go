@@ -1,6 +1,6 @@
 package dto
 
-import model "github.com/naeemaei/golang-clean-web-api/domain/model"
+import model "gen-concept-api/domain/model"
 
 type TokenDetail struct {
 	AccessToken            string

@@ -1,8 +1,9 @@
 package middleware
 
 import (
+	"gen-concept-api/config"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/config"
 )
 
 func Cors(cfg *config.Config) gin.HandlerFunc {

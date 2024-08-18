@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/naeemaei/golang-clean-web-api/usecase/dto"
+import "gen-concept-api/usecase/dto"
 
 type CreateColorRequest struct {
 	Name    string `json:"name" binding:"alpha,min=3,max=15"`

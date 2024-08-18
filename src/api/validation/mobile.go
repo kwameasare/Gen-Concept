@@ -1,8 +1,9 @@
 package validation
 
 import (
+	"gen-concept-api/common"
+
 	"github.com/go-playground/validator/v10"
-	"github.com/naeemaei/golang-clean-web-api/common"
 )
 
 func IranianMobileNumberValidator(fld validator.FieldLevel) bool {

@@ -5,10 +5,11 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/naeemaei/golang-clean-web-api/common"
+	"gen-concept-api/common"
+
 	"gorm.io/gorm"
 
-	filter "github.com/naeemaei/golang-clean-web-api/domain/filter"
+	filter "gen-concept-api/domain/filter"
 )
 
 type PreloadEntity struct {

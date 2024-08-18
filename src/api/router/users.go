@@ -1,10 +1,11 @@
 package router
 
 import (
+	"gen-concept-api/api/handler"
+	"gen-concept-api/api/middleware"
+	"gen-concept-api/config"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/api/handler"
-	"github.com/naeemaei/golang-clean-web-api/api/middleware"
-	"github.com/naeemaei/golang-clean-web-api/config"
 )
 
 func User(router *gin.RouterGroup, cfg *config.Config) {

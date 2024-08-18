@@ -5,7 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/naeemaei/golang-clean-web-api/config"
+	"gen-concept-api/config"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

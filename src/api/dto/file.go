@@ -3,7 +3,7 @@ package dto
 import (
 	"mime/multipart"
 
-	"github.com/naeemaei/golang-clean-web-api/usecase/dto"
+	"gen-concept-api/usecase/dto"
 )
 
 type FileFormRequest struct {

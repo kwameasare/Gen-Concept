@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/naeemaei/golang-clean-web-api/domain/filter"
-	"github.com/naeemaei/golang-clean-web-api/domain/model"
+	"gen-concept-api/domain/filter"
+	"gen-concept-api/domain/model"
 )
 
 type BaseRepository[TEntity any] interface {

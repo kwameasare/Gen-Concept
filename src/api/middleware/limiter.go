@@ -3,9 +3,10 @@ package middleware
 import (
 	"net/http"
 
+	"gen-concept-api/api/helper"
+
 	"github.com/didip/tollbooth"
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/api/helper"
 )
 
 func LimitByRequest() gin.HandlerFunc {

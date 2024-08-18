@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"time"
 
+	"gen-concept-api/common"
+	"gen-concept-api/config"
+	constant "gen-concept-api/constant"
+	"gen-concept-api/infra/cache"
+	"gen-concept-api/pkg/logging"
+	"gen-concept-api/pkg/service_errors"
+
 	"github.com/go-redis/redis/v7"
-	"github.com/naeemaei/golang-clean-web-api/common"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	constant "github.com/naeemaei/golang-clean-web-api/constant"
-	"github.com/naeemaei/golang-clean-web-api/infra/cache"
-	"github.com/naeemaei/golang-clean-web-api/pkg/logging"
-	"github.com/naeemaei/golang-clean-web-api/pkg/service_errors"
 )
 
 type OtpUsecase struct {

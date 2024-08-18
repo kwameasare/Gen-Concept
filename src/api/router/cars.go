@@ -1,9 +1,10 @@
 package router
 
 import (
+	"gen-concept-api/api/handler"
+	"gen-concept-api/config"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/api/handler"
-	"github.com/naeemaei/golang-clean-web-api/config"
 )
 
 func CarType(r *gin.RouterGroup, cfg *config.Config) {

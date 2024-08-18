@@ -1,4 +1,4 @@
-module github.com/naeemaei/golang-clean-web-api
+module gen-concept-api
 
 go 1.23
 

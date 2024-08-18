@@ -6,9 +6,10 @@ import (
 	"strings"
 	"time"
 
+	"gen-concept-api/config"
+	"gen-concept-api/pkg/logging"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/pkg/logging"
 )
 
 type bodyLogWriter struct {

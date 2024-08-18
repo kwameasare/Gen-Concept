@@ -3,11 +3,11 @@ package usecase
 import (
 	"context"
 
-	"github.com/naeemaei/golang-clean-web-api/common"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/domain/filter"
-	"github.com/naeemaei/golang-clean-web-api/domain/repository"
-	"github.com/naeemaei/golang-clean-web-api/pkg/logging"
+	"gen-concept-api/common"
+	"gen-concept-api/config"
+	"gen-concept-api/domain/filter"
+	"gen-concept-api/domain/repository"
+	"gen-concept-api/pkg/logging"
 )
 
 type BaseUsecase[TEntity any, TCreate any, TUpdate any, TResponse any] struct {

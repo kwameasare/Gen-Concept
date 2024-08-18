@@ -3,12 +3,13 @@ package handler
 import (
 	"net/http"
 
+	"gen-concept-api/api/dto"
+	"gen-concept-api/api/helper"
+	"gen-concept-api/config"
+	"gen-concept-api/dependency"
+	"gen-concept-api/usecase"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/api/dto"
-	"github.com/naeemaei/golang-clean-web-api/api/helper"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/dependency"
-	"github.com/naeemaei/golang-clean-web-api/usecase"
 )
 
 type UsersHandler struct {

@@ -3,13 +3,14 @@ package usecase
 import (
 	"context"
 
-	"github.com/naeemaei/golang-clean-web-api/common"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	model "github.com/naeemaei/golang-clean-web-api/domain/model"
-	"github.com/naeemaei/golang-clean-web-api/domain/repository"
-	"github.com/naeemaei/golang-clean-web-api/pkg/logging"
-	"github.com/naeemaei/golang-clean-web-api/pkg/service_errors"
-	dto "github.com/naeemaei/golang-clean-web-api/usecase/dto"
+	"gen-concept-api/common"
+	"gen-concept-api/config"
+	model "gen-concept-api/domain/model"
+	"gen-concept-api/domain/repository"
+	"gen-concept-api/pkg/logging"
+	"gen-concept-api/pkg/service_errors"
+	dto "gen-concept-api/usecase/dto"
+
 	"golang.org/x/crypto/bcrypt"
 )
 

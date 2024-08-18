@@ -1,6 +1,6 @@
 package helper
 
-import validation "github.com/naeemaei/golang-clean-web-api/api/validation"
+import validation "gen-concept-api/api/validation"
 
 type BaseHttpResponse struct {
 	Result           any                           `json:"result"`

@@ -3,7 +3,7 @@ package filter
 import (
 	"math"
 
-	"github.com/naeemaei/golang-clean-web-api/common"
+	"gen-concept-api/common"
 )
 
 func NewPagedList[T any](items *[]T, count int64, pageNumber int, pageSize int64) *PagedList[T] {

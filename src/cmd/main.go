@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/naeemaei/golang-clean-web-api/api"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/infra/cache"
-	database "github.com/naeemaei/golang-clean-web-api/infra/persistence/database"
-	"github.com/naeemaei/golang-clean-web-api/infra/persistence/migration"
-	"github.com/naeemaei/golang-clean-web-api/pkg/logging"
+	"gen-concept-api/api"
+	"gen-concept-api/config"
+	"gen-concept-api/infra/cache"
+	database "gen-concept-api/infra/persistence/database"
+	"gen-concept-api/infra/persistence/migration"
+	"gen-concept-api/pkg/logging"
 )
 
 // @securityDefinitions.apikey AuthBearer

@@ -9,7 +9,7 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/naeemaei/golang-clean-web-api/config"
+	"gen-concept-api/config"
 )
 
 var (

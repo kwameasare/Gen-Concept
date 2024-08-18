@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"time"
 
+	"gen-concept-api/api/helper"
+	"gen-concept-api/config"
+	"gen-concept-api/pkg/limiter"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/api/helper"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/pkg/limiter"
 	"golang.org/x/time/rate"
 )
 

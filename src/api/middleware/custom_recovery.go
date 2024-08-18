@@ -3,8 +3,9 @@ package middleware
 import (
 	"net/http"
 
+	"gen-concept-api/api/helper"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/api/helper"
 )
 
 func ErrorHandler(c *gin.Context, err any) {

@@ -3,11 +3,12 @@ package repository
 import (
 	"context"
 
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/constant"
-	model "github.com/naeemaei/golang-clean-web-api/domain/model"
-	database "github.com/naeemaei/golang-clean-web-api/infra/persistence/database"
-	"github.com/naeemaei/golang-clean-web-api/pkg/logging"
+	"gen-concept-api/config"
+	"gen-concept-api/constant"
+	model "gen-concept-api/domain/model"
+	database "gen-concept-api/infra/persistence/database"
+	"gen-concept-api/pkg/logging"
+
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )

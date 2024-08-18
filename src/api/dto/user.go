@@ -1,6 +1,6 @@
 package dto
 
-import usecase "github.com/naeemaei/golang-clean-web-api/usecase/dto"
+import usecase "gen-concept-api/usecase/dto"
 
 type GetOtpRequest struct {
 	MobileNumber string `json:"mobileNumber" binding:"required,mobile,min=11,max=11"`

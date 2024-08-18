@@ -1,6 +1,6 @@
 package logging
 
-import "github.com/naeemaei/golang-clean-web-api/config"
+import "gen-concept-api/config"
 
 type Logger interface {
 	Init()
@@ -29,4 +29,3 @@ func NewLogger(cfg *config.Config) Logger {
 	}
 	panic("logger not supported")
 }
- 

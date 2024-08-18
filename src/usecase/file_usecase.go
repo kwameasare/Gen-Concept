@@ -3,11 +3,11 @@ package usecase
 import (
 	"context"
 
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/domain/filter"
-	model "github.com/naeemaei/golang-clean-web-api/domain/model"
-	"github.com/naeemaei/golang-clean-web-api/domain/repository"
-	"github.com/naeemaei/golang-clean-web-api/usecase/dto"
+	"gen-concept-api/config"
+	"gen-concept-api/domain/filter"
+	model "gen-concept-api/domain/model"
+	"gen-concept-api/domain/repository"
+	"gen-concept-api/usecase/dto"
 )
 
 type FileUsecase struct {

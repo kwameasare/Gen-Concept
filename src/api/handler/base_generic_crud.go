@@ -9,11 +9,12 @@ import (
 	"net/http"
 	"strconv"
 
+	"gen-concept-api/api/helper"
+	"gen-concept-api/config"
+	"gen-concept-api/domain/filter"
+	"gen-concept-api/pkg/logging"
+
 	"github.com/gin-gonic/gin"
-	"github.com/naeemaei/golang-clean-web-api/api/helper"
-	"github.com/naeemaei/golang-clean-web-api/config"
-	"github.com/naeemaei/golang-clean-web-api/domain/filter"
-	"github.com/naeemaei/golang-clean-web-api/pkg/logging"
 )
 
 var logger = logging.NewLogger(config.GetConfig())

@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/naeemaei/golang-clean-web-api/usecase/dto"
+import "gen-concept-api/usecase/dto"
 
 type CreatePropertyCategoryRequest struct {
 	Name string `json:"name" binding:"required,alpha,min=3,max=50"`

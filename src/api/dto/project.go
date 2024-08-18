@@ -1,5 +1,9 @@
 package dto
 
+import (
+	"GEN-CONCEPT/src/enum"
+)
+
 // {
 //     "projectName": "My Enterprise Project",//input
 //     "projectDescription": "This is a description of my project", //input
@@ -186,12 +190,12 @@ package dto
 // }
 
 type Project struct {
-	ProjectName        string   `json:"projectName"`
-	ProjectDescription string   `json:"projectDescription"`
-	ProjectType        string   `json:"projectType"`
-	IsMultiTenant      bool     `json:"isMultiTenant"`
-	IsMultiLingual     bool     `json:"isMultiLingual"`
-	Entities           []Entity `json:"entities"`
+	ProjectName        string           `json:"projectName"`
+	ProjectDescription string           `json:"projectDescription"`
+	ProjectType        enum.ProjectType `json:"projectType"`
+	IsMultiTenant      bool             `json:"isMultiTenant"`
+	IsMultiLingual     bool             `json:"isMultiLingual"`
+	Entities           []Entity         `json:"entities"`
 }
 
 type Entity struct {
