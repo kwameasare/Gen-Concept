@@ -1,176 +1,177 @@
 {
-    "projectName": "My Enterprise Project",
-    "projectDescription": "This is a description of my project",
-    "projectType": "Enterprise",
-    "isMultiTenant": true,
-    "isMultiLingual": true,
+    "projectName": "My Enterprise Project",//input
+    "projectDescription": "This is a description of my project", //input
+    "projectType": "Enterprise", //Select from a list of options
+    "isMultiTenant": true, //toggle boolean
+    "isMultiLingual": true, //toggle boolean
     "entities": [
         {
-            "entityName": "User",
-            "entityDescription": "This is a description of my entity",
-            "implementsRBAC": true,
-            "isAuthentocationRequired": true,
-            "implementsAudit": true,
-            "implementsChangeManagement": true,
-            "isReadOnly": false,
-            "isIndependentEntity": true,
-            "dependsOnEntities": [],
-            "version": "1.0",
-            "isBackendOnly": false,
-            "preferredDB": "Postgres",
-            "modeOfDBInteraction": "ORM",
+            "entityName": "User",   //input
+            "entityDescription": "This is a description of my entity",  //input
+            "implementsRBAC": true, //toggle boolean
+            "isAuthentocationRequired": true,   //toggle boolean
+            "implementsAudit": true,    //toggle boolean
+            "implementsChangeManagement": true, //toggle boolean
+            "isReadOnly": false,    //toggle boolean
+            "isIndependentEntity": true,    //toggle boolean
+            "dependsOnEntities": [],    //select from a list of entities
+            "version": "1.0",   //input
+            "isBackendOnly": false, //toggle boolean
+            "preferredDB": "Postgres",  //select from a list of options
+            "modeOfDBInteraction": "ORM",   //select from ENUM
             "entityFields": [
                 {
-                    "fieldName": "name",
-                    "displayName": "Name",
-                    "fieldType": "String",
-                    "fieldDescription": "This is a description of my field",
-                    "isMandatory": true,
-                    "isUnique": false,
-                    "isReadOnly": false,
-                    "isSensitive": false,
-                    "isEditable": true,
-                    "isDerived": false,
-                    "isList": false,
-                    "listType": "None",
-                    "isEnum": false,
-                    "enumValues": [],
-                    "derivativeType": "None",
-                    "derivativeExpression": "None",
-                    "isBackendOnly": false,
-                    "displayStatus": "Show",
-                    "sampleData": "John Doe",
+                    "fieldName": "name",  //input
+                    "displayName": "Name",  //input
+                    "fieldType": "String",  //select from ENUM
+                    "fieldDescription": "This is a description of my field",    //input
+                    "isMandatory": true,    //toggle boolean
+                    "isUnique": false,  //toggle boolean
+                    "isReadOnly": false,        //toggle boolean
+                    "isSensitive": false,   //toggle boolean
+                    "isEditable": true, //toggle boolean
+                    "isDerived": false, //toggle boolean
+                    "isCollection": false,    //toggle boolean
+                    "collectionType": "None", //select from ENUM
+                    "isEnum": false,    //toggle boolean
+                    "enumValues": [],   //input
+                    "derivativeType": "None",   //select from ENUM
+                    "derivativeExpression": "None", //input
+                    "isBackendOnly": false, //toggle boolean
+                    "displayStatus": "Show",    //select from ENUM
+                    "sampleData": "John Doe",   //input
                     "inputValidation":{
-                        "description":"This is a description of my validation",
-                        "abortOnFailure":true,
-                        "customErrorMessage":"This is a custom error message"
+                        "description":"This is a description of my validation", //input
+                        "abortOnFailure":true,  //toggle boolean
+                        "customErrorMessage":"This is a custom error message"   //input
 
                     }
                 },
                 {
-                    "fieldName": "email",
-                    "displayName": "Email",
-                    "fieldType": "String",
-                    "fieldDescription": "This is a description of my field",
-                    "isMandatory": true,
-                    "isUnique": false,
-                    "isReadOnly": false,
-                    "isSensitive": false,
-                    "isEditable": true,
-                    "isDerived": false,
-                    "isList": false,
-                    "listType": "None",
-                    "isEnum": false,
-                    "enumValues": [],
-                    "derivativeType": "None",
-                    "derivativeExpression": "None",
-                    "isBackendOnly": false,
-                    "displayStatus": "Detail",
-                    "sampleData":"john.doe@email.com",
-                    "inputValidation":{
-                        "description":"This is a description of my validation",
-                        "abortOnFailure":true,
-                        "customErrorMessage":"This is a custom error message"
+                    "fieldName": "email",   //input
+                    "displayName": "Email", //input
+                    "fieldType": "String",  //select from ENUM
+                    "fieldDescription": "This is a description of my field",    //input
+                    "isMandatory": true,    //toggle boolean
+                    "isUnique": false,  //toggle boolean
+                    "isReadOnly": false,    //toggle boolean
+                    "isSensitive": false,   //toggle boolean
+                    "isEditable": true,     //toggle boolean
+                    "isDerived": false,    //toggle boolean
+                    "isCollection": false,  //toggle boolean
+                    "collectionType": "None",
+                    "isEnum": false,    //toggle boolean
+                    "enumValues": [],   //input
+                    "derivativeType": "None",   //select from ENUM
+                    "derivativeExpression": "None", //input
+                    "isBackendOnly": false, //toggle boolean
+                    "displayStatus": "Detail",  //select from ENUM
+                    "sampleData":"john.doe@email.com",  //input
+                    "inputValidation":{ 
+                        "description":"This is a description of my validation", //input
+                        "abortOnFailure":true,  //toggle boolean
+                        "customErrorMessage":"This is a custom error message"   //input
 
                     }
                 },
                 {
-                    "fieldName": "password",
-                    "displayName": "Password",
-                    "fieldType": "String",
-                    "fieldDescription": "This is a description of my field",
-                    "isMandatory": true,
-                    "isUnique": false,
-                    "isReadOnly": false,
-                    "isSensitive": true,
-                    "isEditable": true,
-                    "isDerived": false,
-                    "isList": false,
-                    "listType": "None",
-                    "isEnum": false,
-                    "enumValues": [],
-                    "derivativeType": "None",
-                    "derivativeExpression": "None",
-                    "isBackendOnly": false,
-                    "displayStatus": "hide",
-                    "sampleData":"password",
+                    "fieldName": "password",    //input
+                    "displayName": "Password",  //input
+                    "fieldType": "String", //select from ENUM
+                    "fieldDescription": "This is a description of my field",    //input
+                    "isMandatory": true,    //toggle boolean
+                    "isUnique": false,      //toggle boolean
+                    "isReadOnly": false,    //toggle boolean
+                    "isSensitive": true,    //toggle boolean
+                    "isEditable": true,    //toggle boolean 
+                    "isDerived": false,   //toggle boolean
+                    "isCollection": false,  //toggle boolean
+                    "collectionType": "None",   //select from ENUM
+                    "isEnum": false,    //toggle boolean
+                    "enumValues": [],   //input
+                    "derivativeType": "None",   //select from ENUM
+                    "derivativeExpression": "None", //input
+                    "isBackendOnly": false, //toggle boolean
+                    "displayStatus": "hide",    //select from ENUM
+                    "sampleData":"password",    //input
                     "inputValidation":{
-                        "description":"This is a description of my validation",
-                        "abortOnFailure":true,
-                        "customErrorMessage":"This is a custom error message"
-
+                        "description":"This is a description of my validation", //input
+                        "abortOnFailure":true,  //toggle boolean
+                        "customErrorMessage":"This is a custom error message"   //input
                     }
             
                 }
             ]
         },
         {
-            "entityName":"DependentEntity",
-            "entityDescription":"This is a description of my entity",
-            "implementsRBAC":true,
-            "isAuthentocationRequired":true,
-            "implementsAudit":true,
-            "implementsChangeManagement":true,
-            "isReadOnly":false,
-            "isIndependentEntity":false,
-            "dependsOnEntities":[{ "entityName":"User", 
-            "fieldName":"users",
-            "relationType":"OneToMany"}],
-            "preferredDB":"Postgres",
-            "modeOfDBInteraction":"StoredProcedures",
-            "version":"1.0",
-            "isBackendOnly":false,
+            "entityName":"DependentEntity",     //input
+            "entityDescription":"This is a description of my entity",   //input
+            "implementsRBAC":true,      //toggle boolean
+            "isAuthentocationRequired":true,    //toggle boolean
+            "implementsAudit":true,    //toggle boolean
+            "implementsChangeManagement":true,  //toggle boolean
+            "isReadOnly":false,    //toggle boolean
+            "isIndependentEntity":false,    //toggle boolean
+            "dependsOnEntities":[{ "entityName":"User",     //select from a list of entities
+            "fieldName":"users",    //input
+            "relationType":"OneToMany"  //select from ENUM
+            }
+        ],   
+            "preferredDB":"Postgres",   //select from a list of options
+            "modeOfDBInteraction":"StoredProcedures",   //select from ENUM
+            "version":"1.0",    //input
+            "isBackendOnly":false,    //toggle boolean
             "entityFields":[
                 {
-                    "fieldName":"name",
-                    "displayName":"Name",
-                    "fieldType":"String",
-                    "fieldDescription":"This is a description of my field",
-                    "isMandatory":true,
-                    "isUnique":false,
-                    "isReadOnly":false,
-                    "isSensitive":false,
-                    "isEditable":true,
-                    "isDerived":false,
-                    "isList":false,
-                    "listType":"None",
-                    "isEnum": false,
-                    "enumValues": [],
-                    "derivativeType":"None",
-                    "derivativeExpression":"None",
-                    "isBackendOnly":false,
-                    "displayStatus":"Show",
-                    "sampleData":"Test Name",
+                    "fieldName":"name",   //input
+                    "displayName":"Name",   //input
+                    "fieldType":"String",   //select from ENUM
+                    "fieldDescription":"This is a description of my field",   //input
+                    "isMandatory":true,   //toggle boolean
+                    "isUnique":false,   //toggle boolean
+                    "isReadOnly":false,  //toggle boolean
+                    "isSensitive":false,        //toggle boolean
+                    "isEditable":true,  //toggle boolean
+                    "isDerived":false,  //toggle boolean
+                    "isCollection":false,   //toggle boolean
+                    "collectionType":"None",    //select from ENUM
+                    "isEnum": false,    //toggle boolean
+                    "enumValues": [],   //input
+                    "derivativeType":"None",    //select from ENUM
+                    "derivativeExpression":"None",  //input
+                    "isBackendOnly":false,  //toggle boolean
+                    "displayStatus":"Show", //select from ENUM
+                    "sampleData":"Test Name",   //input
                     "inputValidation":{
-                        "description":"This is a description of my validation",
-                        "abortOnFailure":true,
-                        "customErrorMessage":"This is a custom error message"
+                        "description":"This is a description of my validation", //input
+                        "abortOnFailure":true,  //toggle boolean
+                        "customErrorMessage":"This is a custom error message"   //input
 
                     }
                 },
                 {
-                    "fieldName":"users",
-                    "displayName":"Users",
+                    "fieldName":"users",    //input
+                    "displayName":"Users",  //input
                     "fieldType":"List",
-                    "fieldDescription":"This is a description of my field",
-                    "isMandatory":true,
-                    "isUnique":false,
-                    "isReadOnly":false,
-                    "isSensitive":false,
-                    "isEditable":true,
-                    "isDerived":false,
-                    "isList":true,
-                    "listType":"User",
-                    "isEnum": false,
-                    "enumValues": [],
-                    "derivativeType":"None",
-                    "derivativeExpression":"None",
-                    "isBackendOnly":false,
-                    "displayStatus":"Detail",
+                    "fieldDescription":"This is a description of my field",  //input
+                    "isMandatory":true, //toggle boolean
+                    "isUnique":false,       //toggle boolean
+                    "isReadOnly":false,     //toggle boolean
+                    "isSensitive":false,    //toggle boolean
+                    "isEditable":true,  //toggle boolean
+                    "isDerived":false,  //toggle boolean
+                    "isCollection":true,    //toggle boolean
+                    "collectionType":"User",    //select from ENUM
+                    "isEnum": false,    //toggle boolean
+                    "enumValues": [],   //input
+                    "derivativeType":"None",    //select from ENUM
+                    "derivativeExpression":"None",  //input
+                    "isBackendOnly":false,  //toggle boolean
+                    "displayStatus":"Detail",   //select from ENUM
                     "inputValidation":{
-                        "description":"This is a description of my validation",
-                        "abortOnFailure":true,
-                        "customErrorMessage":"This is a custom error message"
+                        "description":"This is a description of my validation", //input
+                        "abortOnFailure":true,  //toggle boolean
+                        "customErrorMessage":"This is a custom error message"   //input
 
                     }
                 
@@ -213,8 +214,8 @@
     // 8. isSensitive: A boolean value to determine if the field is sensitive
     // 9. isEditable: A boolean value to determine if the field is editable
     // 10. isDerived: A boolean value to determine if the field is derived
-    // 11. isList: A boolean value to determine if the field is a list
-    // 12. listType: The type of the list
+    // 11. isCollection: A boolean value to determine if the field is a list
+    // 12. collectionType: The type of the list
     // 13. isEnum: A boolean value to determine
     // 14. enumValues: An array of enum values
     // 15. derivativeType: The type of the derivative 
