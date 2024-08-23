@@ -40,7 +40,7 @@ scrape_configs:
     scrape_interval: 5s
     dns_sd_configs:
       - names:
-          - "tasks.web-api"
+          - "tasks.genx-api"
         type: "A"
         port: 8008
     metrics_path: /metrics
@@ -48,8 +48,8 @@ scrape_configs:
     static_configs:
       - targets:
           [
-            "web-api1:5000",
-            "web-api2:5000",
+            "genx-api1:5000",
+            "genx-api2:5000",
             "192.168.1.114:5005",
             "192.168.1.114:5010",
           ]

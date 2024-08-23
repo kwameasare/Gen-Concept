@@ -198,10 +198,10 @@ services:
     networks:
       - webapi_network
     restart: always
-  car-api1:
+  gen-api1:
     build: ../src/
-    image: car-api:latest
-    container_name: web-api1
+    image: gen-api:latest
+    container_name: genx-api1
     environment:
       - PORT=9003
     ports:
@@ -214,10 +214,10 @@ services:
       - postgres
       - elasticsearch
     restart: unless-stopped
-  car-api2:
+  gen-api2:
     build: ../src/
-    image: car-api:latest
-    container_name: web-api2
+    image: gen-api:latest
+    container_name: genx-api2
     environment:
       - PORT=9002
     ports:
