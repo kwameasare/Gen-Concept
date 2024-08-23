@@ -48,17 +48,6 @@ func Company(r *gin.RouterGroup, cfg *config.Config) {
 	r.GET("/:id", h.GetById)
 	r.POST(GetByFilterExp, h.GetByFilter)
 }
-
-func Color(r *gin.RouterGroup, cfg *config.Config) {
-	h := handler.NewColorHandler(cfg)
-
-	r.POST("/", h.Create)
-	r.PUT("/:id", h.Update)
-	r.DELETE("/:id", h.Delete)
-	r.GET("/:id", h.GetById)
-	r.POST(GetByFilterExp, h.GetByFilter)
-}
-
 func Year(r *gin.RouterGroup, cfg *config.Config) {
 	h := handler.NewPersianYearHandler(cfg)
 
