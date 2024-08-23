@@ -18,252 +18,164 @@ definitions:
     - last_name
     - mobile_number
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarModelColorResponse:
-    properties:
-      color:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.ColorResponse'
-      id:
-        type: integer
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarModelCommentResponse:
-    properties:
-      carModelId:
-        type: integer
-      id:
-        type: integer
-      message:
-        type: string
-      user:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UserResponse'
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarModelImageResponse:
-    properties:
-      carModelId:
-        type: integer
-      id:
-        type: integer
-      image:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.FileResponse'
-      isMainImage:
-        type: boolean
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPriceHistoryResponse:
-    properties:
-      carModelYearId:
-        type: integer
-      id:
-        type: integer
-      price:
-        type: number
-      priceAt:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPropertyResponse:
-    properties:
-      carModelId:
-        type: integer
-      id:
-        type: integer
-      property:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyResponse'
-      value:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarModelResponse:
-    properties:
-      carModelColors:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelColorResponse'
-        type: array
-      carModelComments:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelCommentResponse'
-        type: array
-      carModelImages:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelImageResponse'
-        type: array
-      carModelProperties:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPropertyResponse'
-        type: array
-      carModelYears:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelYearResponse'
-        type: array
-      carType:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarTypeResponse'
-      company:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CompanyResponse'
-      gearbox:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.GearboxResponse'
-      id:
-        type: integer
-      name:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarModelYearResponse:
-    properties:
-      carModelId:
-        type: integer
-      carModelPriceHistories:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPriceHistoryResponse'
-        type: array
-      id:
-        type: integer
-      persianYear:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PersianYearWithoutDateResponse'
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CarTypeResponse:
-    properties:
-      id:
-        type: integer
-      name:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CityResponse:
+  enum.CollectionType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    type: integer
+    x-enum-varnames:
+    - List
+    - Set
+    - Map
+    - Array
+  enum.DataType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    type: integer
+    x-enum-varnames:
+    - String
+    - Int
+    - Float
+    - Bool
+    - DateTime
+    - Enum
+    - Collection
+    - Entity
+  enum.DbInteraction:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    type: integer
+    x-enum-varnames:
+    - ORM
+    - DBFunction
+    - RawSQL
+    - NoSql
+  enum.DerivativeType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    type: integer
+    x-enum-varnames:
+    - Arithmetic
+    - Formula
+    - Concatenation
+    - Runtime
+  enum.DisplayStatus:
+    enum:
+    - 0
+    - 1
+    - 2
+    type: integer
+    x-enum-varnames:
+    - Summary
+    - Detail
+    - hide
+  enum.PreferredDB:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    type: integer
+    x-enum-varnames:
+    - Postgres
+    - Mysql
+    - Mongo
+    - Mssql
+    - Maria
+    - Oracle
+  enum.ProgrammingLanguage:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    type: integer
+    x-enum-varnames:
+    - Golang
+    - Python
+    - Java
+    - JavaScript
+    - TypeScript
+    - Csharp
+    - Cpp
+    - Kotlin
+    - Rust
+  enum.ProjectType:
+    enum:
+    - 0
+    - 1
+    type: integer
+    x-enum-varnames:
+    - Enterprise
+    - Website
+  enum.RelationType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    type: integer
+    x-enum-varnames:
+    - OneToOne
+    - OneToMany
+    - ManyToOne
+    - ManyToMany
+  gen-concept-api_api_dto.CityResponse:
     properties:
       country:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CountryResponse'
+        $ref: '#/definitions/gen-concept-api_api_dto.CountryResponse'
       id:
         type: integer
       name:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.ColorResponse:
-    properties:
-      hexCode:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CompanyResponse:
+  gen-concept-api_api_dto.CompanyResponse:
     properties:
       country:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CountryResponse'
+        $ref: '#/definitions/gen-concept-api_api_dto.CountryResponse'
       id:
         type: integer
       name:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CountryResponse:
+  gen-concept-api_api_dto.CountryResponse:
     properties:
       cities:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CityResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.CityResponse'
         type: array
       companies:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CompanyResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.CompanyResponse'
         type: array
       id:
         type: integer
       name:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelColorRequest:
-    properties:
-      carModelId:
-        type: integer
-      colorId:
-        type: integer
-    required:
-    - carModelId
-    - colorId
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelCommentRequest:
-    properties:
-      carModelId:
-        type: integer
-      message:
-        maxLength: 100
-        type: string
-      userId:
-        type: integer
-    required:
-    - carModelId
-    - message
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelImageRequest:
-    properties:
-      carModelId:
-        type: integer
-      imageId:
-        type: integer
-      isMainImage:
-        type: boolean
-    required:
-    - carModelId
-    - imageId
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelPriceHistoryRequest:
-    properties:
-      carModelYearId:
-        type: integer
-      price:
-        type: number
-      priceAt:
-        type: string
-    required:
-    - carModelYearId
-    - price
-    - priceAt
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelPropertyRequest:
-    properties:
-      carModelId:
-        type: integer
-      propertyId:
-        type: integer
-      value:
-        maxLength: 100
-        type: string
-    required:
-    - carModelId
-    - propertyId
-    - value
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelRequest:
-    properties:
-      carTypeId:
-        type: integer
-      companyId:
-        type: integer
-      gearboxId:
-        type: integer
-      name:
-        maxLength: 15
-        minLength: 3
-        type: string
-    required:
-    - carTypeId
-    - companyId
-    - gearboxId
-    - name
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelYearRequest:
-    properties:
-      carModelId:
-        type: integer
-      persianYearId:
-        type: integer
-    required:
-    - carModelId
-    - persianYearId
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarTypeRequest:
-    properties:
-      name:
-        maxLength: 15
-        minLength: 3
-        type: string
-    required:
-    - name
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCityRequest:
+  gen-concept-api_api_dto.CreateCityRequest:
     properties:
       countryId:
         type: integer
@@ -275,18 +187,7 @@ definitions:
     - countryId
     - name
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateColorRequest:
-    properties:
-      hexCode:
-        maxLength: 7
-        minLength: 7
-        type: string
-      name:
-        maxLength: 15
-        minLength: 3
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateCompanyRequest:
+  gen-concept-api_api_dto.CreateCompanyRequest:
     properties:
       countryId:
         type: integer
@@ -298,16 +199,7 @@ definitions:
     - countryId
     - name
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateGearboxRequest:
-    properties:
-      name:
-        maxLength: 15
-        minLength: 3
-        type: string
-    required:
-    - name
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreatePersianYearRequest:
+  gen-concept-api_api_dto.CreatePersianYearRequest:
     properties:
       endAt:
         type: string
@@ -320,7 +212,7 @@ definitions:
       year:
         type: integer
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreatePropertyCategoryRequest:
+  gen-concept-api_api_dto.CreatePropertyCategoryRequest:
     properties:
       icon:
         maxLength: 1000
@@ -332,7 +224,7 @@ definitions:
     required:
     - name
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreatePropertyRequest:
+  gen-concept-api_api_dto.CreatePropertyRequest:
     properties:
       categoryId:
         type: integer
@@ -356,7 +248,7 @@ definitions:
     - categoryId
     - name
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.CreateUpdateCountryRequest:
+  gen-concept-api_api_dto.CreateUpdateCountryRequest:
     properties:
       name:
         maxLength: 20
@@ -365,7 +257,96 @@ definitions:
     required:
     - name
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.FileResponse:
+  gen-concept-api_api_dto.DependsOnEntity:
+    properties:
+      entityName:
+        type: string
+      fieldName:
+        type: string
+      relationType:
+        $ref: '#/definitions/enum.RelationType'
+    type: object
+  gen-concept-api_api_dto.Entity:
+    properties:
+      dependsOnEntities:
+        items:
+          $ref: '#/definitions/gen-concept-api_api_dto.DependsOnEntity'
+        type: array
+      entityDescription:
+        type: string
+      entityFields:
+        items:
+          $ref: '#/definitions/gen-concept-api_api_dto.EntityField'
+        type: array
+      entityName:
+        type: string
+      implementsAudit:
+        type: boolean
+      implementsChangeManagement:
+        type: boolean
+      implementsRBAC:
+        type: boolean
+      isAuthenticationRequired:
+        type: boolean
+      isBackendOnly:
+        type: boolean
+      isIndependentEntity:
+        type: boolean
+      isReadOnly:
+        type: boolean
+      modeOfDBInteraction:
+        $ref: '#/definitions/enum.DbInteraction'
+      preferredDB:
+        $ref: '#/definitions/enum.PreferredDB'
+      version:
+        type: string
+    type: object
+  gen-concept-api_api_dto.EntityField:
+    properties:
+      collectionType:
+        $ref: '#/definitions/enum.CollectionType'
+      derivativeExpression:
+        type: string
+      derivativeType:
+        $ref: '#/definitions/enum.DerivativeType'
+      displayName:
+        type: string
+      displayStatus:
+        $ref: '#/definitions/enum.DisplayStatus'
+      enumValues:
+        items:
+          type: string
+        type: array
+      fieldDescription:
+        type: string
+      fieldName:
+        type: string
+      fieldType:
+        $ref: '#/definitions/enum.DataType'
+      inputValidation:
+        $ref: '#/definitions/gen-concept-api_api_dto.InputValidation'
+      isBackendOnly:
+        type: boolean
+      isCollection:
+        type: boolean
+      isDerived:
+        type: boolean
+      isEditable:
+        type: boolean
+      isEnum:
+        type: boolean
+      isMandatory:
+        type: boolean
+      isReadOnly:
+        type: boolean
+      isSensitive:
+        type: boolean
+      isUnique:
+        type: boolean
+      sampleData:
+        type: string
+    type: object
+  gen-concept-api_api_dto.FileResponse:
     properties:
       description:
         type: string
@@ -378,14 +359,7 @@ definitions:
       name:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.GearboxResponse:
-    properties:
-      id:
-        type: integer
-      name:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.GetOtpRequest:
+  gen-concept-api_api_dto.GetOtpRequest:
     properties:
       mobileNumber:
         maxLength: 11
@@ -394,7 +368,16 @@ definitions:
     required:
     - mobileNumber
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.LoginByUsernameRequest:
+  gen-concept-api_api_dto.InputValidation:
+    properties:
+      abortOnFailure:
+        type: boolean
+      customErrorMessage:
+        type: string
+      description:
+        type: string
+    type: object
+  gen-concept-api_api_dto.LoginByUsernameRequest:
     properties:
       password:
         minLength: 6
@@ -406,7 +389,7 @@ definitions:
     - password
     - username
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.PersianYearResponse:
+  gen-concept-api_api_dto.PersianYearResponse:
     properties:
       endAt:
         type: string
@@ -419,16 +402,26 @@ definitions:
       year:
         type: integer
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.PersianYearWithoutDateResponse:
+  gen-concept-api_api_dto.Project:
     properties:
-      id:
-        type: integer
-      persianTitle:
+      entities:
+        items:
+          $ref: '#/definitions/gen-concept-api_api_dto.Entity'
+        type: array
+      isMultiLingual:
+        type: boolean
+      isMultiTenant:
+        type: boolean
+      programmingLanguage:
+        $ref: '#/definitions/enum.ProgrammingLanguage'
+      projectDescription:
         type: string
-      year:
-        type: integer
+      projectName:
+        type: string
+      projectType:
+        $ref: '#/definitions/enum.ProjectType'
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.PropertyCategoryResponse:
+  gen-concept-api_api_dto.PropertyCategoryResponse:
     properties:
       icon:
         type: string
@@ -438,13 +431,13 @@ definitions:
         type: string
       properties:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.PropertyResponse'
         type: array
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.PropertyResponse:
+  gen-concept-api_api_dto.PropertyResponse:
     properties:
       category:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyCategoryResponse'
+        $ref: '#/definitions/gen-concept-api_api_dto.PropertyCategoryResponse'
       dataType:
         type: string
       description:
@@ -458,7 +451,7 @@ definitions:
       unit:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.RegisterLoginByMobileRequest:
+  gen-concept-api_api_dto.RegisterLoginByMobileRequest:
     properties:
       mobileNumber:
         maxLength: 11
@@ -472,7 +465,7 @@ definitions:
     - mobileNumber
     - otp
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.RegisterUserByUsernameRequest:
+  gen-concept-api_api_dto.RegisterUserByUsernameRequest:
     properties:
       email:
         minLength: 6
@@ -495,69 +488,7 @@ definitions:
     - password
     - username
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelColorRequest:
-    properties:
-      carModelId:
-        type: integer
-      colorId:
-        type: integer
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelCommentRequest:
-    properties:
-      message:
-        maxLength: 100
-        type: string
-    required:
-    - message
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelImageRequest:
-    properties:
-      isMainImage:
-        type: boolean
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelPriceHistoryRequest:
-    properties:
-      price:
-        type: number
-      priceAt:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelPropertyRequest:
-    properties:
-      value:
-        maxLength: 100
-        type: string
-    required:
-    - value
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelRequest:
-    properties:
-      carTypeId:
-        type: integer
-      companyId:
-        type: integer
-      gearboxId:
-        type: integer
-      name:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelYearRequest:
-    properties:
-      carModelId:
-        type: integer
-      persianYearId:
-        type: integer
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarTypeRequest:
-    properties:
-      name:
-        maxLength: 15
-        minLength: 3
-        type: string
-    required:
-    - name
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCityRequest:
+  gen-concept-api_api_dto.UpdateCityRequest:
     properties:
       countryId:
         type: integer
@@ -566,18 +497,7 @@ definitions:
         minLength: 3
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateColorRequest:
-    properties:
-      hexCode:
-        maxLength: 7
-        minLength: 7
-        type: string
-      name:
-        maxLength: 15
-        minLength: 3
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCompanyRequest:
+  gen-concept-api_api_dto.UpdateCompanyRequest:
     properties:
       countryId:
         type: integer
@@ -586,21 +506,12 @@ definitions:
         minLength: 3
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateFileRequest:
+  gen-concept-api_api_dto.UpdateFileRequest:
     properties:
       description:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdateGearboxRequest:
-    properties:
-      name:
-        maxLength: 15
-        minLength: 3
-        type: string
-    required:
-    - name
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdatePersianYearRequest:
+  gen-concept-api_api_dto.UpdatePersianYearRequest:
     properties:
       endAt:
         type: string
@@ -613,14 +524,14 @@ definitions:
       year:
         type: integer
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdatePropertyCategoryRequest:
+  gen-concept-api_api_dto.UpdatePropertyCategoryRequest:
     properties:
       icon:
         type: string
       name:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UpdatePropertyRequest:
+  gen-concept-api_api_dto.UpdatePropertyRequest:
     properties:
       categoryId:
         type: integer
@@ -639,33 +550,20 @@ definitions:
         maxLength: 15
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_dto.UserResponse:
-    properties:
-      email:
-        type: string
-      firstName:
-        type: string
-      id:
-        type: integer
-      lastName:
-        type: string
-      username:
-        type: string
-    type: object
-  github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse:
+  gen-concept-api_api_helper.BaseHttpResponse:
     properties:
       error: {}
       result: {}
       resultCode:
-        $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.ResultCode'
+        $ref: '#/definitions/gen-concept-api_api_helper.ResultCode'
       success:
         type: boolean
       validationErrors:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_validation.ValidationError'
+          $ref: '#/definitions/gen-concept-api_api_validation.ValidationError'
         type: array
     type: object
-  github_com_naeemaei_golang-clean-web-api_api_helper.ResultCode:
+  gen-concept-api_api_helper.ResultCode:
     enum:
     - 0
     - 40001
@@ -687,7 +585,7 @@ definitions:
     - OtpLimiterError
     - CustomRecovery
     - InternalError
-  github_com_naeemaei_golang-clean-web-api_api_validation.ValidationError:
+  gen-concept-api_api_validation.ValidationError:
     properties:
       message:
         type: string
@@ -698,7 +596,7 @@ definitions:
       value:
         type: string
     type: object
-  github_com_naeemaei_golang-clean-web-api_domain_filter.Filter:
+  gen-concept-api_domain_filter.Filter:
     properties:
       filterType:
         description: text number
@@ -712,159 +610,7 @@ definitions:
           greaterThan greaterThanOrEqual inRange endsWith
         type: string
     type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelColorResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelColorResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelCommentResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelCommentResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelImageResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelImageResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelPriceHistoryResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPriceHistoryResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelPropertyResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPropertyResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelYearResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelYearResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarTypeResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarTypeResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CityResponse:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_CityResponse:
     properties:
       hasNextPage:
         type: boolean
@@ -872,7 +618,7 @@ definitions:
         type: boolean
       items:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CityResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.CityResponse'
         type: array
       pageNumber:
         type: integer
@@ -883,7 +629,7 @@ definitions:
       totalRows:
         type: integer
     type: object
-  github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_ColorResponse:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_CompanyResponse:
     properties:
       hasNextPage:
         type: boolean
@@ -891,7 +637,7 @@ definitions:
         type: boolean
       items:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.ColorResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.CompanyResponse'
         type: array
       pageNumber:
         type: integer
@@ -902,45 +648,7 @@ definitions:
       totalRows:
         type: integer
     type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CompanyResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CompanyResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CountryResponse
-  : properties:
-      hasNextPage:
-        type: boolean
-      hasPreviousPage:
-        type: boolean
-      items:
-        items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CountryResponse'
-        type: array
-      pageNumber:
-        type: integer
-      pageSize:
-        type: integer
-      totalPages:
-        type: integer
-      totalRows:
-        type: integer
-    type: object
-  github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_FileResponse:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_CountryResponse:
     properties:
       hasNextPage:
         type: boolean
@@ -948,7 +656,7 @@ definitions:
         type: boolean
       items:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.FileResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.CountryResponse'
         type: array
       pageNumber:
         type: integer
@@ -959,15 +667,15 @@ definitions:
       totalRows:
         type: integer
     type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_GearboxResponse
-  : properties:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_FileResponse:
+    properties:
       hasNextPage:
         type: boolean
       hasPreviousPage:
         type: boolean
       items:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.GearboxResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.FileResponse'
         type: array
       pageNumber:
         type: integer
@@ -978,15 +686,15 @@ definitions:
       totalRows:
         type: integer
     type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_PersianYearResponse
-  : properties:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_PersianYearResponse:
+    properties:
       hasNextPage:
         type: boolean
       hasPreviousPage:
         type: boolean
       items:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PersianYearResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.PersianYearResponse'
         type: array
       pageNumber:
         type: integer
@@ -997,15 +705,15 @@ definitions:
       totalRows:
         type: integer
     type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_PropertyCategoryResponse
-  : properties:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_Project:
+    properties:
       hasNextPage:
         type: boolean
       hasPreviousPage:
         type: boolean
       items:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyCategoryResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.Project'
         type: array
       pageNumber:
         type: integer
@@ -1016,15 +724,15 @@ definitions:
       totalRows:
         type: integer
     type: object
-  ? github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_PropertyResponse
-  : properties:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_PropertyCategoryResponse:
+    properties:
       hasNextPage:
         type: boolean
       hasPreviousPage:
         type: boolean
       items:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyResponse'
+          $ref: '#/definitions/gen-concept-api_api_dto.PropertyCategoryResponse'
         type: array
       pageNumber:
         type: integer
@@ -1035,11 +743,30 @@ definitions:
       totalRows:
         type: integer
     type: object
-  github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter:
+  gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_PropertyResponse:
+    properties:
+      hasNextPage:
+        type: boolean
+      hasPreviousPage:
+        type: boolean
+      items:
+        items:
+          $ref: '#/definitions/gen-concept-api_api_dto.PropertyResponse'
+        type: array
+      pageNumber:
+        type: integer
+      pageSize:
+        type: integer
+      totalPages:
+        type: integer
+      totalRows:
+        type: integer
+    type: object
+  gen-concept-api_domain_filter.PaginationInputWithFilter:
     properties:
       filter:
         additionalProperties:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.Filter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.Filter'
         type: object
       pageNumber:
         type: integer
@@ -1047,10 +774,10 @@ definitions:
         type: integer
       sort:
         items:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.Sort'
+          $ref: '#/definitions/gen-concept-api_domain_filter.Sort'
         type: array
     type: object
-  github_com_naeemaei_golang-clean-web-api_domain_filter.Sort:
+  gen-concept-api_domain_filter.Sort:
     properties:
       colId:
         type: string
@@ -1060,1310 +787,6 @@ definitions:
 info:
   contact: {}
 paths:
-  /v1/car-model-colors/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarModelColor
-      parameters:
-      - description: Create a CarModelColor
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelColorRequest'
-      responses:
-        "201":
-          description: CarModelColor response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarModelColor
-      tags:
-      - CarModelColors
-  /v1/car-model-colors/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarModelColor
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarModelColor
-      tags:
-      - CarModelColors
-    get:
-      consumes:
-      - application/json
-      description: Get a CarModelColor
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarModelColor response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarModelColor
-      tags:
-      - CarModelColors
-    put:
-      consumes:
-      - application/json
-      description: Update a CarModelColor
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarModelColor
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelColorRequest'
-      responses:
-        "200":
-          description: CarModelColor response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarModelColor
-      tags:
-      - CarModelColors
-  /v1/car-model-colors/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarModelColors
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarModelColor response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarModelColors
-      tags:
-      - CarModelColors
-  /v1/car-model-comments/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarModelComment
-      parameters:
-      - description: Create a CarModelComment
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelCommentRequest'
-      responses:
-        "201":
-          description: CarModelComment response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelCommentResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarModelComment
-      tags:
-      - CarModelComments
-  /v1/car-model-comments/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarModelComment
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarModelComment
-      tags:
-      - CarModelComments
-    get:
-      consumes:
-      - application/json
-      description: Get a CarModelComment
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarModelComment response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelCommentResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarModelComment
-      tags:
-      - CarModelComments
-    put:
-      consumes:
-      - application/json
-      description: Update a CarModelComment
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarModelComment
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelCommentRequest'
-      responses:
-        "200":
-          description: CarModelComment response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelCommentResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarModelComment
-      tags:
-      - CarModelComments
-  /v1/car-model-comments/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarModelComments
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarModelComment response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelCommentResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarModelComments
-      tags:
-      - CarModelComments
-  /v1/car-model-images/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarModelImage
-      parameters:
-      - description: Create a CarModelImage
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelImageRequest'
-      responses:
-        "201":
-          description: CarModelImage response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelImageResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarModelImage
-      tags:
-      - CarModelImages
-  /v1/car-model-images/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarModelImage
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarModelImage
-      tags:
-      - CarModelImages
-    get:
-      consumes:
-      - application/json
-      description: Get a CarModelImage
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarModelImage response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelImageResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarModelImage
-      tags:
-      - CarModelImages
-    put:
-      consumes:
-      - application/json
-      description: Update a CarModelImage
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarModelImage
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelImageRequest'
-      responses:
-        "200":
-          description: CarModelImage response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelImageResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarModelImage
-      tags:
-      - CarModelImages
-  /v1/car-model-images/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarModelImages
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarModelImage response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelImageResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarModelImages
-      tags:
-      - CarModelImages
-  /v1/car-model-price-histories/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarModelPriceHistory
-      parameters:
-      - description: Create a CarModelPriceHistory
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelPriceHistoryRequest'
-      responses:
-        "201":
-          description: CarModelPriceHistory response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPriceHistoryResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarModelPriceHistory
-      tags:
-      - CarModelPriceHistories
-  /v1/car-model-price-histories/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarModelPriceHistory
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarModelPriceHistory
-      tags:
-      - CarModelPriceHistories
-    get:
-      consumes:
-      - application/json
-      description: Get a CarModelPriceHistory
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarModelPriceHistory response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPriceHistoryResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarModelPriceHistory
-      tags:
-      - CarModelPriceHistories
-    put:
-      consumes:
-      - application/json
-      description: Update a CarModelPriceHistory
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarModelPriceHistory
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelPriceHistoryRequest'
-      responses:
-        "200":
-          description: CarModelPriceHistory response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPriceHistoryResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarModelPriceHistory
-      tags:
-      - CarModelPriceHistories
-  /v1/car-model-price-histories/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarModelPriceHistories
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarModelPriceHistory response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelPriceHistoryResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarModelPriceHistories
-      tags:
-      - CarModelPriceHistories
-  /v1/car-model-properties/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarModelProperty
-      parameters:
-      - description: Create a CarModelProperty
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelPropertyRequest'
-      responses:
-        "201":
-          description: CarModelProperty response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPropertyResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarModelProperty
-      tags:
-      - CarModelProperties
-  /v1/car-model-properties/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarModelProperty
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarModelProperty
-      tags:
-      - CarModelProperties
-    get:
-      consumes:
-      - application/json
-      description: Get a CarModelProperty
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarModelProperty response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPropertyResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarModelProperty
-      tags:
-      - CarModelProperties
-    put:
-      consumes:
-      - application/json
-      description: Update a CarModelProperty
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarModelProperty
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelPropertyRequest'
-      responses:
-        "200":
-          description: CarModelProperty response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelPropertyResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarModelProperty
-      tags:
-      - CarModelProperties
-  /v1/car-model-properties/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarModelProperties
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarModelProperty response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelPropertyResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarModelProperties
-      tags:
-      - CarModelProperties
-  /v1/car-model-years/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarModelYear
-      parameters:
-      - description: Create a CarModelYear
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelYearRequest'
-      responses:
-        "201":
-          description: CarModelYear response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelYearResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarModelYear
-      tags:
-      - CarModelYears
-  /v1/car-model-years/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarModelYear
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarModelYear
-      tags:
-      - CarModelYears
-    get:
-      consumes:
-      - application/json
-      description: Get a CarModelYear
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarModelYear response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelYearResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarModelYear
-      tags:
-      - CarModelYears
-    put:
-      consumes:
-      - application/json
-      description: Update a CarModelYear
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarModelYear
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelYearRequest'
-      responses:
-        "200":
-          description: CarModelYear response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelYearResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarModelYear
-      tags:
-      - CarModelYears
-  /v1/car-model-years/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarModelYears
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarModelYear response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelYearResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarModelYears
-      tags:
-      - CarModelYears
-  /v1/car-models/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarModel
-      parameters:
-      - description: Create a CarModel
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarModelRequest'
-      responses:
-        "201":
-          description: CarModel response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarModel
-      tags:
-      - CarModels
-  /v1/car-models/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarModel
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarModel
-      tags:
-      - CarModels
-    get:
-      consumes:
-      - application/json
-      description: Get a CarModel
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarModel response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarModel
-      tags:
-      - CarModels
-    put:
-      consumes:
-      - application/json
-      description: Update a CarModel
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarModel
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarModelRequest'
-      responses:
-        "200":
-          description: CarModel response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarModelResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarModel
-      tags:
-      - CarModels
-  /v1/car-models/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarModels
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarModel response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarModelResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarModels
-      tags:
-      - CarModels
-  /v1/car-types/:
-    post:
-      consumes:
-      - application/json
-      description: Create a CarType
-      parameters:
-      - description: Create a CarType
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCarTypeRequest'
-      responses:
-        "201":
-          description: CarType response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarTypeResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a CarType
-      tags:
-      - CarTypes
-  /v1/car-types/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a CarType
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a CarType
-      tags:
-      - CarTypes
-    get:
-      consumes:
-      - application/json
-      description: Get a CarType
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: CarType response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarTypeResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a CarType
-      tags:
-      - CarTypes
-    put:
-      consumes:
-      - application/json
-      description: Update a CarType
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a CarType
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCarTypeRequest'
-      responses:
-        "200":
-          description: CarType response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CarTypeResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a CarType
-      tags:
-      - CarTypes
-  /v1/car-types/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get CarTypes
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: CarType response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CarTypeResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get CarTypes
-      tags:
-      - CarTypes
   /v1/cities/:
     post:
       consumes:
@@ -2375,21 +798,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCityRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.CreateCityRequest'
       responses:
         "201":
           description: City response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CityResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CityResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a City
@@ -2410,15 +833,15 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a City
@@ -2439,19 +862,19 @@ paths:
           description: City response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CityResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CityResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a City
@@ -2472,25 +895,25 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCityRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.UpdateCityRequest'
       responses:
         "200":
           description: City response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CityResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CityResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a City
@@ -2507,189 +930,26 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
       responses:
         "200":
           description: City response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CityResponse'
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_CityResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get Cities
       tags:
       - Cities
-  /v1/colors/:
-    post:
-      consumes:
-      - application/json
-      description: Create a Color
-      parameters:
-      - description: Create a Color
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateColorRequest'
-      responses:
-        "201":
-          description: Color response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.ColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a Color
-      tags:
-      - Colors
-  /v1/colors/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a Color
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a Color
-      tags:
-      - Colors
-    get:
-      consumes:
-      - application/json
-      description: Get a Color
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: Color response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.ColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a Color
-      tags:
-      - Colors
-    put:
-      consumes:
-      - application/json
-      description: Update a Color
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a Color
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateColorRequest'
-      responses:
-        "200":
-          description: Color response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.ColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a Color
-      tags:
-      - Colors
-  /v1/colors/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get Colors
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: Color response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_ColorResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get Colors
-      tags:
-      - Colors
   /v1/companies/:
     post:
       consumes:
@@ -2701,21 +961,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateCompanyRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.CreateCompanyRequest'
       responses:
         "201":
           description: Company response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CompanyResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CompanyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a Company
@@ -2736,15 +996,15 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a Company
@@ -2765,19 +1025,19 @@ paths:
           description: Company response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CompanyResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CompanyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a Company
@@ -2798,25 +1058,25 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateCompanyRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.UpdateCompanyRequest'
       responses:
         "200":
           description: Company response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CompanyResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CompanyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a Company
@@ -2833,21 +1093,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
       responses:
         "200":
           description: Company response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CompanyResponse'
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_CompanyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get Companies
@@ -2864,21 +1124,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateUpdateCountryRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.CreateUpdateCountryRequest'
       responses:
         "201":
           description: Country response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CountryResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CountryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a country
@@ -2899,11 +1159,11 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a country
@@ -2924,15 +1184,15 @@ paths:
           description: Country response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CountryResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CountryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a country
@@ -2953,21 +1213,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateUpdateCountryRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.CreateUpdateCountryRequest'
       responses:
         "200":
           description: Country response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CountryResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.CountryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a country
@@ -2984,21 +1244,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
       responses:
         "200":
           description: Country response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_CountryResponse'
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_CountryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get Countries
@@ -3024,15 +1284,15 @@ paths:
           description: File response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.FileResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.FileResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a file
@@ -3053,11 +1313,11 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a file
@@ -3078,15 +1338,15 @@ paths:
           description: File response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.FileResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.FileResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a file
@@ -3107,21 +1367,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateFileRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.UpdateFileRequest'
       responses:
         "200":
           description: File response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.FileResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.FileResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a file
@@ -3138,189 +1398,26 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
       responses:
         "200":
           description: File response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_FileResponse'
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_FileResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get Files
       tags:
       - Files
-  /v1/gearboxes/:
-    post:
-      consumes:
-      - application/json
-      description: Create a Gearbox
-      parameters:
-      - description: Create a Gearbox
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreateGearboxRequest'
-      responses:
-        "201":
-          description: Gearbox response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.GearboxResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Create a Gearbox
-      tags:
-      - Gearboxes
-  /v1/gearboxes/{id}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete a Gearbox
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: response
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Delete a Gearbox
-      tags:
-      - Gearboxes
-    get:
-      consumes:
-      - application/json
-      description: Get a Gearbox
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      responses:
-        "200":
-          description: Gearbox response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.GearboxResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get a Gearbox
-      tags:
-      - Gearboxes
-    put:
-      consumes:
-      - application/json
-      description: Update a Gearbox
-      parameters:
-      - description: Id
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Update a Gearbox
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdateGearboxRequest'
-      responses:
-        "200":
-          description: Gearbox response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.GearboxResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-        "404":
-          description: Not found
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Update a Gearbox
-      tags:
-      - Gearboxes
-  /v1/gearboxes/get-by-filter:
-    post:
-      consumes:
-      - application/json
-      description: Get Gearboxes
-      parameters:
-      - description: Request
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
-      responses:
-        "200":
-          description: Gearbox response
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-            - properties:
-                result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_GearboxResponse'
-              type: object
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
-      security:
-      - AuthBearer: []
-      summary: Get Gearboxes
-      tags:
-      - Gearboxes
   /v1/health/:
     get:
       consumes:
@@ -3332,14 +1429,177 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       summary: Health Check
       tags:
       - health
+  /v1/projects/:
+    post:
+      consumes:
+      - application/json
+      description: Create a Project
+      parameters:
+      - description: Create a Project
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gen-concept-api_api_dto.Project'
+      responses:
+        "201":
+          description: Project response
+          schema:
+            allOf:
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/gen-concept-api_api_dto.Project'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Create a Project
+      tags:
+      - Projects
+  /v1/projects/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a Project
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: response
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Delete a Project
+      tags:
+      - Projects
+    get:
+      consumes:
+      - application/json
+      description: Get a Project
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Project response
+          schema:
+            allOf:
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/gen-concept-api_api_dto.Project'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get a Project
+      tags:
+      - Projects
+    put:
+      consumes:
+      - application/json
+      description: Update a Project
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update a Project
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gen-concept-api_api_dto.Project'
+      responses:
+        "200":
+          description: Project response
+          schema:
+            allOf:
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/gen-concept-api_api_dto.Project'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Update a Project
+      tags:
+      - Projects
+  /v1/projects/get-by-filter:
+    post:
+      consumes:
+      - application/json
+      description: Get Properties
+      parameters:
+      - description: Request
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
+      responses:
+        "200":
+          description: Project response
+          schema:
+            allOf:
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_Project'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
+      security:
+      - AuthBearer: []
+      summary: Get Properties
+      tags:
+      - Projects
   /v1/properties/:
     post:
       consumes:
@@ -3351,21 +1611,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreatePropertyRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.CreatePropertyRequest'
       responses:
         "201":
           description: Property response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PropertyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a Property
@@ -3386,15 +1646,15 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a Property
@@ -3415,19 +1675,19 @@ paths:
           description: Property response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PropertyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a Property
@@ -3448,25 +1708,25 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdatePropertyRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.UpdatePropertyRequest'
       responses:
         "200":
           description: Property response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PropertyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a Property
@@ -3483,21 +1743,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
       responses:
         "200":
           description: Property response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_PropertyResponse'
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_PropertyResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get Properties
@@ -3514,21 +1774,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreatePropertyCategoryRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.CreatePropertyCategoryRequest'
       responses:
         "201":
           description: PropertyCategory response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyCategoryResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PropertyCategoryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a PropertyCategory
@@ -3549,15 +1809,15 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a PropertyCategory
@@ -3578,19 +1838,19 @@ paths:
           description: PropertyCategory response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyCategoryResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PropertyCategoryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a PropertyCategory
@@ -3611,25 +1871,25 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdatePropertyCategoryRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.UpdatePropertyCategoryRequest'
       responses:
         "200":
           description: PropertyCategory response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PropertyCategoryResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PropertyCategoryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a PropertyCategory
@@ -3646,21 +1906,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
       responses:
         "200":
           description: PropertyCategory response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_PropertyCategoryResponse'
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_PropertyCategoryResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get PropertyCategories
@@ -3685,7 +1945,7 @@ paths:
           description: Success
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 validationErrors:
                   type: object
@@ -3693,7 +1953,7 @@ paths:
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: BodyBinder
@@ -3722,7 +1982,7 @@ paths:
           description: Success
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 validationErrors:
                   type: object
@@ -3730,7 +1990,7 @@ paths:
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: BodyBinder
@@ -3753,11 +2013,11 @@ paths:
         "200":
           description: Success
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       summary: UserById
       tags:
       - Test
@@ -3772,22 +2032,22 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.RegisterLoginByMobileRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.RegisterLoginByMobileRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "409":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       summary: RegisterLoginByMobileNumber
       tags:
       - Users
@@ -3802,22 +2062,22 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.LoginByUsernameRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.LoginByUsernameRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "409":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       summary: LoginByUsername
       tags:
       - Users
@@ -3832,22 +2092,22 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.RegisterUserByUsernameRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.RegisterUserByUsernameRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "409":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       summary: RegisterByUsername
       tags:
       - Users
@@ -3862,22 +2122,22 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.GetOtpRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.GetOtpRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Success
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "409":
           description: Failed
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       summary: Send otp to user
       tags:
       - Users
@@ -3892,21 +2152,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.CreatePersianYearRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.CreatePersianYearRequest'
       responses:
         "201":
           description: PersianYear response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PersianYearResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PersianYearResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Create a PersianYear
@@ -3927,15 +2187,15 @@ paths:
         "200":
           description: response
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Delete a PersianYear
@@ -3956,19 +2216,19 @@ paths:
           description: PersianYear response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PersianYearResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PersianYearResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get a PersianYear
@@ -3989,25 +2249,25 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.UpdatePersianYearRequest'
+          $ref: '#/definitions/gen-concept-api_api_dto.UpdatePersianYearRequest'
       responses:
         "200":
           description: PersianYear response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_dto.PersianYearResponse'
+                  $ref: '#/definitions/gen-concept-api_api_dto.PersianYearResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
         "404":
           description: Not found
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Update a PersianYear
@@ -4024,21 +2284,21 @@ paths:
         name: Request
         required: true
         schema:
-          $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PaginationInputWithFilter'
+          $ref: '#/definitions/gen-concept-api_domain_filter.PaginationInputWithFilter'
       responses:
         "200":
           description: PersianYear response
           schema:
             allOf:
-            - $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            - $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
             - properties:
                 result:
-                  $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_domain_filter.PagedList-github_com_naeemaei_golang-clean-web-api_api_dto_PersianYearResponse'
+                  $ref: '#/definitions/gen-concept-api_domain_filter.PagedList-gen-concept-api_api_dto_PersianYearResponse'
               type: object
         "400":
           description: Bad request
           schema:
-            $ref: '#/definitions/github_com_naeemaei_golang-clean-web-api_api_helper.BaseHttpResponse'
+            $ref: '#/definitions/gen-concept-api_api_helper.BaseHttpResponse'
       security:
       - AuthBearer: []
       summary: Get PersianYears

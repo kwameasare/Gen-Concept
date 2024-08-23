@@ -25,11 +25,11 @@ func NewProjectHandler(cfg *config.Config) *ProjectHandler {
 // CreateProject godoc
 // @Summary Create a Project
 // @Description Create a Project
-// @Tags Prohect
+// @Tags Projects
 // @Accept json
 // @produces json
 // @Param Request body dto.Project true "Create a Project"
-// @Success 201 {object} helper.BaseHttpResponse{result=dto.ProjectResponse} "Project response"
+// @Success 201 {object} helper.BaseHttpResponse{result=dto.Project} "Project response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Router /v1/projects/ [post]
 // @Security AuthBearer
@@ -60,15 +60,15 @@ func (h *ProjectHandler) Create(c *gin.Context) {
 // UpdateProject godoc
 // @Summary Update a Project
 // @Description Update a Project
-// @Tags Properties
+// @Tags Projects
 // @Accept json
 // @produces json
 // @Param id path int true "Id"
-// @Param Request body dto.UpdateProjectRequest true "Update a Project"
-// @Success 200 {object} helper.BaseHttpResponse{result=dto.ProjectResponse} "Project response"
+// @Param Request body dto.Project true "Update a Project"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.Project} "Project response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 404 {object} helper.BaseHttpResponse "Not found"
-// @Router /v1/properties/{id} [put]
+// @Router /v1/projects/{id} [put]
 // @Security AuthBearer
 func (h *ProjectHandler) Update(c *gin.Context) {
 	// bind http request
@@ -99,14 +99,14 @@ func (h *ProjectHandler) Update(c *gin.Context) {
 // DeleteProject godoc
 // @Summary Delete a Project
 // @Description Delete a Project
-// @Tags Properties
+// @Tags Projects
 // @Accept json
 // @produces json
 // @Param id path int true "Id"
 // @Success 200 {object} helper.BaseHttpResponse "response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 404 {object} helper.BaseHttpResponse "Not found"
-// @Router /v1/properties/{id} [delete]
+// @Router /v1/projects/{id} [delete]
 // @Security AuthBearer
 func (h *ProjectHandler) Delete(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Params.ByName("id"))
@@ -128,14 +128,14 @@ func (h *ProjectHandler) Delete(c *gin.Context) {
 // GetProject godoc
 // @Summary Get a Project
 // @Description Get a Project
-// @Tags Properties
+// @Tags Projects
 // @Accept json
 // @produces json
 // @Param id path int true "Id"
-// @Success 200 {object} helper.BaseHttpResponse{result=dto.ProjectResponse} "Project response"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.Project} "Project response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 404 {object} helper.BaseHttpResponse "Not found"
-// @Router /v1/properties/{id} [get]
+// @Router /v1/projects/{id} [get]
 // @Security AuthBearer
 func (h *ProjectHandler) GetById(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Params.ByName("id"))
@@ -162,13 +162,13 @@ func (h *ProjectHandler) GetById(c *gin.Context) {
 // GetProperties godoc
 // @Summary Get Properties
 // @Description Get Properties
-// @Tags Properties
+// @Tags Projects
 // @Accept json
 // @produces json
 // @Param Request body filter.PaginationInputWithFilter true "Request"
-// @Success 200 {object} helper.BaseHttpResponse{result=filter.PagedList[dto.ProjectResponse]} "Project response"
+// @Success 200 {object} helper.BaseHttpResponse{result=filter.PagedList[dto.Project]} "Project response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
-// @Router /v1/properties/get-by-filter [post]
+// @Router /v1/projects/get-by-filter [post]
 // @Security AuthBearer
 func (h *ProjectHandler) GetByFilter(c *gin.Context) {
 	req := new(filter.PaginationInputWithFilter)
