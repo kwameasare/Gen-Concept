@@ -25,13 +25,13 @@ func NewProjectHandler(cfg *config.Config) *ProjectHandler {
 // CreateProject godoc
 // @Summary Create a Project
 // @Description Create a Project
-// @Tags Properties
+// @Tags Prohect
 // @Accept json
 // @produces json
-// @Param Request body dto.CreateProjectRequest true "Create a Project"
+// @Param Request body dto.Project true "Create a Project"
 // @Success 201 {object} helper.BaseHttpResponse{result=dto.ProjectResponse} "Project response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
-// @Router /v1/properties/ [post]
+// @Router /v1/projects/ [post]
 // @Security AuthBearer
 func (h *ProjectHandler) Create(c *gin.Context) {
 	request := new(dto.Project)
