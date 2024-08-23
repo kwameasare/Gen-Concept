@@ -106,6 +106,10 @@ func GetPropertyRepository(cfg *config.Config) contractRepository.PropertyReposi
 	var preloads []database.PreloadEntity = []database.PreloadEntity{{Entity: "Category"}}
 	return infraRepository.NewBaseRepository[model.Property](cfg, preloads)
 }
+func GetProjectRepository(cfg *config.Config) contractRepository.ProjectRepository {
+	var preloads []database.PreloadEntity = []database.PreloadEntity{{Entity: "Project"}}
+	return infraRepository.NewBaseRepository[model.Project](cfg, preloads)
+}
 
 func GetRoleRepository(cfg *config.Config) contractRepository.RoleRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{}

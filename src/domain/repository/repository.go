@@ -86,6 +86,9 @@ type PropertyCategoryRepository interface {
 type PropertyRepository interface {
 	BaseRepository[model.Property]
 }
+type ProjectRepository interface {
+	BaseRepository[model.Project]
+}
 
 type UserRepository interface {
 	ExistsMobileNumber(ctx context.Context, mobileNumber string) (bool, error)
