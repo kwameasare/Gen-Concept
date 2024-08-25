@@ -56,11 +56,7 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		users := v1.Group("/users")
 
 		// Base
-		countries := v1.Group("/countries", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
-		cities := v1.Group("/cities", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		files := v1.Group("/files", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
-		companies := v1.Group("/companies", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
-		years := v1.Group("/years", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 
 		// Property
 		properties := v1.Group("/properties", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
@@ -77,12 +73,7 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		router.User(users, cfg)
 
 		// Base
-		router.Country(countries, cfg)
-		router.City(cities, cfg)
 		router.File(files, cfg)
-		router.Company(companies, cfg)
-		router.Year(years, cfg)
-
 		// Property
 		router.Property(properties, cfg)
 		router.PropertyCategory(propertyCategories, cfg)
