@@ -108,7 +108,7 @@ services:
     container_name: pgadmin_container
     environment:
       PGADMIN_DEFAULT_EMAIL: eugenedannyuriel@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: 123456
+      PGADMIN_DEFAULT_PASSWORD: wb6F7bmvrHDTfxT
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
