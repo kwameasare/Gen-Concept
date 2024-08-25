@@ -44,7 +44,7 @@ processors:
 #       templates:
 #         - condition:
 #             equals:
-#               contains.container.image: car-sale-api
+#               contains.container.image: genx-api
 #           config:
 #             - type: docker
 #               containers.ids:

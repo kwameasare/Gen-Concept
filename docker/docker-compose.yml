@@ -93,7 +93,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: car_sale_db
+      POSTGRES_DB: genx
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
