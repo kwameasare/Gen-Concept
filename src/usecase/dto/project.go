@@ -57,7 +57,7 @@ type EntityField struct {
 	IsBackendOnly        bool                `json:"isBackendOnly"`
 	DisplayStatus        enum.DisplayStatus  `json:"displayStatus"`
 	SampleData           string              `json:"sampleData"`
-	InputValidation      InputValidation     `json:"inputValidation"`
+	InputValidations     [] InputValidation     `json:"inputValidations"`
 }
 
 type InputValidation struct {

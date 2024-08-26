@@ -40,12 +40,12 @@
                     "isBackendOnly": false, //toggle boolean
                     "displayStatus": "Show",    //select from ENUM
                     "sampleData": "John Doe",   //input
-                    "inputValidation":{
+                    "inputValidations":[{
                         "description":"This is a description of my validation", //input
                         "abortOnFailure":true,  //toggle boolean
                         "customErrorMessage":"This is a custom error message"   //input
 
-                    }
+                    }]
                 },
                 {
                     "fieldName": "email",   //input
@@ -67,12 +67,12 @@
                     "isBackendOnly": false, //toggle boolean
                     "displayStatus": "Detail",  //select from ENUM
                     "sampleData":"john.doe@email.com",  //input
-                    "inputValidation":{ 
+                    "inputValidations":[{ 
                         "description":"This is a description of my validation", //input
                         "abortOnFailure":true,  //toggle boolean
                         "customErrorMessage":"This is a custom error message"   //input
 
-                    }
+                    }]
                 },
                 {
                     "fieldName": "password",    //input
@@ -94,11 +94,11 @@
                     "isBackendOnly": false, //toggle boolean
                     "displayStatus": "hide",    //select from ENUM
                     "sampleData":"password",    //input
-                    "inputValidation":{
+                    "inputValidations":[{
                         "description":"This is a description of my validation", //input
                         "abortOnFailure":true,  //toggle boolean
                         "customErrorMessage":"This is a custom error message"   //input
-                    }
+                    }]
             
                 }
             ]
@@ -142,12 +142,12 @@
                     "isBackendOnly":false,  //toggle boolean
                     "displayStatus":"Show", //select from ENUM
                     "sampleData":"Test Name",   //input
-                    "inputValidation":{
+                    "inputValidations":[{
                         "description":"This is a description of my validation", //input
                         "abortOnFailure":true,  //toggle boolean
                         "customErrorMessage":"This is a custom error message"   //input
 
-                    }
+                    }]
                 },
                 {
                     "fieldName":"users",    //input
@@ -168,12 +168,12 @@
                     "derivativeExpression":"None",  //input
                     "isBackendOnly":false,  //toggle boolean
                     "displayStatus":"Detail",   //select from ENUM
-                    "inputValidation":{
+                    "inputValidations":[{
                         "description":"This is a description of my validation", //input
                         "abortOnFailure":true,  //toggle boolean
                         "customErrorMessage":"This is a custom error message"   //input
 
-                    }
+                    }]
                 
                 }
             ]

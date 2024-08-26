@@ -58,7 +58,7 @@ type EntityField struct {
 	IsBackendOnly        bool                `json:"isBackendOnly"`
 	DisplayStatus        enum.DisplayStatus  `json:"displayStatus"`
 	SampleData           string              `json:"sampleData"`
-	InputValidation      InputValidation     `json:"inputValidation"`
+	InputValidations      []InputValidation     `json:"inputValidations"`
 }
 
 type InputValidation struct {
@@ -151,16 +151,21 @@ func ToUseCaseEntityField(from EntityField) dto.EntityField {
 		IsBackendOnly:        from.IsBackendOnly,
 		DisplayStatus:        from.DisplayStatus,
 		SampleData:           from.SampleData,
-		InputValidation:      ToUseCaseInputValidation(from.InputValidation),
+		InputValidations:      ToUseCaseInputValidation(from.InputValidations),
 	}
 }
 
-func ToUseCaseInputValidation(from InputValidation) dto.InputValidation {
-	return dto.InputValidation{
-		Description:        from.Description,
-		AbortOnFailure:     from.AbortOnFailure,
-		CustomErrorMessage: from.CustomErrorMessage,
+func ToUseCaseInputValidation(from []InputValidation) []dto.InputValidation {
+	
+	validations:= []dto.InputValidation{}
+	for _, inputValidation := range from {
+		validations = append(validations, dto.InputValidation{
+			Description:        inputValidation.Description,
+			AbortOnFailure:     inputValidation.AbortOnFailure,
+			CustomErrorMessage: inputValidation.CustomErrorMessage,
+		})
 	}
+	return validations
 }
 
 func ToProjectResponse(from dto.Project) Project {
@@ -248,14 +253,18 @@ func ToEntityFieldResponse(from dto.EntityField) EntityField {
 		IsBackendOnly:        from.IsBackendOnly,
 		DisplayStatus:        from.DisplayStatus,
 		SampleData:           from.SampleData,
-		InputValidation:      ToInputValidationResponse(from.InputValidation),
+		InputValidations:      ToInputValidationResponse(from.InputValidations),
 	}
 }
 
-func ToInputValidationResponse(from dto.InputValidation) InputValidation {
-	return InputValidation{
-		Description:        from.Description,
-		AbortOnFailure:     from.AbortOnFailure,
-		CustomErrorMessage: from.CustomErrorMessage,
+func ToInputValidationResponse(from []dto.InputValidation) []InputValidation {
+	validations:= []InputValidation{}
+	for _, inputValidation := range from {
+		validations = append(validations, InputValidation{
+			Description:        inputValidation.Description,
+			AbortOnFailure:     inputValidation.AbortOnFailure,
+			CustomErrorMessage: inputValidation.CustomErrorMessage,
+		})
 	}
+	return validations
 }

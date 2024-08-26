@@ -11,7 +11,7 @@ type Project struct {
 	IsMultiTenant       bool
 	IsMultiLingual      bool
 	ProgrammingLanguage enum.ProgrammingLanguage
-	Entities            []Entity `gorm:"foreignKey:ProjectId"`
+	Entities            *[]Entity `gorm:"foreignKey:ProjectId"`
 	BaseModel
 }
 
@@ -19,24 +19,26 @@ type Entity struct {
 	EntityName                 string `gorm:"not null;size:150"`
 	EntityDescription          string `gorm:"size:1000"`
 	ProjectId                  int
+	Project					Project `gorm:"foreignKey:ProjectId;constraint:OnUpdate:NO ACTION;OnDelete:NO ACTION"`
 	ImplementsRBAC             bool
 	IsAuthenticationRequired   bool
 	ImplementsAudit            bool
 	ImplementsChangeManagement bool
 	IsReadOnly                 bool
 	IsIndependentEntity        bool
-	DependsOnEntities          []DependsOnEntity `gorm:"foreignKey:EntityId"`
+	DependsOnEntities          *[]DependsOnEntity `gorm:"foreignKey:EntityId"`
 	Version                    string            `gorm:"size:50"`
 	IsBackendOnly              bool
 	PreferredDB                enum.PreferredDB
 	ModeOfDBInteraction        enum.DbInteraction
-	EntityFields               []EntityField `gorm:"foreignKey:EntityId"`
+	EntityFields               *[]EntityField `gorm:"foreignKey:EntityId"`
 	BaseModel
 }
 
 type DependsOnEntity struct {
 	EntityName   string `gorm:"not null;size:150"`
 	EntityId     int
+	Entity	   Entity `gorm:"foreignKey:EntityId;constraint:OnUpdate:NO ACTION;OnDelete:NO ACTION"`
 	FieldName    string `gorm:"not null;size:250"`
 	RelationType enum.RelationType
 	BaseModel
@@ -47,6 +49,7 @@ type EntityField struct {
 	DisplayName          string `gorm:"size:250"`
 	FieldDescription     string `gorm:"size:1000"`
 	EntityId             int
+	Entity               Entity `gorm:"foreignKey:EntityId;constraint:OnUpdate:NO ACTION;OnDelete:NO ACTION"`
 	FieldType            enum.DataType
 	IsMandatory          bool
 	IsUnique             bool
@@ -57,19 +60,20 @@ type EntityField struct {
 	IsCollection         bool
 	CollectionType       enum.CollectionType
 	IsEnum               bool
-	EnumValues           []string
+	EnumValues           *[]string
 	DerivativeType       enum.DerivativeType
 	DerivativeExpression string
 	IsBackendOnly        bool
 	DisplayStatus        enum.DisplayStatus
 	SampleData           string          `gorm:"size:1000"`
-	InputValidation      InputValidation `gorm:"foreignKey:FieldId"`
+	InputValidations      *[]InputValidation `gorm:"foreignKey:EntityFieldId"`
 	BaseModel
 }
 
 type InputValidation struct {
 	Description        string `gorm:"size:1000"`
-	FieldId            int
+	EntityFieldId            int
+	EntityField               EntityField `gorm:"foreignKey:EntityFieldId;constraint:OnUpdate:NO ACTION;OnDelete:NO ACTION"`
 	AbortOnFailure     bool
 	CustomErrorMessage string `gorm:"size:1000"`
 	BaseModel
