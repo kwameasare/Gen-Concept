@@ -2,7 +2,6 @@ package enum
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 type CollectionType int
@@ -12,11 +11,12 @@ const (
 	Set
 	Map
 	Array
+	None
 )
 
 // String method for pretty printing
 func (c CollectionType) String() string {
-	return [...]string{"List", "Set", "Map", "Array"}[c]
+	return [...]string{"List", "Set", "Map", "Array","None"}[c]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -43,7 +43,7 @@ func (c *CollectionType) UnmarshalJSON(data []byte) error {
 	case "Array":
 		*c = Array
 	default:
-		return fmt.Errorf("invalid collection type: %s", collectionTypeStr)
+		*c = None
 	}
 
 	return nil

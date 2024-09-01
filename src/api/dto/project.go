@@ -51,6 +51,9 @@ type EntityField struct {
 	IsDerived            bool                `json:"isDerived"`
 	IsCollection         bool                `json:"isCollection"`
 	CollectionType       enum.CollectionType `json:"collectionType"`
+	CollectionItemType	 enum.CollectionItemType `json:"collectionItemType"`
+	NestedCollectionItemType enum.CollectionItemType `json:"nestedCollectionItemType"`
+	CollectionEntity    string              `json:"collectionEntity"`
 	IsEnum               bool                `json:"isEnum"`
 	EnumValues           []string            `json:"enumValues"`
 	DerivativeType       enum.DerivativeType `json:"derivativeType"`
@@ -144,6 +147,9 @@ func ToUseCaseEntityField(from EntityField) dto.EntityField {
 		IsDerived:            from.IsDerived,
 		IsCollection:         from.IsCollection,
 		CollectionType:       from.CollectionType,
+		CollectionItemType:   from.CollectionItemType,
+		NestedCollectionItemType: from.NestedCollectionItemType,
+		CollectionEntity:     from.CollectionEntity,
 		IsEnum:               from.IsEnum,
 		EnumValues:           from.EnumValues,
 		DerivativeType:       from.DerivativeType,
@@ -246,6 +252,9 @@ func ToEntityFieldResponse(from dto.EntityField) EntityField {
 		IsDerived:            from.IsDerived,
 		IsCollection:         from.IsCollection,
 		CollectionType:       from.CollectionType,
+		CollectionItemType:  from.CollectionItemType,
+		NestedCollectionItemType: from.NestedCollectionItemType,
+		CollectionEntity:     from.CollectionEntity,
 		IsEnum:               from.IsEnum,
 		EnumValues:           from.EnumValues,
 		DerivativeType:       from.DerivativeType,

@@ -11,7 +11,7 @@ source "${BASH_SOURCE[0]%/*}"/helpers.sh
 
 declare -A users_passwords
 users_passwords=(
-	[kibana_system]="${KIBANA_SYSTEM_PASSWORD:-}"
+	[kibana_system]="aA123456"
 	[filebeat_internal]="${FILEBEAT_INTERNAL_PASSWORD:-}"
 )
 

@@ -50,6 +50,9 @@ type EntityField struct {
 	IsDerived            bool                `json:"isDerived"`
 	IsCollection         bool                `json:"isCollection"`
 	CollectionType       enum.CollectionType `json:"collectionType"`
+	CollectionItemType  enum.CollectionItemType `json:"collectionItemType"`
+	NestedCollectionItemType  enum.CollectionItemType `json:"nestedCollectionItemType"`
+	CollectionEntity    string              `json:"collectionEntity"`
 	IsEnum               bool                `json:"isEnum"`
 	EnumValues           []string            `json:"enumValues"`
 	DerivativeType       enum.DerivativeType `json:"derivativeType"`

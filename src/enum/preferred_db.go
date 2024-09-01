@@ -2,7 +2,6 @@ package enum
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 type PreferredDB int
@@ -14,11 +13,12 @@ const (
 	Mssql
 	Maria
 	Oracle
+	NA
 )
 
 // String method for pretty printing
 func (p PreferredDB) String() string {
-	return [...]string{"Postgres", "Mysql", "Mongo", "Mssql", "Maria", "Oracle"}[p]
+	return [...]string{"Postgres", "Mysql", "Mongo", "Mssql", "Maria", "Oracle","N/A"}[p]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -47,7 +47,7 @@ func (p *PreferredDB) UnmarshalJSON(data []byte) error {
 	case "Oracle":
 		*p = Oracle
 	default:
-		return fmt.Errorf("invalid preferred db: %s", preferredDBStr)
+		*p = NA
 	}
 
 	return nil

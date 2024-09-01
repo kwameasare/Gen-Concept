@@ -2,7 +2,7 @@ package enum
 
 import (
 	"encoding/json"
-	"fmt"
+	
 )
 
 type DisplayStatus int
@@ -10,13 +10,14 @@ type DisplayStatus int
 const (
 	Summary DisplayStatus = iota
 	Detail
-	hide
+	Hide
+	Show
 )
 
 // String method for pretty printing
 
 func (d DisplayStatus) String() string {
-	return [...]string{"Summary", "Detail", "hide"}[d]
+	return [...]string{"Summary", "Detail", "Hide","Show"}[d]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -39,9 +40,9 @@ func (d *DisplayStatus) UnmarshalJSON(data []byte) error {
 	case "Detail":
 		*d = Detail
 	case "hide":
-		*d = hide
+		*d = Hide
 	default:
-		return fmt.Errorf("invalid display status: %s", displayStatusStr)
+		*d = Show
 	}
 
 	return nil

@@ -2,7 +2,7 @@ package enum
 
 import (
 	"encoding/json"
-	"fmt"
+	
 )
 
 type DerivativeType int
@@ -12,11 +12,12 @@ const (
 	Formula
 	Concatenation
 	Runtime
+	NotDerived
 )
 
 // String method for pretty printing
 func (d DerivativeType) String() string {
-	return [...]string{"Arithmetic", "Formula", "Concatenation", "Runtime"}[d]
+	return [...]string{"Arithmetic", "Formula", "Concatenation", "Runtime","Not Derived"}[d]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -43,7 +44,7 @@ func (d *DerivativeType) UnmarshalJSON(data []byte) error {
 	case "Runtime":
 		*d = Runtime
 	default:
-		return fmt.Errorf("invalid derivative type: %s", derivativeTypeStr)
+		*d = NotDerived
 	}
 
 	return nil

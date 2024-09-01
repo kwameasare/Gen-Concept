@@ -2,7 +2,7 @@ package enum
 
 import (
 	"encoding/json"
-	"fmt"
+	
 )
 
 type RelationType int
@@ -12,12 +12,13 @@ const (
 	OneToMany
 	ManyToOne
 	ManyToMany
+	NoRelation
 )
 
 // String method for pretty printing
 
 func (r RelationType) String() string {
-	return [...]string{"OneToOne", "OneToMany", "ManyToOne", "ManyToMany"}[r]
+	return [...]string{"OneToOne", "OneToMany", "ManyToOne", "ManyToMany","No Relation"}[r]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -44,7 +45,7 @@ func (r *RelationType) UnmarshalJSON(data []byte) error {
 	case "ManyToMany":
 		*r = ManyToMany
 	default:
-		return fmt.Errorf("invalid relation type: %s", relationTypeStr)
+		*r = NoRelation
 	}
 
 	return nil

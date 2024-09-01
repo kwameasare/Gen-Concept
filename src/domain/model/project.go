@@ -59,6 +59,9 @@ type EntityField struct {
 	IsDerived            bool
 	IsCollection         bool
 	CollectionType       enum.CollectionType
+	CollectionItemType   enum.CollectionItemType
+	NestedCollectionItemType   enum.CollectionItemType
+	CollectionEntity     string `gorm:"size:150"`
 	IsEnum               bool
 	EnumValues           *[]string
 	DerivativeType       enum.DerivativeType

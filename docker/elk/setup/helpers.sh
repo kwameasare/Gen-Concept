@@ -26,8 +26,8 @@ function wait_for_elasticsearch {
 
 	local -a args=( '-s' '-D-' '-m15' '-w' '%{http_code}' "http://${elasticsearch_host}:9200/" )
 
-	if [[ -n "${ELASTIC_PASSWORD:-}" ]]; then
-		args+=( '-u' "elastic:${ELASTIC_PASSWORD}" )
+	if [[ -n "aA123456" ]]; then
+		args+=( '-u' "elastic:aA123456" )
 	fi
 
 	local -i result=1
@@ -63,8 +63,8 @@ function wait_for_builtin_users {
 
 	local -a args=( '-s' '-D-' '-m15' "http://${elasticsearch_host}:9200/_security/user?pretty" )
 
-	if [[ -n "${ELASTIC_PASSWORD:-}" ]]; then
-		args+=( '-u' "elastic:${ELASTIC_PASSWORD}" )
+	if [[ -n "aA123456" ]]; then
+		args+=( '-u' "elastic:aA123456" )
 	fi
 
 	local -i result=1
@@ -114,8 +114,8 @@ function check_user_exists {
 		"http://${elasticsearch_host}:9200/_security/user/${username}"
 		)
 
-	if [[ -n "${ELASTIC_PASSWORD:-}" ]]; then
-		args+=( '-u' "elastic:${ELASTIC_PASSWORD}" )
+	if [[ -n "aA123456" ]]; then
+		args+=( '-u' "elastic:aA123456" )
 	fi
 
 	local -i result=1
@@ -153,8 +153,8 @@ function set_user_password {
 		'-d' "{\"password\" : \"${password}\"}"
 		)
 
-	if [[ -n "${ELASTIC_PASSWORD:-}" ]]; then
-		args+=( '-u' "elastic:${ELASTIC_PASSWORD}" )
+	if [[ -n "aA123456" ]]; then
+		args+=( '-u' "elastic:aA123456" )
 	fi
 
 	local -i result=1
@@ -187,8 +187,8 @@ function create_user {
 		'-d' "{\"password\":\"${password}\",\"roles\":[\"${role}\"]}"
 		)
 
-	if [[ -n "${ELASTIC_PASSWORD:-}" ]]; then
-		args+=( '-u' "elastic:${ELASTIC_PASSWORD}" )
+	if [[ -n "aA123456" ]]; then
+		args+=( '-u' "elastic:aA123456" )
 	fi
 
 	local -i result=1
@@ -220,8 +220,8 @@ function ensure_role {
 		'-d' "$body"
 		)
 
-	if [[ -n "${ELASTIC_PASSWORD:-}" ]]; then
-		args+=( '-u' "elastic:${ELASTIC_PASSWORD}" )
+	if [[ -n "aA123456" ]]; then
+		args+=( '-u' "elastic:aA123456" )
 	fi
 
 	local -i result=1

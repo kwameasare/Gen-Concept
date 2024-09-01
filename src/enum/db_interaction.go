@@ -2,7 +2,6 @@ package enum
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 type DbInteraction int
@@ -12,11 +11,12 @@ const (
 	DBFunction
 	RawSQL
 	NoSql
+	NoDB
 )
 
 // String method for pretty printing
 func (d DbInteraction) String() string {
-	return [...]string{"ORM", "DB FUNCTION", "RAW SQL, No SQL"}[d]
+	return [...]string{"ORM", "DB FUNCTION", "RAW SQL, No SQL", "No DB"}[d]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -41,7 +41,7 @@ func (d *DbInteraction) UnmarshalJSON(data []byte) error {
 	case "No SQL":
 		*d = NoSql
 	default:
-		return fmt.Errorf("invalid db interaction: %s", dbInteractionStr)
+		*d = NoDB
 	}
 
 	return nil
