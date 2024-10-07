@@ -1,7 +1,9 @@
 package enum
 
 import (
+	"database/sql/driver"
 	"encoding/json"
+	"fmt"
 )
 
 type PreferredDB int
@@ -48,6 +50,51 @@ func (p *PreferredDB) UnmarshalJSON(data []byte) error {
 		*p = Oracle
 	default:
 		*p = NA
+	}
+
+	return nil
+}
+
+// Implement the driver.Valuer interface
+func (p PreferredDB) Value() (driver.Value, error) {
+	return p.String(), nil
+}
+
+// Implement the sql.Scanner interface
+func (p *PreferredDB) Scan(value interface{}) error {
+	if value == nil {
+		*p = NA
+		return nil
+	}
+
+	var preferredDBStr string
+
+	switch v := value.(type) {
+	case string:
+		preferredDBStr = v
+	case []byte:
+		preferredDBStr = string(v)
+	default:
+		return fmt.Errorf("unsupported Scan type for PreferredDB: %T", value)
+	}
+
+	switch preferredDBStr {
+	case "Postgres":
+		*p = Postgres
+	case "Mysql":
+		*p = Mysql
+	case "Mongo":
+		*p = Mongo
+	case "Mssql":
+		*p = Mssql
+	case "Maria":
+		*p = Maria
+	case "Oracle":
+		*p = Oracle
+	case "N/A":
+		*p = NA
+	default:
+		return fmt.Errorf("invalid PreferredDB: %s", preferredDBStr)
 	}
 
 	return nil

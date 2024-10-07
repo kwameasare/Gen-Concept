@@ -39,7 +39,7 @@ func (r *PostgresUserRepository) CreateUser(ctx context.Context, u model.User) (
 		r.logger.Error(logging.Postgres, logging.Rollback, err.Error(), nil)
 		return u, err
 	}
-	err = tx.Create(&model.UserRole{RoleId: roleId, UserId: u.Id}).Error
+	err = tx.Create(&model.UserRole{RoleId: roleId, UserId: u.ID}).Error
 	if err != nil {
 		tx.Rollback()
 		r.logger.Error(logging.Postgres, logging.Rollback, err.Error(), nil)
@@ -110,7 +110,7 @@ func (r *PostgresUserRepository) ExistsMobileNumber(ctx context.Context, mobileN
 	return exists, nil
 }
 
-func (r *PostgresUserRepository) GetDefaultRole(ctx context.Context) (roleId int, err error) {
+func (r *PostgresUserRepository) GetDefaultRole(ctx context.Context) (roleId uint, err error) {
 
 	if err = r.database.WithContext(ctx).Model(&model.Role{}).
 		Select("id").

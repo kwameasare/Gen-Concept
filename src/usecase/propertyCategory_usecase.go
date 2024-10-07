@@ -8,6 +8,8 @@ import (
 	model "gen-concept-api/domain/model"
 	"gen-concept-api/domain/repository"
 	"gen-concept-api/usecase/dto"
+
+	"github.com/google/uuid"
 )
 
 type PropertyCategoryUsecase struct {
@@ -26,18 +28,18 @@ func (u *PropertyCategoryUsecase) Create(ctx context.Context, req dto.CreateProp
 }
 
 // Update
-func (s *PropertyCategoryUsecase) Update(ctx context.Context, id int, req dto.UpdatePropertyCategory) (dto.PropertyCategory, error) {
-	return s.base.Update(ctx, id, req)
+func (s *PropertyCategoryUsecase) Update(ctx context.Context, uuid uuid.UUID, req dto.UpdatePropertyCategory) (dto.PropertyCategory, error) {
+	return s.base.Update(ctx, uuid, req)
 }
 
 // Delete
-func (s *PropertyCategoryUsecase) Delete(ctx context.Context, id int) error {
-	return s.base.Delete(ctx, id)
+func (s *PropertyCategoryUsecase) Delete(ctx context.Context, uuid uuid.UUID) error {
+	return s.base.Delete(ctx, uuid)
 }
 
 // Get By Id
-func (s *PropertyCategoryUsecase) GetById(ctx context.Context, id int) (dto.PropertyCategory, error) {
-	return s.base.GetById(ctx, id)
+func (s *PropertyCategoryUsecase) GetById(ctx context.Context, uuid uuid.UUID) (dto.PropertyCategory, error) {
+	return s.base.GetById(ctx, uuid)
 }
 
 // Get By Filter

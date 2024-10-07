@@ -1,6 +1,7 @@
 package enum
 
 import (
+	"database/sql/driver"
 	"encoding/json"
 	"fmt"
 )
@@ -27,6 +28,41 @@ func (p *ProjectType) UnmarshalJSON(data []byte) error {
 	var projectTypeStr string
 	if err := json.Unmarshal(data, &projectTypeStr); err != nil {
 		return err
+	}
+
+	switch projectTypeStr {
+	case "Enterprise":
+		*p = Enterprise
+	case "Website":
+		*p = Website
+	default:
+		return fmt.Errorf("invalid project type: %s", projectTypeStr)
+	}
+
+	return nil
+}
+
+// Implement the driver.Valuer interface
+func (p ProjectType) Value() (driver.Value, error) {
+	return p.String(), nil
+}
+
+// Implement the sql.Scanner interface
+func (p *ProjectType) Scan(value interface{}) error {
+	if value == nil {
+		*p = Enterprise // Default to Enterprise or handle as needed
+		return nil
+	}
+
+	var projectTypeStr string
+
+	switch v := value.(type) {
+	case string:
+		projectTypeStr = v
+	case []byte:
+		projectTypeStr = string(v)
+	default:
+		return fmt.Errorf("unsupported Scan type for ProjectType: %T", value)
 	}
 
 	switch projectTypeStr {

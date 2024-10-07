@@ -1,8 +1,9 @@
 package enum
 
 import (
+	"database/sql/driver"
 	"encoding/json"
-	
+	"fmt"
 )
 
 type DerivativeType int
@@ -45,6 +46,47 @@ func (d *DerivativeType) UnmarshalJSON(data []byte) error {
 		*d = Runtime
 	default:
 		*d = NotDerived
+	}
+
+	return nil
+}
+
+// Implement the driver.Valuer interface
+func (d DerivativeType) Value() (driver.Value, error) {
+	return d.String(), nil
+}
+
+// Implement the sql.Scanner interface
+func (d *DerivativeType) Scan(value interface{}) error {
+	if value == nil {
+		*d = NotDerived
+		return nil
+	}
+
+	var derivativeTypeStr string
+
+	switch v := value.(type) {
+	case string:
+		derivativeTypeStr = v
+	case []byte:
+		derivativeTypeStr = string(v)
+	default:
+		return fmt.Errorf("unsupported Scan type for DerivativeType: %T", value)
+	}
+
+	switch derivativeTypeStr {
+	case "Arithmetic":
+		*d = Arithmetic
+	case "Formula":
+		*d = Formula
+	case "Concatenation":
+		*d = Concatenation
+	case "Runtime":
+		*d = Runtime
+	case "Not Derived":
+		*d = NotDerived
+	default:
+		return fmt.Errorf("invalid DerivativeType: %s", derivativeTypeStr)
 	}
 
 	return nil

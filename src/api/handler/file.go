@@ -6,7 +6,6 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
-	"strconv"
 	"strings"
 
 	"gen-concept-api/dependency"
@@ -101,13 +100,14 @@ func (h *FileHandler) Update(c *gin.Context) {
 // @Router /v1/files/{id} [delete]
 // @Security AuthBearer
 func (h *FileHandler) Delete(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Params.ByName("id"))
-	if id == 0 {
-		c.AbortWithStatusJSON(http.StatusNotFound,
-			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
+	uuidStr := c.Params.ByName("id")
+	uuid, uuidErr := uuid.Parse(uuidStr)
+	if uuidErr != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
 		return
 	}
-	file, err := h.usecase.GetById(c, id)
+	file, err := h.usecase.GetById(c, uuid)
 	if err != nil {
 		logger.Error(logging.IO, logging.RemoveFile, err.Error(), nil)
 		c.AbortWithStatusJSON(http.StatusNotFound,
@@ -121,7 +121,7 @@ func (h *FileHandler) Delete(c *gin.Context) {
 			helper.GenerateBaseResponse(nil, false, helper.InternalError))
 		return
 	}
-	err = h.usecase.Delete(c, id)
+	err = h.usecase.Delete(c, uuid)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))

@@ -8,6 +8,8 @@ import (
 	"gen-concept-api/domain/filter"
 	"gen-concept-api/domain/repository"
 	"gen-concept-api/pkg/logging"
+
+	"github.com/google/uuid"
 )
 
 type BaseUsecase[TEntity any, TCreate any, TUpdate any, TResponse any] struct {
@@ -36,11 +38,11 @@ func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) Create(ctx context.C
 	return response, nil
 }
 
-func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) Update(ctx context.Context, id int, req TUpdate) (TResponse, error) {
+func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) Update(ctx context.Context, uuid uuid.UUID, req TUpdate) (TResponse, error) {
 	var response TResponse
 	updateMap, _ := common.TypeConverter[map[string]interface{}](req)
 
-	entity, err := u.repository.Update(ctx, id, updateMap)
+	entity, err := u.repository.Update(ctx, uuid, updateMap)
 	if err != nil {
 		return response, err
 	}
@@ -49,14 +51,14 @@ func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) Update(ctx context.C
 	return response, nil
 }
 
-func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) Delete(ctx context.Context, id int) error {
+func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) Delete(ctx context.Context, uuid uuid.UUID) error {
 
-	return u.repository.Delete(ctx, id)
+	return u.repository.Delete(ctx, uuid)
 }
 
-func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) GetById(ctx context.Context, id int) (TResponse, error) {
+func (u *BaseUsecase[TEntity, TCreate, TUpdate, TResponse]) GetById(ctx context.Context, uuid uuid.UUID) (TResponse, error) {
 	var response TResponse
-	entity, err := u.repository.GetById(ctx, id)
+	entity, err := u.repository.GetById(ctx, uuid)
 	if err != nil {
 		return response, err
 	}

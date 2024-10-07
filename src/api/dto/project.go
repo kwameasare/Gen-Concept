@@ -3,10 +3,13 @@ package dto
 import (
 	"gen-concept-api/enum"
 	"gen-concept-api/usecase/dto"
+
+	"github.com/google/uuid"
 )
 
 type Project struct {
 	ProjectName         string                   `json:"projectName"`
+	Uuid 			  uuid.UUID                   `json:"uuid"`
 	ProjectDescription  string                   `json:"projectDescription"`
 	ProjectType         enum.ProjectType         `json:"projectType"`
 	IsMultiTenant       bool                     `json:"isMultiTenant"`
@@ -17,6 +20,7 @@ type Project struct {
 
 type Entity struct {
 	EntityName                 string             `json:"entityName"`
+	Uuid 					  uuid.UUID          `json:"uuid"`
 	EntityDescription          string             `json:"entityDescription"`
 	ImplementsRBAC             bool               `json:"implementsRBAC"`
 	IsAuthenticationRequired   bool               `json:"isAuthenticationRequired"`
@@ -34,12 +38,14 @@ type Entity struct {
 
 type DependsOnEntity struct {
 	EntityName   string            `json:"entityName"`
+	Uuid 					  uuid.UUID          `json:"uuid"`
 	FieldName    string            `json:"fieldName"`
 	RelationType enum.RelationType `json:"relationType"`
 }
 
 type EntityField struct {
 	FieldName            string              `json:"fieldName"`
+	Uuid 					  uuid.UUID          `json:"uuid"`
 	DisplayName          string              `json:"displayName"`
 	FieldDescription     string              `json:"fieldDescription"`
 	FieldType            enum.DataType       `json:"fieldType"`
@@ -66,6 +72,7 @@ type EntityField struct {
 
 type InputValidation struct {
 	Description        string `json:"description"`
+	Uuid 					  uuid.UUID          `json:"uuid"`
 	AbortOnFailure     bool   `json:"abortOnFailure"`
 	CustomErrorMessage string `json:"customErrorMessage"`
 }
@@ -177,6 +184,7 @@ func ToUseCaseInputValidation(from []InputValidation) []dto.InputValidation {
 func ToProjectResponse(from dto.Project) Project {
 	return Project{
 		ProjectName:         from.ProjectName,
+		Uuid:                from.Uuid,
 		ProjectDescription:  from.ProjectDescription,
 		ProjectType:         from.ProjectType,
 		IsMultiTenant:       from.IsMultiTenant,
@@ -197,6 +205,7 @@ func ToEntitiesResponse(from []dto.Entity) []Entity {
 func ToEntityResponse(from dto.Entity) Entity {
 	return Entity{
 		EntityName:                 from.EntityName,
+		Uuid:                       from.Uuid,
 		EntityDescription:          from.EntityDescription,
 		ImplementsRBAC:             from.ImplementsRBAC,
 		IsAuthenticationRequired:   from.IsAuthenticationRequired,
@@ -224,6 +233,7 @@ func ToDependsOnEntitiesResponse(from []dto.DependsOnEntity) []DependsOnEntity {
 func ToDependsOnEntityResponse(from dto.DependsOnEntity) DependsOnEntity {
 	return DependsOnEntity{
 		EntityName:   from.EntityName,
+		Uuid:         from.Uuid,
 		FieldName:    from.FieldName,
 		RelationType: from.RelationType,
 	}
@@ -241,6 +251,7 @@ func ToEntityFieldsResponse(from []dto.EntityField) []EntityField {
 func ToEntityFieldResponse(from dto.EntityField) EntityField {
 	return EntityField{
 		FieldName:            from.FieldName,
+		Uuid:                 from.Uuid,
 		DisplayName:          from.DisplayName,
 		FieldDescription:     from.FieldDescription,
 		FieldType:            from.FieldType,
@@ -271,6 +282,7 @@ func ToInputValidationResponse(from []dto.InputValidation) []InputValidation {
 	for _, inputValidation := range from {
 		validations = append(validations, InputValidation{
 			Description:        inputValidation.Description,
+			Uuid:               inputValidation.Uuid,
 			AbortOnFailure:     inputValidation.AbortOnFailure,
 			CustomErrorMessage: inputValidation.CustomErrorMessage,
 		})

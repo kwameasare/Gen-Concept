@@ -7,14 +7,12 @@ package handler
 import (
 	"context"
 	"net/http"
-	"strconv"
-
 	"gen-concept-api/api/helper"
 	"gen-concept-api/config"
 	"gen-concept-api/domain/filter"
 	"gen-concept-api/pkg/logging"
-
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 var logger = logging.NewLogger(config.GetConfig())
@@ -71,10 +69,16 @@ func Update[TRequest any, TUInput any, TUOutput any, TResponse any](c *gin.Conte
 	requestMapper func(req TRequest) (res TUInput),
 	responseMapper func(req TUOutput) (res TResponse),
 	usecaseUpdate func(ctx context.Context,
-		id int, req TUInput) (TUOutput, error)) {
+		uuid uuid.UUID, req TUInput) (TUOutput, error)) {
 
 	// bind http request
-	id, _ := strconv.Atoi(c.Params.ByName("id"))
+	uuidStr := c.Params.ByName("id")
+	uuid, uuidErr := uuid.Parse(uuidStr)
+	if uuidErr != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
+		return
+	}
 	request := new(TRequest)
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
@@ -87,7 +91,7 @@ func Update[TRequest any, TUInput any, TUOutput any, TResponse any](c *gin.Conte
 	usecaseInput := requestMapper(*request)
 
 	// call use case method
-	usecaseResult, err := usecaseUpdate(c, id, usecaseInput)
+	usecaseResult, err := usecaseUpdate(c, uuid, usecaseInput)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
@@ -100,15 +104,16 @@ func Update[TRequest any, TUInput any, TUOutput any, TResponse any](c *gin.Conte
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(response, true, 0))
 }
 
-func Delete(c *gin.Context, usecaseDelete func(ctx context.Context, id int) error) {
-	id, _ := strconv.Atoi(c.Params.ByName("id"))
-	if id == 0 {
-		c.AbortWithStatusJSON(http.StatusNotFound,
-			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
+func Delete(c *gin.Context, usecaseDelete func(ctx context.Context, uuid uuid.UUID) error) {
+	uuidStr := c.Params.ByName("id")
+	uuid, uuidErr := uuid.Parse(uuidStr)
+	if uuidErr != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
 		return
 	}
 
-	err := usecaseDelete(c, id)
+	err := usecaseDelete(c, uuid)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
@@ -124,16 +129,17 @@ func Delete(c *gin.Context, usecaseDelete func(ctx context.Context, id int) erro
 // usecaseGet: usecase Get method
 func GetById[TUOutput any, TResponse any](c *gin.Context,
 	responseMapper func(req TUOutput) (res TResponse),
-	usecaseGet func(c context.Context, id int) (TUOutput, error)) {
-	id, _ := strconv.Atoi(c.Params.ByName("id"))
-	if id == 0 {
-		c.AbortWithStatusJSON(http.StatusNotFound,
-			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
-		return
-	}
+	usecaseGet func(c context.Context, uuid uuid.UUID) (TUOutput, error)) {
+		uuidStr := c.Params.ByName("id")
+		uuid, uuidErr := uuid.Parse(uuidStr)
+		if uuidErr != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest,
+				helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
+			return
+		}
 
 	// call use case method
-	usecaseResult, err := usecaseGet(c, id)
+	usecaseResult, err := usecaseGet(c, uuid)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))

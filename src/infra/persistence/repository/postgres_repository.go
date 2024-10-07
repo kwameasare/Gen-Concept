@@ -15,10 +15,11 @@ import (
 	"gen-concept-api/pkg/metrics"
 	"gen-concept-api/pkg/service_errors"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
-const softDeleteExp string = "id = ? and deleted_by is null"
+const softDeleteExp string = "uuid = ? and deleted_by is null"
 
 type BaseRepository[TEntity any] struct {
 	database *gorm.DB
@@ -51,7 +52,7 @@ func (r BaseRepository[TEntity]) Create(ctx context.Context, entity TEntity) (TE
 	return entity, nil
 }
 
-func (r BaseRepository[TEntity]) Update(ctx context.Context, id int, entity map[string]interface{}) (TEntity, error) {
+func (r BaseRepository[TEntity]) Update(ctx context.Context, uuid uuid.UUID, entity map[string]interface{}) (TEntity, error) {
 	snakeMap := map[string]interface{}{}
 	for k, v := range entity {
 		snakeMap[common.ToSnakeCase(k)] = v
@@ -61,7 +62,7 @@ func (r BaseRepository[TEntity]) Update(ctx context.Context, id int, entity map[
 	model := new(TEntity)
 	tx := r.database.WithContext(ctx).Begin()
 	if err := tx.Model(model).
-		Where(softDeleteExp, id).
+		Where(softDeleteExp, uuid).
 		Updates(snakeMap).
 		Error; err != nil {
 		tx.Rollback()
@@ -74,7 +75,7 @@ func (r BaseRepository[TEntity]) Update(ctx context.Context, id int, entity map[
 	return *model, nil
 }
 
-func (r BaseRepository[TEntity]) Delete(ctx context.Context, id int) error {
+func (r BaseRepository[TEntity]) Delete(ctx context.Context, uuid uuid.UUID) error {
 	tx := r.database.WithContext(ctx).Begin()
 
 	model := new(TEntity)
@@ -89,7 +90,7 @@ func (r BaseRepository[TEntity]) Delete(ctx context.Context, id int) error {
 	}
 	if cnt := tx.
 		Model(model).
-		Where(softDeleteExp, id).
+		Where(softDeleteExp, uuid).
 		Updates(deleteMap).
 		RowsAffected; cnt == 0 {
 		tx.Rollback()
@@ -102,11 +103,11 @@ func (r BaseRepository[TEntity]) Delete(ctx context.Context, id int) error {
 	return nil
 }
 
-func (r BaseRepository[TEntity]) GetById(ctx context.Context, id int) (TEntity, error) {
+func (r BaseRepository[TEntity]) GetById(ctx context.Context, uuid uuid.UUID) (TEntity, error) {
 	model := new(TEntity)
 	db := database.Preload(r.database, r.preloads)
 	err := db.
-		Where(softDeleteExp, id).
+		Where(softDeleteExp, uuid).
 		First(model).
 		Error
 	if err != nil {

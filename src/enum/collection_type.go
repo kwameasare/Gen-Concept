@@ -1,7 +1,9 @@
 package enum
 
 import (
+	"database/sql/driver"
 	"encoding/json"
+	"fmt"
 )
 
 type CollectionType int
@@ -47,4 +49,42 @@ func (c *CollectionType) UnmarshalJSON(data []byte) error {
 	}
 
 	return nil
+}
+
+// Implement the driver.Valuer interface
+func (c CollectionType) Value() (driver.Value, error) {
+    return c.String(), nil
+}
+
+// Implement the sql.Scanner interface
+func (c *CollectionType) Scan(value interface{}) error {
+    if value == nil {
+        *c = None
+        return nil
+    }
+
+    var collectionTypeStr string
+    switch v := value.(type) {
+    case string:
+        collectionTypeStr = v
+    case []byte:
+        collectionTypeStr = string(v)
+    default:
+        return fmt.Errorf("unsupported Scan type for CollectionType: %T", value)
+    }
+
+    switch collectionTypeStr {
+    case "List":
+        *c = List
+    case "Set":
+        *c = Set
+    case "Map":
+        *c = Map
+    case "Array":
+        *c = Array
+    default:
+        *c = None
+    }
+
+    return nil
 }

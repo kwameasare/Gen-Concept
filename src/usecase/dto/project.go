@@ -2,10 +2,12 @@ package dto
 
 import (
 	"gen-concept-api/enum"
+	"github.com/google/uuid"
 )
 
 type Project struct {
 	ProjectName         string                   `json:"projectName"`
+	Uuid uuid.UUID
 	ProjectDescription  string                   `json:"projectDescription"`
 	ProjectType         enum.ProjectType         `json:"projectType"`
 	IsMultiTenant       bool                     `json:"isMultiTenant"`
@@ -16,6 +18,7 @@ type Project struct {
 
 type Entity struct {
 	EntityName                 string             `json:"entityName"`
+	Uuid 					 uuid.UUID
 	EntityDescription          string             `json:"entityDescription"`
 	ImplementsRBAC             bool               `json:"implementsRBAC"`
 	IsAuthenticationRequired   bool               `json:"isAuthenticationRequired"`
@@ -33,12 +36,14 @@ type Entity struct {
 
 type DependsOnEntity struct {
 	EntityName   string            `json:"entityName"`
+	Uuid 					 uuid.UUID
 	FieldName    string            `json:"fieldName"`
 	RelationType enum.RelationType `json:"relationType"`
 }
 
 type EntityField struct {
 	FieldName            string              `json:"fieldName"`
+	Uuid 					 uuid.UUID
 	DisplayName          string              `json:"displayName"`
 	FieldDescription     string              `json:"fieldDescription"`
 	FieldType            enum.DataType       `json:"fieldType"`
@@ -65,6 +70,7 @@ type EntityField struct {
 
 type InputValidation struct {
 	Description        string `json:"description"`
+	Uuid 					 uuid.UUID
 	AbortOnFailure     bool   `json:"abortOnFailure"`
 	CustomErrorMessage string `json:"customErrorMessage"`
 }

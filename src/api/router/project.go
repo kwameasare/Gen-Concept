@@ -17,4 +17,3 @@ func Project(r *gin.RouterGroup, cfg *config.Config) {
 	r.POST(GetByFilterExp, h.GetByFilter)
 }
 
-// TODO: Add file to data types

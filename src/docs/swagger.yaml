@@ -18,18 +18,42 @@ definitions:
     - last_name
     - mobile_number
     type: object
+  enum.CollectionItemType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    type: integer
+    x-enum-varnames:
+    - StringType
+    - IntType
+    - FloatType
+    - BoolType
+    - DateTimeType
+    - EnumType
+    - NestedCollectionType
+    - OtherEntityType
+    - NoType
   enum.CollectionType:
     enum:
     - 0
     - 1
     - 2
     - 3
+    - 4
     type: integer
     x-enum-varnames:
     - List
     - Set
     - Map
     - Array
+    - None
   enum.DataType:
     enum:
     - 0
@@ -56,13 +80,29 @@ definitions:
     - 1
     - 2
     - 3
+    - 4
     type: integer
     x-enum-varnames:
     - ORM
     - DBFunction
     - RawSQL
     - NoSql
+    - NoDB
   enum.DerivativeType:
+    enum:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    type: integer
+    x-enum-varnames:
+    - Arithmetic
+    - Formula
+    - Concatenation
+    - Runtime
+    - NotDerived
+  enum.DisplayStatus:
     enum:
     - 0
     - 1
@@ -70,20 +110,10 @@ definitions:
     - 3
     type: integer
     x-enum-varnames:
-    - Arithmetic
-    - Formula
-    - Concatenation
-    - Runtime
-  enum.DisplayStatus:
-    enum:
-    - 0
-    - 1
-    - 2
-    type: integer
-    x-enum-varnames:
     - Summary
     - Detail
-    - hide
+    - Hide
+    - Show
   enum.PreferredDB:
     enum:
     - 0
@@ -92,6 +122,7 @@ definitions:
     - 3
     - 4
     - 5
+    - 6
     type: integer
     x-enum-varnames:
     - Postgres
@@ -100,6 +131,7 @@ definitions:
     - Mssql
     - Maria
     - Oracle
+    - NA
   enum.ProgrammingLanguage:
     enum:
     - 0
@@ -136,12 +168,14 @@ definitions:
     - 1
     - 2
     - 3
+    - 4
     type: integer
     x-enum-varnames:
     - OneToOne
     - OneToMany
     - ManyToOne
     - ManyToMany
+    - NoRelation
   gen-concept-api_api_dto.CreatePropertyCategoryRequest:
     properties:
       icon:
@@ -224,6 +258,10 @@ definitions:
     type: object
   gen-concept-api_api_dto.EntityField:
     properties:
+      collectionEntity:
+        type: string
+      collectionItemType:
+        $ref: '#/definitions/enum.CollectionItemType'
       collectionType:
         $ref: '#/definitions/enum.CollectionType'
       derivativeExpression:
@@ -266,6 +304,8 @@ definitions:
         type: boolean
       isUnique:
         type: boolean
+      nestedCollectionItemType:
+        $ref: '#/definitions/enum.CollectionItemType'
       sampleData:
         type: string
     type: object

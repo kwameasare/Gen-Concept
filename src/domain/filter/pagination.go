@@ -52,6 +52,7 @@ type PaginationInputWithFilter struct {
 	DynamicFilter
 }
 
+
 func (p *PaginationInputWithFilter) GetOffset() int {
 	// 2 , 10 => 11-20
 	return (p.GetPageNumber() - 1) * p.GetPageSize()

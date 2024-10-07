@@ -2,8 +2,6 @@ package handler
 
 import (
 	"net/http"
-	"strconv"
-
 	"gen-concept-api/api/dto"
 	"gen-concept-api/api/helper"
 	"gen-concept-api/config"
@@ -12,6 +10,7 @@ import (
 	"gen-concept-api/usecase"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type PropertySimpleHandler struct {
@@ -74,7 +73,13 @@ func (h *PropertySimpleHandler) Create(c *gin.Context) {
 // @Security AuthBearer
 func (h *PropertySimpleHandler) Update(c *gin.Context) {
 	// bind http request
-	id, _ := strconv.Atoi(c.Params.ByName("id"))
+	uuidStr := c.Params.ByName("id")
+	uuid, uuidErr := uuid.Parse(uuidStr)
+	if uuidErr != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
+		return
+	}
 	request := new(dto.UpdatePropertyRequest)
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
@@ -84,7 +89,7 @@ func (h *PropertySimpleHandler) Update(c *gin.Context) {
 
 	}
 	// map http request body to usecase input and call use case method
-	property, err := h.usecase.Update(c, id, dto.ToUpdateProperty(*request))
+	property, err := h.usecase.Update(c, uuid, dto.ToUpdateProperty(*request))
 
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
@@ -111,14 +116,15 @@ func (h *PropertySimpleHandler) Update(c *gin.Context) {
 // @Router /v1/properties/{id} [delete]
 // @Security AuthBearer
 func (h *PropertySimpleHandler) Delete(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Params.ByName("id"))
-	if id == 0 {
-		c.AbortWithStatusJSON(http.StatusNotFound,
-			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
+	uuidStr := c.Params.ByName("id")
+	uuid, uuidErr := uuid.Parse(uuidStr)
+	if uuidErr != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
 		return
 	}
 
-	err := h.usecase.Delete(c, id)
+	err := h.usecase.Delete(c, uuid)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
@@ -140,15 +146,15 @@ func (h *PropertySimpleHandler) Delete(c *gin.Context) {
 // @Router /v1/properties/{id} [get]
 // @Security AuthBearer
 func (h *PropertySimpleHandler) GetById(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Params.ByName("id"))
-	if id == 0 {
-		c.AbortWithStatusJSON(http.StatusNotFound,
-			helper.GenerateBaseResponse(nil, false, helper.ValidationError))
+	uuidStr := c.Params.ByName("id")
+	uuid, uuidErr := uuid.Parse(uuidStr)
+	if uuidErr != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
 		return
 	}
-
 	// call use case method
-	property, err := h.usecase.GetById(c, id)
+	property, err := h.usecase.GetById(c, uuid)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))

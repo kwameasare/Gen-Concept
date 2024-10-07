@@ -40,7 +40,7 @@ func (u *UserUsecase) LoginByUsername(ctx context.Context, username string, pass
 	if err != nil {
 		return nil, err
 	}
-	tokenDto := tokenDto{UserId: user.Id, FirstName: user.FirstName, LastName: user.LastName,
+	tokenDto := tokenDto{UserId: int(user.ID), FirstName: user.FirstName, LastName: user.LastName,
 		Email: user.Email, MobileNumber: user.MobileNumber}
 
 	if len(*user.UserRoles) > 0 {
@@ -129,7 +129,7 @@ func (u *UserUsecase) RegisterAndLoginByMobileNumber(ctx context.Context, mobile
 }
 
 func (u *UserUsecase) generateToken(user model.User) (*dto.TokenDetail, error) {
-	tokenDto := tokenDto{UserId: user.Id, FirstName: user.FirstName, LastName: user.LastName,
+	tokenDto := tokenDto{UserId: int(user.ID), FirstName: user.FirstName, LastName: user.LastName,
 		Email: user.Email, MobileNumber: user.MobileNumber}
 
 	if len(*user.UserRoles) > 0 {

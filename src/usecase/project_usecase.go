@@ -8,6 +8,8 @@ import (
 	model "gen-concept-api/domain/model"
 	"gen-concept-api/domain/repository"
 	"gen-concept-api/usecase/dto"
+
+	"github.com/google/uuid"
 )
 
 type ProjectUsecase struct {
@@ -26,18 +28,18 @@ func (u *ProjectUsecase) Create(ctx context.Context, req dto.Project) (dto.Proje
 }
 
 // Update
-func (s *ProjectUsecase) Update(ctx context.Context, id int, req dto.Project) (dto.Project, error) {
-	return s.base.Update(ctx, id, req)
+func (s *ProjectUsecase) Update(ctx context.Context, uuid uuid.UUID, req dto.Project) (dto.Project, error) {
+	return s.base.Update(ctx, uuid, req)
 }
 
 // Delete
-func (s *ProjectUsecase) Delete(ctx context.Context, id int) error {
-	return s.base.Delete(ctx, id)
+func (s *ProjectUsecase) Delete(ctx context.Context, uuid uuid.UUID) error {
+	return s.base.Delete(ctx, uuid)
 }
 
 // Get By Id
-func (s *ProjectUsecase) GetById(ctx context.Context, id int) (dto.Project, error) {
-	return s.base.GetById(ctx, id)
+func (s *ProjectUsecase) GetById(ctx context.Context, uuid uuid.UUID) (dto.Project, error) {
+	return s.base.GetById(ctx, uuid)
 }
 
 // Get By Filter

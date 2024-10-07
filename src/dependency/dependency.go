@@ -44,7 +44,7 @@ func GetPropertyRepository(cfg *config.Config) contractRepository.PropertyReposi
 	return infraRepository.NewBaseRepository[model.Property](cfg, preloads)
 }
 func GetProjectRepository(cfg *config.Config) contractRepository.ProjectRepository {
-	var preloads []database.PreloadEntity = []database.PreloadEntity{{Entity: "Project"}}
+	var preloads []database.PreloadEntity = []database.PreloadEntity{{Entity: "Entities"}, {Entity: "Entities.DependsOnEntities"}, {Entity: "Entities.EntityFields"}, {Entity: "Entities.EntityFields.InputValidations"}}
 	return infraRepository.NewBaseRepository[model.Project](cfg, preloads)
 }
 

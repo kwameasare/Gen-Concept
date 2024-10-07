@@ -1498,19 +1498,46 @@ const docTemplate = `{
                 }
             }
         },
+        "enum.CollectionItemType": {
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+            ],
+            "x-enum-varnames": [
+                "StringType",
+                "IntType",
+                "FloatType",
+                "BoolType",
+                "DateTimeType",
+                "EnumType",
+                "NestedCollectionType",
+                "OtherEntityType",
+                "NoType"
+            ]
+        },
         "enum.CollectionType": {
             "type": "integer",
             "enum": [
                 0,
                 1,
                 2,
-                3
+                3,
+                4
             ],
             "x-enum-varnames": [
                 "List",
                 "Set",
                 "Map",
-                "Array"
+                "Array",
+                "None"
             ]
         },
         "enum.DataType": {
@@ -1542,13 +1569,15 @@ const docTemplate = `{
                 0,
                 1,
                 2,
-                3
+                3,
+                4
             ],
             "x-enum-varnames": [
                 "ORM",
                 "DBFunction",
                 "RawSQL",
-                "NoSql"
+                "NoSql",
+                "NoDB"
             ]
         },
         "enum.DerivativeType": {
@@ -1557,13 +1586,15 @@ const docTemplate = `{
                 0,
                 1,
                 2,
-                3
+                3,
+                4
             ],
             "x-enum-varnames": [
                 "Arithmetic",
                 "Formula",
                 "Concatenation",
-                "Runtime"
+                "Runtime",
+                "NotDerived"
             ]
         },
         "enum.DisplayStatus": {
@@ -1571,12 +1602,14 @@ const docTemplate = `{
             "enum": [
                 0,
                 1,
-                2
+                2,
+                3
             ],
             "x-enum-varnames": [
                 "Summary",
                 "Detail",
-                "hide"
+                "Hide",
+                "Show"
             ]
         },
         "enum.PreferredDB": {
@@ -1587,7 +1620,8 @@ const docTemplate = `{
                 2,
                 3,
                 4,
-                5
+                5,
+                6
             ],
             "x-enum-varnames": [
                 "Postgres",
@@ -1595,7 +1629,8 @@ const docTemplate = `{
                 "Mongo",
                 "Mssql",
                 "Maria",
-                "Oracle"
+                "Oracle",
+                "NA"
             ]
         },
         "enum.ProgrammingLanguage": {
@@ -1640,13 +1675,15 @@ const docTemplate = `{
                 0,
                 1,
                 2,
-                3
+                3,
+                4
             ],
             "x-enum-varnames": [
                 "OneToOne",
                 "OneToMany",
                 "ManyToOne",
-                "ManyToMany"
+                "ManyToMany",
+                "NoRelation"
             ]
         },
         "gen-concept-api_api_dto.CreatePropertyCategoryRequest": {
@@ -1769,6 +1806,12 @@ const docTemplate = `{
         "gen-concept-api_api_dto.EntityField": {
             "type": "object",
             "properties": {
+                "collectionEntity": {
+                    "type": "string"
+                },
+                "collectionItemType": {
+                    "$ref": "#/definitions/enum.CollectionItemType"
+                },
                 "collectionType": {
                     "$ref": "#/definitions/enum.CollectionType"
                 },
@@ -1831,6 +1874,9 @@ const docTemplate = `{
                 },
                 "isUnique": {
                     "type": "boolean"
+                },
+                "nestedCollectionItemType": {
+                    "$ref": "#/definitions/enum.CollectionItemType"
                 },
                 "sampleData": {
                     "type": "string"

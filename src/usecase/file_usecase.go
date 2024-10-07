@@ -8,6 +8,8 @@ import (
 	model "gen-concept-api/domain/model"
 	"gen-concept-api/domain/repository"
 	"gen-concept-api/usecase/dto"
+
+	"github.com/google/uuid"
 )
 
 type FileUsecase struct {
@@ -26,18 +28,18 @@ func (u *FileUsecase) Create(ctx context.Context, req dto.CreateFile) (dto.File,
 }
 
 // Update
-func (s *FileUsecase) Update(ctx context.Context, id int, req dto.UpdateFile) (dto.File, error) {
-	return s.base.Update(ctx, id, req)
+func (s *FileUsecase) Update(ctx context.Context, uuid uuid.UUID, req dto.UpdateFile) (dto.File, error) {
+	return s.base.Update(ctx, uuid, req)
 }
 
 // Delete
-func (s *FileUsecase) Delete(ctx context.Context, id int) error {
-	return s.base.Delete(ctx, id)
+func (s *FileUsecase) Delete(ctx context.Context, uuid uuid.UUID) error {
+	return s.base.Delete(ctx, uuid)
 }
 
 // Get By Id
-func (s *FileUsecase) GetById(ctx context.Context, id int) (dto.File, error) {
-	return s.base.GetById(ctx, id)
+func (s *FileUsecase) GetById(ctx context.Context, uuid uuid.UUID) (dto.File, error) {
+	return s.base.GetById(ctx, uuid)
 }
 
 // Get By Filter
