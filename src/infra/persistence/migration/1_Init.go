@@ -12,8 +12,6 @@ import (
 	"gorm.io/gorm"
 )
 
-const countStarExp = "count(*)"
-
 var logger = logging.NewLogger(config.GetConfig())
 
 func Up1() {
@@ -21,7 +19,6 @@ func Up1() {
 
 	createTables(database)
 	createDefaultUserInformation(database)
-	createPropertyCategory(database)
 
 }
 
@@ -47,6 +44,17 @@ func createTables(database *gorm.DB) {
 	tables= addNewTable(database, models.EntityField{}, tables)
 	tables= addNewTable(database, models.InputValidation{}, tables)
 	
+	//Journey
+	tables = addNewTable(database, models.Journey{}, tables)
+	tables = addNewTable(database, models.EntityJourney{}, tables)
+	tables = addNewTable(database, models.Operation{}, tables)
+	tables = addNewTable(database, models.JourneyStep{}, tables)
+	tables = addNewTable(database, models.FieldInvolved{}, tables)
+	tables = addNewTable(database, models.RetryCondition{}, tables)
+	tables = addNewTable(database, models.ResponseAction{}, tables)
+	tables = addNewTable(database, models.Filter{}, tables)
+	tables = addNewTable(database, models.Sort{}, tables)
+
 	er := database.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";").Error
 	if er != nil {
 		logger.Error(logging.Postgres, logging.Migration, er.Error(), nil)
@@ -111,104 +119,6 @@ func createAdminUserIfNotExists(database *gorm.DB, u *models.User, roleId uint) 
 		database.Create(&ur)
 	}
 }
-
-
-
-func createPropertyCategory(database *gorm.DB) {
-	// count := 0
-
-	// database.
-	// 	Model(&models.PropertyCategory{}).
-	// 	Select(countStarExp).
-	// 	Find(&count)
-	// if count == 0 {
-	// 	database.Create(&models.PropertyCategory{Name: "Body"})                    
-	// 	database.Create(&models.PropertyCategory{Name: "Engine"})                  
-	// 	database.Create(&models.PropertyCategory{Name: "Drivetrain"})              
-	// 	database.Create(&models.PropertyCategory{Name: "Suspension"})              
-	// 	database.Create(&models.PropertyCategory{Name: "Equipment"})               
-	// 	database.Create(&models.PropertyCategory{Name: "Driver support systems"})  
-	// 	database.Create(&models.PropertyCategory{Name: "Lights"})                  
-	// 	database.Create(&models.PropertyCategory{Name: "Multimedia"})              
-	// 	database.Create(&models.PropertyCategory{Name: "Safety equipment"})        
-	// 	database.Create(&models.PropertyCategory{Name: "Seats and steering wheel"})
-	// 	database.Create(&models.PropertyCategory{Name: "Windows and mirrors"})      
-	// }
-	// createProperty(database, "Body")
-	// createProperty(database, "Engine")
-	// createProperty(database, "Drivetrain")
-	// createProperty(database, "Suspension")
-	// createProperty(database, "Comfort")
-	// createProperty(database, "Driver support systems")
-	// createProperty(database, "Lights")
-	// createProperty(database, "Multimedia")
-	// createProperty(database, "Safety equipment")
-	// createProperty(database, "Seats and steering wheel")
-	// createProperty(database, "Windows and mirrors")
-
-}
-
-// func createProperty(database *gorm.DB, cat string) {
-// 	count := 0
-// 	catModel := models.PropertyCategory{}
-
-// 	database.
-// 		Model(models.PropertyCategory{}).
-// 		Where("name = ?", cat).
-// 		Find(&catModel)
-
-// 	database.
-// 		Model(&models.Property{}).
-// 		Select(countStarExp).
-// 		Where("category_id = ?", catModel.Id).
-// 		Find(&count)
-
-// 	if count > 0 || catModel.Id == 0 {
-// 		return
-// 	}
-// 	var props *[]models.Property
-// 	switch cat {
-// 	case "Body":
-// 		props = getBodyProperties(catModel.Id)
-
-// 	case "Engine":
-// 		props = getEngineProperties(catModel.Id)
-
-// 	case "Drivetrain":
-// 		props = getDrivetrainProperties(catModel.Id)
-
-// 	case "Suspension":
-// 		props = getSuspensionProperties(catModel.Id)
-
-// 	case "Comfort":
-// 		props = getComfortProperties(catModel.Id)
-
-// 	case "Driver support systems":
-// 		props = getDriverSupportSystemProperties(catModel.Id)
-
-// 	case "Lights":
-// 		props = getLightsProperties(catModel.Id)
-
-// 	case "Multimedia":
-// 		props = getMultimediaProperties(catModel.Id)
-
-// 	case "Safety equipment":
-// 		props = getSafetyEquipmentProperties(catModel.Id)
-
-// 	case "Seats and steering wheel":
-// 		props = getSeatsProperties(catModel.Id)
-
-// 	case "Windows and mirrors":
-// 		props = getWindowsProperties(catModel.Id)
-
-// 	default:
-// 		props = &([]models.Property{})
-// 	}
-
-// 	for _, prop := range *props {
-// 		database.Create(&prop)
-// 	}
-// }
 
 func Down1() {
 	// nothing

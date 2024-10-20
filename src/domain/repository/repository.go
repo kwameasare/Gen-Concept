@@ -32,6 +32,10 @@ type ProjectRepository interface {
 	BaseRepository[model.Project]
 }
 
+type JourneyRepository interface {
+	BaseRepository[model.Journey]
+}
+
 type UserRepository interface {
 	ExistsMobileNumber(ctx context.Context, mobileNumber string) (bool, error)
 	ExistsUsername(ctx context.Context, username string) (bool, error)
