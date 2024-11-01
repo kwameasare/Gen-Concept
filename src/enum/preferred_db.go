@@ -11,16 +11,90 @@ type PreferredDB int
 const (
 	Postgres PreferredDB = iota
 	Mysql
-	Mongo
+	MongoDB
 	Mssql
-	Maria
+	MariaDB
 	Oracle
-	NA
+	SQLite
+	Redis
+	Cassandra
+	DynamoDB
+	CouchDB
+	Couchbase
+	Elasticsearch
+	Neo4j
+	Firestore
+	InfluxDB
+	HBase
+	Hive
+	DB2
+	Sybase
+	Teradata
+	Informix
+	SAPHANA
+	Snowflake
+	Firebird
+	Derby
+	VoltDB
+	NuoDB
+	AmazonAurora
+	GoogleBigQuery
+	ApacheDrill
+	ClickHouse
+	Memcached
+	LevelDB
+	Riak
+	OpenEdge
+	ParAccel
+	NoPreference
 )
 
 // String method for pretty printing
 func (p PreferredDB) String() string {
-	return [...]string{"Postgres", "Mysql", "Mongo", "Mssql", "Maria", "Oracle","N/A"}[p]
+	names := [...]string{
+		"Postgres",
+		"MySQL",
+		"MongoDB",
+		"MS SQL",
+		"MariaDB",
+		"Oracle",
+		"SQLite",
+		"Redis",
+		"Cassandra",
+		"DynamoDB",
+		"CouchDB",
+		"Couchbase",
+		"Elasticsearch",
+		"Neo4j",
+		"Firestore",
+		"InfluxDB",
+		"HBase",
+		"Hive",
+		"DB2",
+		"Sybase",
+		"Teradata",
+		"Informix",
+		"SAP HANA",
+		"Snowflake",
+		"Firebird",
+		"Derby",
+		"VoltDB",
+		"NuoDB",
+		"Amazon Aurora",
+		"Google BigQuery",
+		"Apache Drill",
+		"ClickHouse",
+		"Memcached",
+		"LevelDB",
+		"Riak",
+		"OpenEdge",
+		"ParAccel",
+		"N/A",
+	}
+	if p < Postgres || int(p) >= len(names) {
+		return "UNKNOWN"
+	}
+	return names[p]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -38,18 +112,82 @@ func (p *PreferredDB) UnmarshalJSON(data []byte) error {
 	switch preferredDBStr {
 	case "Postgres":
 		*p = Postgres
-	case "Mysql":
+	case "MySQL":
 		*p = Mysql
-	case "Mongo":
-		*p = Mongo
-	case "Mssql":
+	case "MongoDB":
+		*p = MongoDB
+	case "MS SQL":
 		*p = Mssql
-	case "Maria":
-		*p = Maria
+	case "MariaDB":
+		*p = MariaDB
 	case "Oracle":
 		*p = Oracle
+	case "SQLite":
+		*p = SQLite
+	case "Redis":
+		*p = Redis
+	case "Cassandra":
+		*p = Cassandra
+	case "DynamoDB":
+		*p = DynamoDB
+	case "CouchDB":
+		*p = CouchDB
+	case "Couchbase":
+		*p = Couchbase
+	case "Elasticsearch":
+		*p = Elasticsearch
+	case "Neo4j":
+		*p = Neo4j
+	case "Firestore":
+		*p = Firestore
+	case "InfluxDB":
+		*p = InfluxDB
+	case "HBase":
+		*p = HBase
+	case "Hive":
+		*p = Hive
+	case "DB2":
+		*p = DB2
+	case "Sybase":
+		*p = Sybase
+	case "Teradata":
+		*p = Teradata
+	case "Informix":
+		*p = Informix
+	case "SAP HANA":
+		*p = SAPHANA
+	case "Snowflake":
+		*p = Snowflake
+	case "Firebird":
+		*p = Firebird
+	case "Derby":
+		*p = Derby
+	case "VoltDB":
+		*p = VoltDB
+	case "NuoDB":
+		*p = NuoDB
+	case "Amazon Aurora":
+		*p = AmazonAurora
+	case "Google BigQuery":
+		*p = GoogleBigQuery
+	case "Apache Drill":
+		*p = ApacheDrill
+	case "ClickHouse":
+		*p = ClickHouse
+	case "Memcached":
+		*p = Memcached
+	case "LevelDB":
+		*p = LevelDB
+	case "Riak":
+		*p = Riak
+	case "OpenEdge":
+		*p = OpenEdge
+	case "ParAccel":
+		*p = ParAccel
+	case "N/A":
+		*p = NoPreference
 	default:
-		*p = NA
+		return fmt.Errorf("invalid PreferredDB: %s", preferredDBStr)
 	}
 
 	return nil
@@ -63,7 +201,7 @@ func (p PreferredDB) Value() (driver.Value, error) {
 // Implement the sql.Scanner interface
 func (p *PreferredDB) Scan(value interface{}) error {
 	if value == nil {
-		*p = NA
+		*p = NoPreference
 		return nil
 	}
 
@@ -81,18 +219,80 @@ func (p *PreferredDB) Scan(value interface{}) error {
 	switch preferredDBStr {
 	case "Postgres":
 		*p = Postgres
-	case "Mysql":
+	case "MySQL":
 		*p = Mysql
-	case "Mongo":
-		*p = Mongo
-	case "Mssql":
+	case "MongoDB":
+		*p = MongoDB
+	case "MS SQL":
 		*p = Mssql
-	case "Maria":
-		*p = Maria
+	case "MariaDB":
+		*p = MariaDB
 	case "Oracle":
 		*p = Oracle
+	case "SQLite":
+		*p = SQLite
+	case "Redis":
+		*p = Redis
+	case "Cassandra":
+		*p = Cassandra
+	case "DynamoDB":
+		*p = DynamoDB
+	case "CouchDB":
+		*p = CouchDB
+	case "Couchbase":
+		*p = Couchbase
+	case "Elasticsearch":
+		*p = Elasticsearch
+	case "Neo4j":
+		*p = Neo4j
+	case "Firestore":
+		*p = Firestore
+	case "InfluxDB":
+		*p = InfluxDB
+	case "HBase":
+		*p = HBase
+	case "Hive":
+		*p = Hive
+	case "DB2":
+		*p = DB2
+	case "Sybase":
+		*p = Sybase
+	case "Teradata":
+		*p = Teradata
+	case "Informix":
+		*p = Informix
+	case "SAP HANA":
+		*p = SAPHANA
+	case "Snowflake":
+		*p = Snowflake
+	case "Firebird":
+		*p = Firebird
+	case "Derby":
+		*p = Derby
+	case "VoltDB":
+		*p = VoltDB
+	case "NuoDB":
+		*p = NuoDB
+	case "Amazon Aurora":
+		*p = AmazonAurora
+	case "Google BigQuery":
+		*p = GoogleBigQuery
+	case "Apache Drill":
+		*p = ApacheDrill
+	case "ClickHouse":
+		*p = ClickHouse
+	case "Memcached":
+		*p = Memcached
+	case "LevelDB":
+		*p = LevelDB
+	case "Riak":
+		*p = Riak
+	case "OpenEdge":
+		*p = OpenEdge
+	case "ParAccel":
+		*p = ParAccel
 	case "N/A":
-		*p = NA
+		*p = NoPreference
 	default:
 		return fmt.Errorf("invalid PreferredDB: %s", preferredDBStr)
 	}

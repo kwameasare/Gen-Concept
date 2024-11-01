@@ -18,11 +18,76 @@ const (
 	Cpp
 	Kotlin
 	Rust
+	C
+	Php
+	Ruby
+	Swift
+	ObjectiveC
+	Scala
+	Haskell
+	Lua
+	Perl
+	R
+	Matlab
+	VisualBasic
+	Dart
+	Elixir
+	Erlang
+	FSharp
+	Groovy
+	Julia
+	Lisp
+	Scheme
+	Prolog
+	Fortran
+	Cobol
+	Assembly
+	Smalltalk
 )
 
 // String method for pretty printing
 func (p ProgrammingLanguage) String() string {
-	return [...]string{"Golang", "Python", "Java", "JavaScript", "TypeScript", "Csharp", "Cpp", "Kotlin", "Rust"}[p]
+	names := [...]string{
+		"Golang",
+		"Python",
+		"Java",
+		"JavaScript",
+		"TypeScript",
+		"Csharp",
+		"Cpp",
+		"Kotlin",
+		"Rust",
+		"C",
+		"Php",
+		"Ruby",
+		"Swift",
+		"ObjectiveC",
+		"Scala",
+		"Haskell",
+		"Lua",
+		"Perl",
+		"R",
+		"Matlab",
+		"VisualBasic",
+		"Dart",
+		"Elixir",
+		"Erlang",
+		"FSharp",
+		"Groovy",
+		"Julia",
+		"Lisp",
+		"Scheme",
+		"Prolog",
+		"Fortran",
+		"Cobol",
+		"Assembly",
+		"Smalltalk",
+	}
+
+	if p < Golang || int(p) >= len(names) {
+		return "Unknown"
+	}
+	return names[p]
 }
 
 // MarshalJSON for custom JSON encoding
@@ -56,6 +121,56 @@ func (p *ProgrammingLanguage) UnmarshalJSON(data []byte) error {
 		*p = Kotlin
 	case "Rust":
 		*p = Rust
+	case "C":
+		*p = C
+	case "Php":
+		*p = Php
+	case "Ruby":
+		*p = Ruby
+	case "Swift":
+		*p = Swift
+	case "ObjectiveC":
+		*p = ObjectiveC
+	case "Scala":
+		*p = Scala
+	case "Haskell":
+		*p = Haskell
+	case "Lua":
+		*p = Lua
+	case "Perl":
+		*p = Perl
+	case "R":
+		*p = R
+	case "Matlab":
+		*p = Matlab
+	case "VisualBasic":
+		*p = VisualBasic
+	case "Dart":
+		*p = Dart
+	case "Elixir":
+		*p = Elixir
+	case "Erlang":
+		*p = Erlang
+	case "FSharp":
+		*p = FSharp
+	case "Groovy":
+		*p = Groovy
+	case "Julia":
+		*p = Julia
+	case "Lisp":
+		*p = Lisp
+	case "Scheme":
+		*p = Scheme
+	case "Prolog":
+		*p = Prolog
+	case "Fortran":
+		*p = Fortran
+	case "Cobol":
+		*p = Cobol
+	case "Assembly":
+		*p = Assembly
+	case "Smalltalk":
+		*p = Smalltalk
 	default:
 		return fmt.Errorf("invalid programming language: %s", programmingLanguageStr)
 	}
@@ -105,6 +220,56 @@ func (p *ProgrammingLanguage) Scan(value interface{}) error {
 		*p = Kotlin
 	case "Rust":
 		*p = Rust
+	case "C":
+		*p = C
+	case "Php":
+		*p = Php
+	case "Ruby":
+		*p = Ruby
+	case "Swift":
+		*p = Swift
+	case "ObjectiveC":
+		*p = ObjectiveC
+	case "Scala":
+		*p = Scala
+	case "Haskell":
+		*p = Haskell
+	case "Lua":
+		*p = Lua
+	case "Perl":
+		*p = Perl
+	case "R":
+		*p = R
+	case "Matlab":
+		*p = Matlab
+	case "VisualBasic":
+		*p = VisualBasic
+	case "Dart":
+		*p = Dart
+	case "Elixir":
+		*p = Elixir
+	case "Erlang":
+		*p = Erlang
+	case "FSharp":
+		*p = FSharp
+	case "Groovy":
+		*p = Groovy
+	case "Julia":
+		*p = Julia
+	case "Lisp":
+		*p = Lisp
+	case "Scheme":
+		*p = Scheme
+	case "Prolog":
+		*p = Prolog
+	case "Fortran":
+		*p = Fortran
+	case "Cobol":
+		*p = Cobol
+	case "Assembly":
+		*p = Assembly
+	case "Smalltalk":
+		*p = Smalltalk
 	default:
 		return fmt.Errorf("invalid programming language: %s", programmingLanguageStr)
 	}

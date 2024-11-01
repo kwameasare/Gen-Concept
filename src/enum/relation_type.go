@@ -13,22 +13,38 @@ const (
 	OneToMany
 	ManyToOne
 	ManyToMany
+	SelfReferencing
+	Aggregation
+	Composition
+	Association
+	Dependency
+	Inheritance
 	NoRelation
 )
 
-// String method for pretty printing
-
 func (r RelationType) String() string {
-	return [...]string{"OneToOne", "OneToMany", "ManyToOne", "ManyToMany","No Relation"}[r]
+	names := [...]string{
+		"OneToOne",
+		"OneToMany",
+		"ManyToOne",
+		"ManyToMany",
+		"SelfReferencing",
+		"Aggregation",
+		"Composition",
+		"Association",
+		"Dependency",
+		"Inheritance",
+		"NoRelation",
+	}
+	if r < OneToOne || int(r) >= len(names) {
+		return "Unknown"
+	}
+	return names[r]
 }
-
-// MarshalJSON for custom JSON encoding
 
 func (r RelationType) MarshalJSON() ([]byte, error) {
 	return json.Marshal(r.String())
 }
-
-// UnmarshalJSON for custom JSON decoding
 
 func (r *RelationType) UnmarshalJSON(data []byte) error {
 	var relationTypeStr string
@@ -45,19 +61,31 @@ func (r *RelationType) UnmarshalJSON(data []byte) error {
 		*r = ManyToOne
 	case "ManyToMany":
 		*r = ManyToMany
-	default:
+	case "SelfReferencing":
+		*r = SelfReferencing
+	case "Aggregation":
+		*r = Aggregation
+	case "Composition":
+		*r = Composition
+	case "Association":
+		*r = Association
+	case "Dependency":
+		*r = Dependency
+	case "Inheritance":
+		*r = Inheritance
+	case "NoRelation":
 		*r = NoRelation
+	default:
+		return fmt.Errorf("invalid RelationType: %s", relationTypeStr)
 	}
 
 	return nil
 }
 
-// Implement the driver.Valuer interface
 func (r RelationType) Value() (driver.Value, error) {
 	return r.String(), nil
 }
 
-// Implement the sql.Scanner interface
 func (r *RelationType) Scan(value interface{}) error {
 	if value == nil {
 		*r = NoRelation
@@ -84,7 +112,19 @@ func (r *RelationType) Scan(value interface{}) error {
 		*r = ManyToOne
 	case "ManyToMany":
 		*r = ManyToMany
-	case "No Relation":
+	case "SelfReferencing":
+		*r = SelfReferencing
+	case "Aggregation":
+		*r = Aggregation
+	case "Composition":
+		*r = Composition
+	case "Association":
+		*r = Association
+	case "Dependency":
+		*r = Dependency
+	case "Inheritance":
+		*r = Inheritance
+	case "NoRelation":
 		*r = NoRelation
 	default:
 		return fmt.Errorf("invalid RelationType: %s", relationTypeStr)

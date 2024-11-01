@@ -10,11 +10,36 @@ type ResponseActionType int
 
 const (
 	SetField ResponseActionType = iota
-	ResponseBusinessValidation
+	Validation
+	ProceedToNextStep
+	TransformResponse
+	UpdateContext
+	StoreResponseData
+	TriggerNotification
+	InvokeAnotherAPI
+	LogResponse
+	ConditionalBranch
+	AggregateData
 )
 
 func (r ResponseActionType) String() string {
-	return [...]string{"SET_FIELD", "BUSINESS_VALIDATION"}[r]
+	names := [...]string{
+		"SET_FIELD",
+		"VALIDATION",
+		"PROCEED_TO_NEXT_STEP",
+		"TRANSFORM_RESPONSE",
+		"UPDATE_CONTEXT",
+		"STORE_RESPONSE_DATA",
+		"TRIGGER_NOTIFICATION",
+		"INVOKE_ANOTHER_API",
+		"LOG_RESPONSE",
+		"CONDITIONAL_BRANCH",
+		"AGGREGATE_DATA",
+	}
+	if r < SetField || int(r) >= len(names) {
+		return "UNKNOWN"
+	}
+	return names[r]
 }
 
 func (r ResponseActionType) MarshalJSON() ([]byte, error) {
@@ -30,8 +55,26 @@ func (r *ResponseActionType) UnmarshalJSON(data []byte) error {
 	switch actionStr {
 	case "SET_FIELD":
 		*r = SetField
-	case "BUSINESS_VALIDATION":
-		*r = ResponseBusinessValidation
+	case "VALIDATION":
+		*r = Validation
+	case "PROCEED_TO_NEXT_STEP":
+		*r = ProceedToNextStep
+	case "TRANSFORM_RESPONSE":
+		*r = TransformResponse
+	case "UPDATE_CONTEXT":
+		*r = UpdateContext
+	case "STORE_RESPONSE_DATA":
+		*r = StoreResponseData
+	case "TRIGGER_NOTIFICATION":
+		*r = TriggerNotification
+	case "INVOKE_ANOTHER_API":
+		*r = InvokeAnotherAPI
+	case "LOG_RESPONSE":
+		*r = LogResponse
+	case "CONDITIONAL_BRANCH":
+		*r = ConditionalBranch
+	case "AGGREGATE_DATA":
+		*r = AggregateData
 	default:
 		return fmt.Errorf("invalid ResponseActionType: %s", actionStr)
 	}
@@ -63,8 +106,26 @@ func (r *ResponseActionType) Scan(value interface{}) error {
 	switch actionStr {
 	case "SET_FIELD":
 		*r = SetField
-	case "BUSINESS_VALIDATION":
-		*r = ResponseBusinessValidation
+	case "VALIDATION":
+		*r = Validation
+	case "PROCEED_TO_NEXT_STEP":
+		*r = ProceedToNextStep
+	case "TRANSFORM_RESPONSE":
+		*r = TransformResponse
+	case "UPDATE_CONTEXT":
+		*r = UpdateContext
+	case "STORE_RESPONSE_DATA":
+		*r = StoreResponseData
+	case "TRIGGER_NOTIFICATION":
+		*r = TriggerNotification
+	case "INVOKE_ANOTHER_API":
+		*r = InvokeAnotherAPI
+	case "LOG_RESPONSE":
+		*r = LogResponse
+	case "CONDITIONAL_BRANCH":
+		*r = ConditionalBranch
+	case "AGGREGATE_DATA":
+		*r = AggregateData
 	default:
 		return fmt.Errorf("invalid ResponseActionType: %s", actionStr)
 	}
