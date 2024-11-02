@@ -1,14 +1,15 @@
 package dto
 
 import (
-	"github.com/google/uuid"
+	"gen-concept-api/enum" 
 	"gen-concept-api/usecase/dto"
-	"gen-concept-api/enum" // Import the enums package
+
+	"github.com/google/uuid"
 )
 
 type Journey struct {
-	UUID           uuid.UUID      `json:"uuid"`
-	ProjectUUID    uuid.UUID      `json:"projectUUID"`
+	UUID           uuid.UUID       `json:"uuid"`
+	ProjectUUID    uuid.UUID       `json:"projectUUID"`
 	EntityJourneys []EntityJourney `json:"entityJourneys"`
 }
 
@@ -20,36 +21,36 @@ type EntityJourney struct {
 }
 
 type Operation struct {
-	UUID            uuid.UUID           `json:"uuid"`
-	Type            enum.OperationType  `json:"type"` // Updated to use enum
-	Name            string              `json:"name"`
-	Description     string              `json:"description"`
-	FrontendJourney []interface{}       `json:"frontendJourney"` // Assuming frontendJourney is an array of unspecified objects
-	BackendJourney  []BackendJourney    `json:"backendJourney"`
-	Filters         []Filter            `json:"filters,omitempty"`
-	Sort            []Sort              `json:"sort,omitempty"`
+	UUID            uuid.UUID          `json:"uuid"`
+	Type            enum.OperationType `json:"type"`
+	Name            string             `json:"name"`
+	Description     string             `json:"description"`
+	FrontendJourney []interface{}      `json:"frontendJourney"`
+	BackendJourney  []BackendJourney   `json:"backendJourney"`
+	Filters         []Filter           `json:"filters,omitempty"`
+	Sort            []Sort             `json:"sort,omitempty"`
 }
 
 type BackendJourney struct {
-	UUID            uuid.UUID                `json:"uuid"`
-	Index           int                      `json:"index"`
-	Type            enum.BackendJourneyStepType `json:"type"` // Updated to use enum
-	Description     string                   `json:"description,omitempty"`
-	FieldsInvolved  []FieldInvolved          `json:"fieldsInvolved,omitempty"`
-	Condition       string                   `json:"condition,omitempty"`
-	AbortOnFail     bool                     `json:"abortOnFail,omitempty"`
-	Error           string                   `json:"error,omitempty"`
-	Curl            string                   `json:"curl,omitempty"`
-	SampleResponse  string                   `json:"sampleResponse,omitempty"`
-	Retry           bool                     `json:"retry,omitempty"`
-	RetryCount      int                      `json:"retryCount,omitempty"`
-	RetryInterval   int                      `json:"retryInterval,omitempty"`
-	RetryConditions []RetryCondition         `json:"retryConditions,omitempty"`
-	ResponseActions []ResponseAction         `json:"responseActions,omitempty"`
-	DBAction        enum.DbActionType        `json:"dbAction,omitempty"` // Updated to use enum
-	Channels        []enum.NotificationChannel `json:"channels,omitempty"` // Updated to use enum
-	Message         string                   `json:"message,omitempty"`
-	Recipients      []string                 `json:"recipients,omitempty"`
+	UUID            uuid.UUID                   `json:"uuid"`
+	Index           int                         `json:"index"`
+	Type            enum.BackendJourneyStepType `json:"type"`
+	Description     string                      `json:"description,omitempty"`
+	FieldsInvolved  []FieldInvolved             `json:"fieldsInvolved,omitempty"`
+	Condition       string                      `json:"condition,omitempty"`
+	AbortOnFail     bool                        `json:"abortOnFail,omitempty"`
+	Error           string                      `json:"error,omitempty"`
+	Curl            string                      `json:"curl,omitempty"`
+	SampleResponse  string                      `json:"sampleResponse,omitempty"`
+	Retry           bool                        `json:"retry,omitempty"`
+	RetryCount      int                         `json:"retryCount,omitempty"`
+	RetryInterval   int                         `json:"retryInterval,omitempty"`
+	RetryConditions []RetryCondition            `json:"retryConditions,omitempty"`
+	ResponseActions []ResponseAction            `json:"responseActions,omitempty"`
+	DBAction        enum.DbActionType           `json:"dbAction,omitempty"`
+	Channels        []enum.NotificationChannel  `json:"channels,omitempty"`
+	Message         string                      `json:"message,omitempty"`
+	Recipients      []string                    `json:"recipients,omitempty"`
 }
 
 type FieldInvolved struct {
@@ -66,34 +67,34 @@ type RetryCondition struct {
 }
 
 type ResponseAction struct {
-	UUID           uuid.UUID            `json:"uuid"`
-	Index          int                  `json:"index"`
-	Type           enum.ResponseActionType `json:"type"` // Updated to use enum
-	FieldID        string               `json:"fieldId,omitempty"`
-	Value          string               `json:"value,omitempty"`
-	Description    string               `json:"description,omitempty"`
+	UUID           uuid.UUID               `json:"uuid"`
+	Index          int                     `json:"index"`
+	Type           enum.ResponseActionType `json:"type"`
+	FieldID        string                  `json:"fieldId,omitempty"`
+	Value          string                  `json:"value,omitempty"`
+	Description    string                  `json:"description,omitempty"`
 	FieldsInvolved []ResFieldInvolved      `json:"fieldsInvolved,omitempty"`
-	Condition      string               `json:"condition,omitempty"`
-	AbortOnFail    bool                 `json:"abortOnFail,omitempty"`
-	Error          string               `json:"error,omitempty"`
+	Condition      string                  `json:"condition,omitempty"`
+	AbortOnFail    bool                    `json:"abortOnFail,omitempty"`
+	Error          string                  `json:"error,omitempty"`
 }
 type ResFieldInvolved struct {
-		UUID      uuid.UUID         `json:"uuid"`
-	ID            string `gorm:"not null;size:150"`
-	Name          string `gorm:"not null;size:150"`
-	Source        string `gorm:"size:150"`
+	UUID             uuid.UUID `json:"uuid"`
+	ID               string    `gorm:"not null;size:150"`
+	Name             string    `gorm:"not null;size:150"`
+	Source           string    `gorm:"size:150"`
 	ResponseActionID uint
 	ResponseAction   ResponseAction `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 }
 type Filter struct {
-	UUID      uuid.UUID         `json:"uuid"`
-	Name      string            `json:"name"`
-	Type      enum.FilterType   `json:"type"` // Updated to use enum
-	FieldID   string            `json:"fieldId"`
-	MaxRange  *Range            `json:"maxRange,omitempty"`
-	MinRange  *Range            `json:"minRange,omitempty"`
-	Error     string            `json:"error,omitempty"`
-	Operator  enum.OperatorType `json:"operator,omitempty"` // Updated to use enum
+	UUID     uuid.UUID         `json:"uuid"`
+	Name     string            `json:"name"`
+	Type     enum.FilterType   `json:"type"`
+	FieldID  string            `json:"fieldId"`
+	MaxRange *Range            `json:"maxRange,omitempty"`
+	MinRange *Range            `json:"minRange,omitempty"`
+	Error    string            `json:"error,omitempty"`
+	Operator enum.OperatorType `json:"operator,omitempty"`
 }
 
 type Range struct {
@@ -130,7 +131,7 @@ func (ej *EntityJourney) FromUsecaseEntityJourneyDTO(ucEntityJourney *dto.Entity
 
 func (op *Operation) FromUsecaseOperationDTO(ucOperation *dto.Operation) {
 	op.UUID = ucOperation.UUID
-	op.Type = ucOperation.Type // Updated to use enum
+	op.Type = ucOperation.Type
 	op.Name = ucOperation.Name
 	op.Description = ucOperation.Description
 	op.FrontendJourney = ucOperation.FrontendJourney
@@ -154,7 +155,7 @@ func (op *Operation) FromUsecaseOperationDTO(ucOperation *dto.Operation) {
 func (bj *BackendJourney) FromUsecaseBackendJourneyDTO(ucBackendJourney *dto.JourneyStep) {
 	bj.UUID = ucBackendJourney.UUID
 	bj.Index = ucBackendJourney.Index
-	bj.Type = ucBackendJourney.Type // Updated to use enum
+	bj.Type = ucBackendJourney.Type
 	bj.Description = ucBackendJourney.Description
 	bj.Condition = ucBackendJourney.Condition
 	bj.AbortOnFail = ucBackendJourney.AbortOnFail
@@ -164,8 +165,8 @@ func (bj *BackendJourney) FromUsecaseBackendJourneyDTO(ucBackendJourney *dto.Jou
 	bj.Retry = ucBackendJourney.Retry
 	bj.RetryCount = ucBackendJourney.RetryCount
 	bj.RetryInterval = ucBackendJourney.RetryInterval
-	bj.DBAction = ucBackendJourney.DBAction // Updated to use enum
-	bj.Channels = make([]enum.NotificationChannel, len(ucBackendJourney.Channels)) // Updated to use enum
+	bj.DBAction = ucBackendJourney.DBAction
+	bj.Channels = make([]enum.NotificationChannel, len(ucBackendJourney.Channels))
 	copy(bj.Channels, ucBackendJourney.Channels)
 	bj.Message = ucBackendJourney.Message
 	bj.Recipients = ucBackendJourney.Recipients
@@ -209,7 +210,7 @@ func (rc *RetryCondition) FromUsecaseRetryConditionDTO(ucRetryCondition *dto.Ret
 func (ra *ResponseAction) FromUsecaseResponseActionDTO(ucResponseAction *dto.ResponseAction) {
 	ra.UUID = ucResponseAction.UUID
 	ra.Index = ucResponseAction.Index
-	ra.Type = ucResponseAction.Type // Updated to use enum
+	ra.Type = ucResponseAction.Type
 	ra.FieldID = ucResponseAction.FieldID
 	ra.Value = ucResponseAction.Value
 	ra.Description = ucResponseAction.Description
@@ -226,10 +227,10 @@ func (ra *ResponseAction) FromUsecaseResponseActionDTO(ucResponseAction *dto.Res
 func (f *Filter) FromUsecaseFilterDTO(ucFilter *dto.Filter) {
 	f.UUID = ucFilter.UUID
 	f.Name = ucFilter.Name
-	f.Type = ucFilter.Type // Updated to use enum
+	f.Type = ucFilter.Type
 	f.FieldID = ucFilter.FieldID
 	f.Error = ucFilter.Error
-	f.Operator = ucFilter.Operator // Updated to use enum
+	f.Operator = ucFilter.Operator
 	if ucFilter.MaxRange != nil {
 		var maxRange Range
 		maxRange.FromUsecaseRangeDTO(ucFilter.MaxRange)
@@ -303,22 +304,22 @@ func (op *Operation) ToUsecaseOperationDTO() *dto.Operation {
 
 func (bj *BackendJourney) ToUsecaseBackendJourneyDTO() *dto.JourneyStep {
 	ucBackendJourney := &dto.JourneyStep{
-		UUID:            bj.UUID,
-		Index:           bj.Index,
-		Type:            bj.Type,
-		Description:     bj.Description,
-		Condition:       bj.Condition,
-		AbortOnFail:     bj.AbortOnFail,
-		Error:           bj.Error,
-		Curl:            bj.Curl,
-		SampleResponse:  bj.SampleResponse,
-		Retry:           bj.Retry,
-		RetryCount:      bj.RetryCount,
-		RetryInterval:   bj.RetryInterval,
-		DBAction:        bj.DBAction,
-		Channels:        make([]enum.NotificationChannel, len(bj.Channels)),
-		Message:         bj.Message,
-		Recipients:      bj.Recipients,
+		UUID:           bj.UUID,
+		Index:          bj.Index,
+		Type:           bj.Type,
+		Description:    bj.Description,
+		Condition:      bj.Condition,
+		AbortOnFail:    bj.AbortOnFail,
+		Error:          bj.Error,
+		Curl:           bj.Curl,
+		SampleResponse: bj.SampleResponse,
+		Retry:          bj.Retry,
+		RetryCount:     bj.RetryCount,
+		RetryInterval:  bj.RetryInterval,
+		DBAction:       bj.DBAction,
+		Channels:       make([]enum.NotificationChannel, len(bj.Channels)),
+		Message:        bj.Message,
+		Recipients:     bj.Recipients,
 	}
 	copy(ucBackendJourney.Channels, bj.Channels)
 	for _, fieldInvolved := range bj.FieldsInvolved {
