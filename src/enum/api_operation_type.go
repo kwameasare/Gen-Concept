@@ -18,7 +18,7 @@ const (
 )
 
 func (o OperationType) String() string {
-	return [...]string{"Create", "Read", "Update", "Delete", "Custom", "ReadById"}[o]
+	return [...]string{"CREATE", "READ", "UPDATE", "DELETE", "CUSTOM", "READ_BY_ID"}[o]
 }
 
 func (o OperationType) MarshalJSON() ([]byte, error) {
@@ -32,17 +32,17 @@ func (o *OperationType) UnmarshalJSON(data []byte) error {
 	}
 
 	switch opStr {
-	case "Create":
+	case "CREATE":
 		*o = Create
-	case "Read":
+	case "READ":
 		*o = Read
-	case "Update":
+	case "UPDATE":
 		*o = Update
-	case "Delete":
+	case "DELETE":
 		*o = Delete
-	case "Custom":
+	case "CUSTOM":
 		*o = Custom
-	case "ReadById":
+	case "READ_BY_ID":
 		*o = ReadById
 	default:
 		return fmt.Errorf("invalid OperationType: %s", opStr)
@@ -73,17 +73,17 @@ func (o *OperationType) Scan(value interface{}) error {
 	}
 
 	switch opStr {
-	case "Create":
+	case "CREATE":
 		*o = Create
-	case "Read":
+	case "READ":
 		*o = Read
-	case "Update":
+	case "UPDATE":
 		*o = Update
-	case "Delete":
+	case "DELETE":
 		*o = Delete
-	case "Custom":
+	case "CUSTOM":
 		*o = Custom
-	case "ReadById":
+	case "READ_BY_ID":
 		*o = ReadById
 	default:
 		return fmt.Errorf("invalid OperationType: %s", opStr)

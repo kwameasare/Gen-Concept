@@ -65,6 +65,9 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		//Project
 		projects := v1.Group("/projects", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 
+		// Journey
+		journeys := v1.Group("/journeys", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+
 		// Test
 		router.Health(health)
 		router.TestRouter(testRouter)
@@ -81,6 +84,9 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 
 		//Project
 		router.Project(projects, cfg)
+
+		// Journey
+		router.Journey(journeys, cfg)
 
 
 		r.GET("/metrics", gin.WrapH(promhttp.Handler()))

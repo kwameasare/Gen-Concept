@@ -27,7 +27,7 @@ type Operation struct {
 	Description     string             `gorm:"size:1000"`
 	EntityJourneyID uint
 	EntityJourney   EntityJourney      `gorm:"foreignKey:EntityJourneyID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
-	FrontendJourney []interface{}      `gorm:"type:json"`
+	FrontendJourney []interface{}      `gorm:"type:text;serializer:json"`
 	BackendJourney  []JourneyStep      `gorm:"foreignKey:OperationID"`
 	Filters         []Filter           `gorm:"foreignKey:OperationID"`
 	Sort            []Sort             `gorm:"foreignKey:OperationID"`
@@ -52,9 +52,9 @@ type JourneyStep struct {
 	DBAction        enum.DbActionType         `gorm:"type:varchar(50)"`
 	CacheAction     enum.CacheActionType      `gorm:"type:varchar(50)"`
 	FailOnNotFound  bool
-	Channels        []enum.NotificationChannel `gorm:"type:json"`
+	Channels        []enum.NotificationChannel `gorm:"type:text;serializer:json"`
 	Message         string                    `gorm:"size:1000"`
-	Recipients      []string                  `gorm:"type:json"`
+	Recipients      []string                  `gorm:"type:text;serializer:json"`
 	OperationID     uint
 	Operation       Operation                 `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 }
@@ -97,7 +97,7 @@ type ResFieldInvolved struct {
 	Name          string `gorm:"not null;size:150"`
 	Source        string `gorm:"size:150"`
 	ResponseActionID uint
-	ResponseAction   ResponseAction `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	ResponseAction   ResponseAction `gorm:"foreignKey:ResponseActionID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 }
 type Filter struct {
 	BaseModel
