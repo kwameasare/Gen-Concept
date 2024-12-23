@@ -11,7 +11,6 @@ type Project struct {
 	ProjectType         enum.ProjectType `gorm:"type:varchar(20)"`
 	IsMultiTenant       bool
 	IsMultiLingual      bool
-	ProgrammingLanguage enum.ProgrammingLanguage
 	Entities            []Entity `gorm:"foreignKey:ProjectID"`
 }
 

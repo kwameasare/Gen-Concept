@@ -8,6 +8,7 @@ import (
 type Journey struct {
 	UUID           uuid.UUID       `json:"uuid"`
 	ProjectUUID    uuid.UUID       `json:"projectUUID"`
+	ProgrammingLanguage enum.ProgrammingLanguage `json:"programmingLanguage"`
 	EntityJourneys []EntityJourney `json:"entityJourneys"`
 }
 
@@ -32,7 +33,7 @@ type Operation struct {
 type JourneyStep struct {
 	UUID            uuid.UUID                `json:"uuid"`
 	Index           int                      `json:"index"`
-	Type            enum.BackendJourneyStepType `json:"type"`
+	Type            string `json:"type"`
 	Description     string                   `json:"description,omitempty"`
 	FieldsInvolved  []FieldInvolved          `json:"fieldsInvolved,omitempty"`
 	Condition       string                   `json:"condition,omitempty"`

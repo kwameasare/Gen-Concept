@@ -12,7 +12,6 @@ type Project struct {
 	ProjectType         enum.ProjectType         `json:"projectType"`
 	IsMultiTenant       bool                     `json:"isMultiTenant"`
 	IsMultiLingual      bool                     `json:"isMultiLingual"`
-	ProgrammingLanguage enum.ProgrammingLanguage `json:"programmingLanguage"`
 	Entities            []Entity                 `json:"entities"`
 }
 

@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"gen-concept-api/enum" 
+	"gen-concept-api/enum"
 	"gen-concept-api/usecase/dto"
 
 	"github.com/google/uuid"
@@ -32,25 +32,25 @@ type Operation struct {
 }
 
 type BackendJourney struct {
-	UUID            uuid.UUID                   `json:"uuid"`
-	Index           int                         `json:"index"`
-	Type            enum.BackendJourneyStepType `json:"type"`
-	Description     string                      `json:"description,omitempty"`
-	FieldsInvolved  []FieldInvolved             `json:"fieldsInvolved,omitempty"`
-	Condition       string                      `json:"condition,omitempty"`
-	AbortOnFail     bool                        `json:"abortOnFail,omitempty"`
-	Error           string                      `json:"error,omitempty"`
-	Curl            string                      `json:"curl,omitempty"`
-	SampleResponse  string                      `json:"sampleResponse,omitempty"`
-	Retry           bool                        `json:"retry,omitempty"`
-	RetryCount      int                         `json:"retryCount,omitempty"`
-	RetryInterval   int                         `json:"retryInterval,omitempty"`
-	RetryConditions []RetryCondition            `json:"retryConditions,omitempty"`
-	ResponseActions []ResponseAction            `json:"responseActions,omitempty"`
-	DBAction        enum.DbActionType           `json:"dbAction,omitempty"`
-	Channels        []enum.NotificationChannel  `json:"channels,omitempty"`
-	Message         string                      `json:"message,omitempty"`
-	Recipients      []string                    `json:"recipients,omitempty"`
+	UUID            uuid.UUID                  `json:"uuid"`
+	Index           int                        `json:"index"`
+	Type            string                     `json:"type"`
+	Description     string                     `json:"description,omitempty"`
+	FieldsInvolved  []FieldInvolved            `json:"fieldsInvolved,omitempty"`
+	Condition       string                     `json:"condition,omitempty"`
+	AbortOnFail     bool                       `json:"abortOnFail,omitempty"`
+	Error           string                     `json:"error,omitempty"`
+	Curl            string                     `json:"curl,omitempty"`
+	SampleResponse  string                     `json:"sampleResponse,omitempty"`
+	Retry           bool                       `json:"retry,omitempty"`
+	RetryCount      int                        `json:"retryCount,omitempty"`
+	RetryInterval   int                        `json:"retryInterval,omitempty"`
+	RetryConditions []RetryCondition           `json:"retryConditions,omitempty"`
+	ResponseActions []ResponseAction           `json:"responseActions,omitempty"`
+	DBAction        enum.DbActionType          `json:"dbAction,omitempty"`
+	Channels        []enum.NotificationChannel `json:"channels,omitempty"`
+	Message         string                     `json:"message,omitempty"`
+	Recipients      []string                   `json:"recipients,omitempty"`
 }
 
 type FieldInvolved struct {

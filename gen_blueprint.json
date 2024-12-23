@@ -1,0 +1,357 @@
+{
+    "standardName": "Dotnet MVC",
+    "type": "REST API",
+    "description": "A blueprint for a dotnet mvc project",
+    "functionalities":[
+        {
+            "category": "STANDARD",
+            "type":"CACHE",
+            "provider":"REDIS",
+            "implementsGenerics": true,
+            "filePathsCSV": "src/Cache/RedisCache.cs,src/Cache/RedisCache.cs",
+            "operations": [
+                {
+                    "name": "Get",
+                    "description": "Get a value from the cache"
+                },
+                {
+                    "name": "Set",
+                    "description": "Set a value in the cache"
+                },
+                {
+                    "name":"HSET",
+                    "description":"Set a value in a hash"
+                },
+                {
+                    "name":"HGET",
+                    "description":"Get a value from a hash"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"QUEUE",
+            "provider":"RABBITMQ",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Queue/RabbitMQ.cs,src/Queue/RabbitMQ.cs",
+            "operations":[
+                {
+                    "name":"Publish",
+                    "description":"Publish a message to the queue"
+                },
+                {
+                    "name":"Consume",
+                    "description":"Consume a message from the queue"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"DATABASE",
+            "provider":"SQL",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Database/SQL.cs,src/Database/SQL.cs",
+            "operations":[
+                {
+                    "name":"Query",
+                    "description":"Query the database"
+                },
+                {
+                    "name":"Execute",
+                    "description":"Execute a command in the database"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"DATABASE",
+            "provider":"MONGODB",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Database/MongoDB.cs,src/Database/MongoDB.cs",
+            "operations":[
+                {
+                    "name":"Find",
+                    "description":"Find a document in the database"
+                },
+                {
+                    "name":"Insert",
+                    "description":"Insert a document in the database"
+                },
+                {
+                    "name":"Update",
+                    "description":"Update a document in the database"
+                },
+                {
+                    "name":"Delete",
+                    "description":"Delete a document in the database"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"LOGGING",
+            "provider":"SERILOG",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Logging/Serilog.cs,src/Logging/Serilog.cs",
+            "operations":[
+                {
+                    "name":"Log",
+                    "description":"Log a message"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"AUTHENTICATION",
+            "provider":"JWT",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Authentication/JWT.cs,src/Authentication/JWT.cs",
+            "operations":[
+                {
+                    "name":"GenerateToken",
+                    "description":"Generate a JWT token"
+                },
+                {
+                    "name":"ValidateToken",
+                    "description":"Validate a JWT token"
+                }
+            ]
+        },
+        {
+            "category":"CUSTOM",
+            "type":"AUTHENTICATION",
+            "provider":"ACTIVE DIRECTORY",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Authentication/ActiveDirectory.cs,src/Authentication/ActiveDirectory.cs",
+            "operations":[
+                {
+                    "name":"Authenticate",
+                    "description":"Authenticate a user"
+                },
+                {
+                    "name":"GetUser",
+                    "description":"Get a user"
+                },
+                {
+                    "name":"GetGroups",
+                    "description":"Get groups of a user"
+                },
+                {
+                    "name":"GetRoles",
+                    "description":"Get roles of a user"
+                },
+                {
+                    "name":"GetPermissions",
+                    "description":"Get permissions of a user"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"EMAIL",
+            "provider":"SENDGRID",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Email/SendGrid.cs,src/Email/SendGrid.cs",
+            "operations":[
+                {
+                    "name":"Send",
+                    "description":"Send an email"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"SMS",
+            "provider":"TWILIO",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/SMS/Twilio.cs,src/SMS/Twilio.cs",
+            "operations":[
+                {
+                    "name":"Send",
+                    "description":"Send an SMS"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"NOTIFICATION",
+            "provider":"FIREBASE",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Notification/Firebase.cs,src/Notification/Firebase.cs",
+            "operations":[
+                {
+                    "name":"Send",
+                    "description":"Send a notification"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"FILE",
+            "provider":"AZURE BLOB STORAGE",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/File/AzureBlobStorage.cs,src/File/AzureBlobStorage.cs",
+            "operations":[
+                {
+                    "name":"Upload",
+                    "description":"Upload a file"
+                },
+                {
+                    "name":"Download",
+                    "description":"Download a file"
+                },
+                {
+                    "name":"Delete",
+                    "description":"Delete a file"
+                }
+            ]
+        },
+        {
+            "category":"CUSTOM",
+            "type":"HTTPCLIENT",
+            "provider":"RESTCLIENT",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/HttpClient/RestClient.cs,src/HttpClient/RestClient.cs",
+            "operations":[
+                {
+                    "name":"Get",
+                    "description":"Make a GET request"
+                },
+                {
+                    "name":"Post",
+                    "description":"Make a POST request"
+                },
+                {
+                    "name":"Put",
+                    "description":"Make a PUT request"
+                },
+                {
+                    "name":"Delete",
+                    "description":"Make a DELETE request"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"SCHEDULER",
+            "provider":"QUARTZ",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Scheduler/Quartz.cs,src/Scheduler/Quartz.cs",
+            "operations":[
+                {
+                    "name":"Schedule",
+                    "description":"Schedule a job"
+                },
+                {
+                    "name":"Unschedule",
+                    "description":"Unschedule a job"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"CACHING",
+            "provider":"MEMORY",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Caching/MemoryCache.cs,src/Caching/MemoryCache.cs",
+            "operations":[
+                {
+                    "name":"Get",
+                    "description":"Get a value from the cache"
+                },
+                {
+                    "name":"Set",
+                    "description":"Set a value in the cache"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"SEARCH",
+            "provider":"ELASTICSEARCH",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Search/ElasticSearch.cs,src/Search/ElasticSearch.cs",
+            "operations":[
+                {
+                    "name":"Search",
+                    "description":"Search an index"
+                },
+                {
+                    "name":"Index",
+                    "description":"Index a document"
+                },
+                {
+                    "name":"Delete",
+                    "description":"Delete a document"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"QUEUE",
+            "provider":"KAFKA",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Queue/Kafka.cs,src/Queue/Kafka.cs",
+            "operations":[
+                {
+                    "name":"Publish",
+                    "description":"Publish a message to the queue"
+                },
+                {
+                    "name":"Consume",
+                    "description":"Consume a message from the queue"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"DATABASE",
+            "provider":"POSTGRESQL",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Database/PostgreSQL.cs,src/Database/PostgreSQL.cs",
+            "operations":[
+                {
+                    "name":"Query",
+                    "description":"Query the database"
+                },
+                {
+                    "name":"Execute",
+                    "description":"Execute a command in the database"
+                }
+            ]
+        },
+        {
+            "category":"CUSTOM",
+            "type":"INPUT VALIDATION",
+            "provider":"MSISDN VALIDATOR",
+            "implementsGenerics":false,
+            "filePathsCSV":"src/InputValidation/MsisdnValidator.cs,src/InputValidation/MsisdnValidator.cs",
+            "operations":[
+                {
+                    "name":"Validate",
+                    "description":"Validate an MSISDN"
+                }
+            ]
+        },
+        {
+            "category":"STANDARD",
+            "type":"OBSERVABILITY",
+            "provider":"OPENTELEMETRY",
+            "implementsGenerics":true,
+            "filePathsCSV":"src/Observability/OpenTelemetry.cs,src/Observability/OpenTelemetry.cs",
+            "operations":[
+                {
+                    "name":"Trace",
+                    "description":"Trace a request"
+                },
+                {
+                    "name":"Log",
+                    "description":"Log a message"
+                }
+            ]
+            
+        }
+
+    ]
+
+}

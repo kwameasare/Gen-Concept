@@ -13,29 +13,29 @@ import (
 	"github.com/google/uuid"
 )
 
-type ProjectHandler struct {
-	usecase *usecase.ProjectUsecase
+type BlueprintHandler struct {
+	usecase *usecase.BlueprintUsecase
 }
 
-func NewProjectHandler(cfg *config.Config) *ProjectHandler {
-	return &ProjectHandler{
-		usecase: usecase.NewProjectUsecase(cfg, dependency.GetProjectRepository(cfg)),
+func NewBlueprintHandler(cfg *config.Config) *BlueprintHandler {
+	return &BlueprintHandler{
+		usecase: usecase.NewBlueprintUsecase(cfg, dependency.GetBlueprintRepository(cfg)),
 	}
 }
 
-// CreateProject godoc
-// @Summary Create a Project
-// @Description Create a Project
-// @Tags Projects
+// CreateBlueprint godoc
+// @Summary Create a Blueprint
+// @Description Create a Blueprint
+// @Tags Blueprints
 // @Accept json
 // @produces json
-// @Param Request body dto.Project true "Create a Project"
-// @Success 201 {object} helper.BaseHttpResponse{result=dto.Project} "Project response"
+// @Param Request body dto.Blueprint true "Create a Blueprint"
+// @Success 201 {object} helper.BaseHttpResponse{result=dto.Blueprint} "Blueprint response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
-// @Router /v1/projects/ [post]
+// @Router /v1/Blueprints/ [post]
 // @Security AuthBearer
-func (h *ProjectHandler) Create(c *gin.Context) {
-	request := new(dto.Project)
+func (h *BlueprintHandler) Create(c *gin.Context) {
+	request := new(dto.Blueprint)
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
 		logger.Errorf("Error binding request: %v", err)
@@ -50,7 +50,7 @@ func (h *ProjectHandler) Create(c *gin.Context) {
 		return
 	}
 	// map http request body to usecase input and call use case method
-	project, err := h.usecase.Create(c, dto.ToUseCaseProject(*request))
+	Blueprint, err := h.usecase.Create(c, dto.ToUseCaseBlueprint(*request))
 
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
@@ -59,25 +59,25 @@ func (h *ProjectHandler) Create(c *gin.Context) {
 	}
 
 	// map usecase response to http response
-	response := dto.ToProjectResponse(project)
+	response := dto.ToBlueprintResponse(Blueprint)
 
 	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(response, true, 0))
 }
 
-// UpdateProject godoc
-// @Summary Update a Project
-// @Description Update a Project
-// @Tags Projects
+// UpdateBlueprint godoc
+// @Summary Update a Blueprint
+// @Description Update a Blueprint
+// @Tags Blueprints
 // @Accept json
 // @produces json
 // @Param id path int true "Id"
-// @Param Request body dto.Project true "Update a Project"
-// @Success 200 {object} helper.BaseHttpResponse{result=dto.Project} "Project response"
+// @Param Request body dto.Blueprint true "Update a Blueprint"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.Blueprint} "Blueprint response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 404 {object} helper.BaseHttpResponse "Not found"
-// @Router /v1/projects/{id} [put]
+// @Router /v1/Blueprints/{id} [put]
 // @Security AuthBearer
-func (h *ProjectHandler) Update(c *gin.Context) {
+func (h *BlueprintHandler) Update(c *gin.Context) {
 	// bind http request
 	uuidStr := c.Params.ByName("id")
 	uuid, uuidErr := uuid.Parse(uuidStr)
@@ -86,7 +86,7 @@ func (h *ProjectHandler) Update(c *gin.Context) {
 			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, uuidErr))
 		return
 	}
-	request := new(dto.Project)
+	request := new(dto.Blueprint)
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest,
@@ -95,7 +95,7 @@ func (h *ProjectHandler) Update(c *gin.Context) {
 
 	}
 	// map http request body to usecase input and call use case method
-	project, err := h.usecase.Update(c, uuid, dto.ToUseCaseProject(*request))
+	Blueprint, err := h.usecase.Update(c, uuid, dto.ToUseCaseBlueprint(*request))
 
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
@@ -104,24 +104,24 @@ func (h *ProjectHandler) Update(c *gin.Context) {
 	}
 
 	// map usecase response to http response
-	response := dto.ToProjectResponse(project)
+	response := dto.ToBlueprintResponse(Blueprint)
 
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(response, true, 0))
 }
 
-// DeleteProject godoc
-// @Summary Delete a Project
-// @Description Delete a Project
-// @Tags Projects
+// DeleteBlueprint godoc
+// @Summary Delete a Blueprint
+// @Description Delete a Blueprint
+// @Tags Blueprints
 // @Accept json
 // @produces json
 // @Param id path int true "Id"
 // @Success 200 {object} helper.BaseHttpResponse "response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 404 {object} helper.BaseHttpResponse "Not found"
-// @Router /v1/projects/{id} [delete]
+// @Router /v1/Blueprints/{id} [delete]
 // @Security AuthBearer
-func (h *ProjectHandler) Delete(c *gin.Context) {
+func (h *BlueprintHandler) Delete(c *gin.Context) {
 	uuidStr := c.Params.ByName("id")
 	uuid, uuidErr := uuid.Parse(uuidStr)
 	if uuidErr != nil {
@@ -139,19 +139,19 @@ func (h *ProjectHandler) Delete(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(nil, true, 0))
 }
 
-// GetProject godoc
-// @Summary Get a Project
-// @Description Get a Project
-// @Tags Projects
+// GetBlueprint godoc
+// @Summary Get a Blueprint
+// @Description Get a Blueprint
+// @Tags Blueprints
 // @Accept json
 // @produces json
 // @Param id path int true "Id"
-// @Success 200 {object} helper.BaseHttpResponse{result=dto.Project} "Project response"
+// @Success 200 {object} helper.BaseHttpResponse{result=dto.Blueprint} "Blueprint response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
 // @Failure 404 {object} helper.BaseHttpResponse "Not found"
-// @Router /v1/projects/{id} [get]
+// @Router /v1/Blueprints/{id} [get]
 // @Security AuthBearer
-func (h *ProjectHandler) GetById(c *gin.Context) {
+func (h *BlueprintHandler) GetById(c *gin.Context) {
 	uuidStr := c.Params.ByName("id")
 	uuid, uuidErr := uuid.Parse(uuidStr)
 	if uuidErr != nil {
@@ -161,7 +161,7 @@ func (h *ProjectHandler) GetById(c *gin.Context) {
 	}
 
 	// call use case method
-	project, err := h.usecase.GetById(c, uuid)
+	Blueprint, err := h.usecase.GetById(c, uuid)
 	if err != nil {
 		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
@@ -169,7 +169,7 @@ func (h *ProjectHandler) GetById(c *gin.Context) {
 	}
 
 	// map usecase response to http response
-	response := dto.ToProjectResponse(project)
+	response := dto.ToBlueprintResponse(Blueprint)
 
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(response, true, 0))
 }
@@ -177,15 +177,15 @@ func (h *ProjectHandler) GetById(c *gin.Context) {
 // GetProperties godoc
 // @Summary Get Properties
 // @Description Get Properties
-// @Tags Projects
+// @Tags Blueprints
 // @Accept json
 // @produces json
 // @Param Request body filter.PaginationInputWithFilter true "Request"
-// @Success 200 {object} helper.BaseHttpResponse{result=filter.PagedList[dto.Project]} "Project response"
+// @Success 200 {object} helper.BaseHttpResponse{result=filter.PagedList[dto.Blueprint]} "Blueprint response"
 // @Failure 400 {object} helper.BaseHttpResponse "Bad request"
-// @Router /v1/projects/get-by-filter [post]
+// @Router /v1/Blueprints/get-by-filter [post]
 // @Security AuthBearer
-func (h *ProjectHandler) GetByFilter(c *gin.Context) {
+func (h *BlueprintHandler) GetByFilter(c *gin.Context) {
 	req := new(filter.PaginationInputWithFilter)
 	err := c.ShouldBindJSON(&req)
 	if err != nil {
@@ -201,7 +201,7 @@ func (h *ProjectHandler) GetByFilter(c *gin.Context) {
 			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
 		return
 	}
-	response := filter.PagedList[dto.Project]{
+	response := filter.PagedList[dto.Blueprint]{
 		PageNumber:      properties.PageNumber,
 		PageSize:        properties.PageSize,
 		TotalRows:       properties.TotalRows,
@@ -211,10 +211,10 @@ func (h *ProjectHandler) GetByFilter(c *gin.Context) {
 	}
 
 	// map usecase response to http response
-	items := []dto.Project{}
+	items := []dto.Blueprint{}
 	for _, item := range *properties.Items {
 
-		items = append(items, dto.ToProjectResponse(item))
+		items = append(items, dto.ToBlueprintResponse(item))
 	}
 	response.Items = &items
 

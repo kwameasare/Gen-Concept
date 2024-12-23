@@ -8,6 +8,8 @@ import (
 type Journey struct {
 	BaseModel
 	ProjectUUID    uuid.UUID       `gorm:"type:uuid;not null"`
+	ProgrammingLanguage enum.ProgrammingLanguage
+	ReturnEntityID string `gorm:"size:150"`
 	EntityJourneys []EntityJourney `gorm:"foreignKey:JourneyID"`
 }
 
@@ -36,7 +38,7 @@ type Operation struct {
 type JourneyStep struct {
 	BaseModel
 	Index           int                       `gorm:"not null"`
-	Type            enum.BackendJourneyStepType `gorm:"type:varchar(50)"`
+	Type            string `gorm:"type:varchar(50)"`
 	Description     string                    `gorm:"size:1000"`
 	FieldsInvolved  []FieldInvolved           `gorm:"foreignKey:JourneyStepID"`
 	Condition       string                    `gorm:"size:1000"`

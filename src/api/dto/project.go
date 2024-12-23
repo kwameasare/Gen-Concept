@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"fmt"
 	"gen-concept-api/enum"
 	"gen-concept-api/usecase/dto"
 
@@ -14,9 +15,79 @@ type Project struct {
 	ProjectType         enum.ProjectType         `json:"projectType"`
 	IsMultiTenant       bool                     `json:"isMultiTenant"`
 	IsMultiLingual      bool                     `json:"isMultiLingual"`
-	ProgrammingLanguage enum.ProgrammingLanguage `json:"programmingLanguage"`
 	Entities            []Entity                 `json:"entities"`
 }
+func (p Project) Validate() error {
+	if p.ProjectName == "" {
+		return fmt.Errorf("project name is required")
+	}
+
+
+	for _, entity := range p.Entities {
+		if err := entity.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (e Entity) Validate() error {
+	if e.EntityName == "" {
+		return fmt.Errorf("entity name is required")
+	}
+
+	for _, field := range e.EntityFields {
+		if err := field.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+func (ef EntityField) Validate() error {
+	if ef.FieldName == "" {
+		return fmt.Errorf("field name is required")
+	}
+
+	if ef.IsCollection {
+		if ef.CollectionType == enum.None{
+			return fmt.Errorf("collection type is required when isCollection is true")
+		}
+		if ef.CollectionItemType == enum.NoType {
+			return fmt.Errorf("collection item type is required when isCollection is true")
+		}
+	}
+
+	if ef.IsEnum {
+		if len(ef.EnumValues) == 0 {
+			return fmt.Errorf("enum values are required when isEnum is true")
+		}
+	}
+
+	if ef.IsDerived {
+		if ef.DerivativeType == enum.NotDerived {
+			return fmt.Errorf("derivative type is required when isDerived is true")
+		}
+		if ef.DerivativeExpression == "" {
+			return fmt.Errorf("derivative expression is required when isDerived is true")
+		}
+	}
+
+	for _, validation := range ef.InputValidations {
+		if err := validation.Validate(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (iv InputValidation) Validate() error {
+	if iv.Description == "" {
+		return fmt.Errorf("description is required")
+	}
+	return nil
+}
+
 
 type Entity struct {
 	EntityName                 string             `json:"entityName"`
@@ -84,7 +155,6 @@ func ToUseCaseProject(from Project) dto.Project {
 		ProjectType:         from.ProjectType,
 		IsMultiTenant:       from.IsMultiTenant,
 		IsMultiLingual:      from.IsMultiLingual,
-		ProgrammingLanguage: from.ProgrammingLanguage,
 		Entities:            ToUsecaseEntities(from.Entities),
 	}
 }
@@ -189,7 +259,6 @@ func ToProjectResponse(from dto.Project) Project {
 		ProjectType:         from.ProjectType,
 		IsMultiTenant:       from.IsMultiTenant,
 		IsMultiLingual:      from.IsMultiLingual,
-		ProgrammingLanguage: from.ProgrammingLanguage,
 		Entities:            ToEntitiesResponse(from.Entities),
 	}
 }

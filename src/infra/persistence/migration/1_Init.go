@@ -55,6 +55,11 @@ func createTables(database *gorm.DB) {
 	tables = addNewTable(database, models.Filter{}, tables)
 	tables = addNewTable(database, models.Sort{}, tables)
 
+	//Blueprint
+	tables = addNewTable(database, models.Blueprint{}, tables)
+	tables = addNewTable(database, models.Functionality{}, tables)
+	tables = addNewTable(database, models.FunctionalOperation{}, tables)
+
 	er := database.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";").Error
 	if er != nil {
 		logger.Error(logging.Postgres, logging.Migration, er.Error(), nil)
