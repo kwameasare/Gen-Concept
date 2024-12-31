@@ -2,24 +2,26 @@ package model
 
 import (
 	"gen-concept-api/enum"
+
+	"github.com/google/uuid"
 )
 
 type Project struct {
 	BaseModel
-	ProjectName         string `gorm:"unique;not null;size:150"`
-	ProjectDescription  string `gorm:"size:1000"`
-	ProjectType         enum.ProjectType `gorm:"type:varchar(20)"`
-	IsMultiTenant       bool
-	IsMultiLingual      bool
-	Entities            []Entity `gorm:"foreignKey:ProjectID"`
+	ProjectName        string          `gorm:"unique;not null;size:150"`
+	ProjectDescription string          `gorm:"size:1000"`
+	ProjectType        enum.ProjectType `gorm:"type:varchar(20)"`
+	IsMultiTenant      bool
+	IsMultiLingual     bool
+	Entities           []Entity `gorm:"foreignKey:ProjectUuid;references:Uuid"`
 }
 
 type Entity struct {
 	BaseModel
 	EntityName                 string `gorm:"not null;size:150"`
 	EntityDescription          string `gorm:"size:1000"`
-	ProjectID                  uint
-	Project					Project  `gorm:"foreignKey:ProjectID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	ProjectUuid                uuid.UUID
+	Project                    Project  `gorm:"foreignKey:ProjectUuid;references:Uuid;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 	ImplementsRBAC             bool
 	IsAuthenticationRequired   bool
 	ImplementsAudit            bool

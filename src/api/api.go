@@ -64,7 +64,7 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 
 		//Project
 		projects := v1.Group("/projects", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
-
+		entities := v1.Group("/entities", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		// Journey
 		journeys := v1.Group("/journeys", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 
@@ -84,7 +84,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 
 		//Project
 		router.Project(projects, cfg)
-
+		// Entity	
+		router.Entity(entities, cfg)
 		// Journey
 		router.Journey(journeys, cfg)
 

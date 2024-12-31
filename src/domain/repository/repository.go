@@ -39,6 +39,10 @@ type JourneyRepository interface {
 type BlueprintRepository interface {
 	BaseRepository[model.Blueprint]
 }
+
+type EntityRepository interface {
+	BaseRepository[model.Entity]
+}
 type UserRepository interface {
 	ExistsMobileNumber(ctx context.Context, mobileNumber string) (bool, error)
 	ExistsUsername(ctx context.Context, username string) (bool, error)

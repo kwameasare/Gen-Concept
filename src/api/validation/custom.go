@@ -2,7 +2,6 @@ package validation
 
 import (
 	"errors"
-
 	"github.com/go-playground/validator/v10"
 )
 
@@ -22,6 +21,7 @@ func GetValidationErrors(err error) *[]ValidationError {
 			el.Property = err.Field()
 			el.Tag = err.Tag()
 			el.Value = err.Param()
+			el.Message = err.Value().(string)
 			validationErrors = append(validationErrors, el)
 		}
 		return &validationErrors
