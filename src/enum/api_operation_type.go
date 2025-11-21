@@ -13,12 +13,13 @@ const (
 	Read
 	Update
 	Delete
-	Custom
+	CustomAPI
 	ReadById
+	BackgroundTask
 )
 
 func (o OperationType) String() string {
-	return [...]string{"CREATE", "READ", "UPDATE", "DELETE", "CUSTOM", "READ_BY_ID"}[o]
+	return [...]string{"CREATE", "READ", "UPDATE", "DELETE", "CUSTOM_API", "READ_BY_ID", "BACKGROUND_TASK"}[o]
 }
 
 func (o OperationType) MarshalJSON() ([]byte, error) {
@@ -40,10 +41,12 @@ func (o *OperationType) UnmarshalJSON(data []byte) error {
 		*o = Update
 	case "DELETE":
 		*o = Delete
-	case "CUSTOM":
-		*o = Custom
+	case "CUSTOM_API":
+		*o = CustomAPI
 	case "READ_BY_ID":
 		*o = ReadById
+	case "BACKGROUND_TASK":
+		*o = BackgroundTask
 	default:
 		return fmt.Errorf("invalid OperationType: %s", opStr)
 	}
@@ -81,10 +84,12 @@ func (o *OperationType) Scan(value interface{}) error {
 		*o = Update
 	case "DELETE":
 		*o = Delete
-	case "CUSTOM":
-		*o = Custom
+	case "CUSTOM_API":
+		*o = CustomAPI
 	case "READ_BY_ID":
 		*o = ReadById
+	case "BACKGROUND_TASK":
+		*o = BackgroundTask
 	default:
 		return fmt.Errorf("invalid OperationType: %s", opStr)
 	}

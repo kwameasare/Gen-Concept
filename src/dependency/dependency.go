@@ -37,9 +37,9 @@ func GetProjectRepository(cfg *config.Config) contractRepository.ProjectReposito
 }
 func GetEntityRepository(cfg *config.Config) contractRepository.EntityRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{
-		 {Entity: "Entities.DependsOnEntities"},
-		  {Entity: "Entities.EntityFields"},
-		   {Entity: "Entities.EntityFields.InputValidations"}}
+		 {Entity: "DependsOnEntities"},
+		  {Entity: "EntityFields"},
+		   {Entity: "EntityFields.InputValidations"}}
 	return infraRepository.NewBaseRepository[model.Entity](cfg, preloads)
 }
 func GetJourneyRepository(cfg *config.Config) contractRepository.JourneyRepository {

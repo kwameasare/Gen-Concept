@@ -9,6 +9,7 @@ type Journey struct {
 	UUID           uuid.UUID       `json:"uuid"`
 	ProjectUUID    uuid.UUID       `json:"projectUUID"`
 	ProgrammingLanguage enum.ProgrammingLanguage `json:"programmingLanguage"`
+	BlueprintID    uuid.UUID          `json:"blueprintId"`
 	EntityJourneys []EntityJourney `json:"entityJourneys"`
 }
 

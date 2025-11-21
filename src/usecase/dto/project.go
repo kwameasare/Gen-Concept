@@ -18,7 +18,7 @@ type Project struct {
 type Entity struct {
 	EntityName                 string             `json:"entityName"`
 	Uuid 					 uuid.UUID
-	ProjectUuid                 uuid.UUID			   `json:"projectId"`
+	ProjectUuid                 uuid.UUID			   `json:"projectUuid"`
 	EntityDescription          string             `json:"entityDescription"`
 	ImplementsRBAC             bool               `json:"implementsRBAC"`
 	IsAuthenticationRequired   bool               `json:"isAuthenticationRequired"`
