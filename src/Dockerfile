@@ -1,4 +1,4 @@
-FROM golang:1.20-buster AS builder
+FROM golang:1.23-bookworm AS builder
 
 WORKDIR /app
 
@@ -9,7 +9,7 @@ COPY . ./
 
 RUN go build -v -o server ./cmd/main.go
 
-FROM debian:buster-slim 
+FROM debian:bookworm-slim 
 RUN set -x && apt-get update && DEBIAN_FRONTEND=noninteractive \
     rm -rf /var/lib/apt/lists/*
 
@@ -21,4 +21,3 @@ ENV APP_ENV docker
 ENV PORT ${Port}
 
 CMD [ "/app/server" ]
- 

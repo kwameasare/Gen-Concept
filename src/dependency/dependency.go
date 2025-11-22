@@ -17,7 +17,6 @@ func GetFileRepository(cfg *config.Config) contractRepository.FileRepository {
 	return infraRepository.NewBaseRepository[model.File](cfg, preloads)
 }
 
-
 func GetPropertyCategoryRepository(cfg *config.Config) contractRepository.PropertyCategoryRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{{Entity: "Properties"}}
 	return infraRepository.NewBaseRepository[model.PropertyCategory](cfg, preloads)
@@ -30,18 +29,25 @@ func GetPropertyRepository(cfg *config.Config) contractRepository.PropertyReposi
 func GetProjectRepository(cfg *config.Config) contractRepository.ProjectRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{
 		{Entity: "Entities"},
-		 {Entity: "Entities.DependsOnEntities"},
-		  {Entity: "Entities.EntityFields"},
-		   {Entity: "Entities.EntityFields.InputValidations"}}
+		{Entity: "Entities.DependsOnEntities"},
+		{Entity: "Entities.EntityFields"},
+		{Entity: "Entities.EntityFields.InputValidations"}}
 	return infraRepository.NewBaseRepository[model.Project](cfg, preloads)
 }
 func GetEntityRepository(cfg *config.Config) contractRepository.EntityRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{
-		 {Entity: "DependsOnEntities"},
-		  {Entity: "EntityFields"},
-		   {Entity: "EntityFields.InputValidations"}}
+		{Entity: "DependsOnEntities"},
+		{Entity: "EntityFields"},
+		{Entity: "EntityFields.InputValidations"}}
 	return infraRepository.NewBaseRepository[model.Entity](cfg, preloads)
 }
+
+func GetEntityFieldRepository(cfg *config.Config) contractRepository.EntityFieldRepository {
+	var preloads []database.PreloadEntity = []database.PreloadEntity{
+		{Entity: "InputValidations"}}
+	return infraRepository.NewBaseRepository[model.EntityField](cfg, preloads)
+}
+
 func GetJourneyRepository(cfg *config.Config) contractRepository.JourneyRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{
 		{Entity: "EntityJourneys"},

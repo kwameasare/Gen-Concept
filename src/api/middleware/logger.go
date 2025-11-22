@@ -72,7 +72,9 @@ func structuredLogger(logger logging.Logger) gin.HandlerFunc {
 			keys[logging.ErrorMessage] = param.ErrorMessage
 			keys[logging.BodySize] = param.BodySize
 			keys[logging.RequestBody] = string(bodyBytes)
-			keys[logging.ResponseBody] = blw.body.String()
+			if !strings.Contains(path, "metrics") {
+				keys[logging.ResponseBody] = blw.body.String()
+			}
 
 			logger.Info(logging.RequestResponse, logging.Api, "", keys)
 		}

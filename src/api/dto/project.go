@@ -5,6 +5,7 @@ import (
 	"gen-concept-api/enum"
 	"gen-concept-api/usecase/dto"
 	"reflect"
+
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
@@ -73,7 +74,6 @@ func (fe *fieldError) Translate(ut ut.Translator) string {
 func (fe *fieldError) Error() string {
 	return fmt.Sprintf("%s %s", fe.field, fe.tag)
 }
-
 
 type Project struct {
 	ProjectName        string           `json:"projectName"`
@@ -169,7 +169,8 @@ func (ef EntityField) Validate() error {
 			validationErrs = append(
 				validationErrs,
 				newFieldError("CollectionItemType", "required", "", "collection item type is required when isCollection is true"),
-			)}
+			)
+		}
 	}
 
 	if ef.IsEnum {
@@ -228,7 +229,7 @@ func (iv InputValidation) Validate() error {
 type Entity struct {
 	EntityName                 string             `json:"entityName"`
 	Uuid                       uuid.UUID          `json:"uuid"`
-	ProjectID                  uuid.UUID             `json:"projectId"`
+	ProjectID                  uuid.UUID          `json:"projectId"`
 	EntityDescription          string             `json:"entityDescription"`
 	ImplementsRBAC             bool               `json:"implementsRBAC"`
 	IsAuthenticationRequired   bool               `json:"isAuthenticationRequired"`
@@ -254,6 +255,7 @@ type DependsOnEntity struct {
 type EntityField struct {
 	FieldName                string                  `json:"fieldName"`
 	Uuid                     uuid.UUID               `json:"uuid"`
+	EntityID                 uuid.UUID               `json:"entityId"`
 	DisplayName              string                  `json:"displayName"`
 	FieldDescription         string                  `json:"fieldDescription"`
 	FieldType                enum.DataType           `json:"fieldType"`
@@ -307,7 +309,7 @@ func ToUsecaseEntities(from []Entity) []dto.Entity {
 func ToUseCaseEntity(from Entity) dto.Entity {
 	return dto.Entity{
 		EntityName:                 from.EntityName,
-		ProjectUuid: 			  from.ProjectID,
+		ProjectUuid:                from.ProjectID,
 		EntityDescription:          from.EntityDescription,
 		ImplementsRBAC:             from.ImplementsRBAC,
 		IsAuthenticationRequired:   from.IsAuthenticationRequired,
@@ -351,6 +353,7 @@ func ToUseCaseEntityFields(from []EntityField) []dto.EntityField {
 func ToUseCaseEntityField(from EntityField) dto.EntityField {
 	return dto.EntityField{
 		FieldName:                from.FieldName,
+		EntityUuid:               from.EntityID,
 		DisplayName:              from.DisplayName,
 		FieldDescription:         from.FieldDescription,
 		FieldType:                from.FieldType,
@@ -413,7 +416,7 @@ func ToEntityResponse(from dto.Entity) Entity {
 	return Entity{
 		EntityName:                 from.EntityName,
 		Uuid:                       from.Uuid,
-		ProjectID: 				from.ProjectUuid,
+		ProjectID:                  from.ProjectUuid,
 		EntityDescription:          from.EntityDescription,
 		ImplementsRBAC:             from.ImplementsRBAC,
 		IsAuthenticationRequired:   from.IsAuthenticationRequired,

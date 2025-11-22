@@ -43,7 +43,7 @@ func (h *EntityHandler) Create(c *gin.Context) {
 			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
 		return
 	}
-	validationError:= request.Validate()
+	validationError := request.Validate()
 	if validationError != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest,
 			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, validationError))

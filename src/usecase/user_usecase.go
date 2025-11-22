@@ -35,9 +35,17 @@ func NewUserUsecase(cfg *config.Config, repository repository.UserRepository) *U
 
 // Login by username
 func (u *UserUsecase) LoginByUsername(ctx context.Context, username string, password string) (*dto.TokenDetail, error) {
+	u.logger.Info(logging.Internal, logging.Api, "LoginByUsername called", map[logging.ExtraKey]interface{}{
+		logging.Username: username,
+	})
+
 	user, err := u.repository.FetchUserInfo(ctx, username, password)
 
 	if err != nil {
+		u.logger.Warn(logging.Internal, logging.Api, "LoginByUsername failed", map[logging.ExtraKey]interface{}{
+			logging.Username:     username,
+			logging.ErrorMessage: err.Error(),
+		})
 		return nil, err
 	}
 	tokenDto := tokenDto{UserId: int(user.ID), FirstName: user.FirstName, LastName: user.LastName,
@@ -54,12 +62,19 @@ func (u *UserUsecase) LoginByUsername(ctx context.Context, username string, pass
 	if err != nil {
 		return nil, err
 	}
+	u.logger.Info(logging.Internal, logging.Api, "LoginByUsername success", map[logging.ExtraKey]interface{}{
+		logging.Username: username,
+	})
 	return token, nil
 
 }
 
 // Register by username
 func (u *UserUsecase) RegisterByUsername(ctx context.Context, req dto.RegisterUserByUsername) error {
+	u.logger.Info(logging.Internal, logging.Api, "RegisterByUsername called", map[logging.ExtraKey]interface{}{
+		logging.Username: req.Username,
+		logging.Email:    req.Email,
+	})
 	user := dto.ToUserModel(req)
 
 	exists, err := u.repository.ExistsEmail(ctx, req.Email)
@@ -85,6 +100,11 @@ func (u *UserUsecase) RegisterByUsername(ctx context.Context, req dto.RegisterUs
 	}
 	user.Password = string(hp)
 	_, err = u.repository.CreateUser(ctx, user)
+	if err == nil {
+		u.logger.Info(logging.Internal, logging.Api, "RegisterByUsername success", map[logging.ExtraKey]interface{}{
+			logging.Username: req.Username,
+		})
+	}
 	return err
 
 }

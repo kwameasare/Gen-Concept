@@ -36,6 +36,11 @@ func NewTokenUsecase(cfg *config.Config) *TokenUsecase {
 }
 
 func (s *TokenUsecase) GenerateToken(token tokenDto) (*dto.TokenDetail, error) {
+	s.logger.Info(logging.Internal, logging.Api, "GenerateToken called", map[logging.ExtraKey]interface{}{
+		logging.UserId:   token.UserId,
+		logging.Username: token.Username,
+	})
+
 	td := &dto.TokenDetail{}
 	td.AccessTokenExpireTime = time.Now().Add(s.cfg.JWT.AccessTokenExpireDuration * time.Minute).Unix()
 	td.RefreshTokenExpireTime = time.Now().Add(s.cfg.JWT.RefreshTokenExpireDuration * time.Minute).Unix()
@@ -72,6 +77,10 @@ func (s *TokenUsecase) GenerateToken(token tokenDto) (*dto.TokenDetail, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	s.logger.Info(logging.Internal, logging.Api, "GenerateToken success", map[logging.ExtraKey]interface{}{
+		logging.UserId: token.UserId,
+	})
 
 	return td, nil
 }

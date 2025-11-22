@@ -55,4 +55,7 @@ const (
 	RequestBody  ExtraKey = "RequestBody"
 	ResponseBody ExtraKey = "ResponseBody"
 	ErrorMessage ExtraKey = "ErrorMessage"
+	UserId       ExtraKey = "UserId"
+	Username     ExtraKey = "Username"
+	Email        ExtraKey = "Email"
 )

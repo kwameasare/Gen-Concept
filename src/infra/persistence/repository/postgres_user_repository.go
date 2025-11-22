@@ -26,6 +26,10 @@ func NewUserRepository(cfg *config.Config) *PostgresUserRepository {
 }
 
 func (r *PostgresUserRepository) CreateUser(ctx context.Context, u model.User) (model.User, error) {
+	r.logger.Info(logging.Postgres, logging.Insert, "CreateUser called", map[logging.ExtraKey]interface{}{
+		logging.Username: u.Username,
+		logging.Email:    u.Email,
+	})
 
 	roleId, err := r.GetDefaultRole(ctx)
 	if err != nil {
@@ -46,10 +50,17 @@ func (r *PostgresUserRepository) CreateUser(ctx context.Context, u model.User) (
 		return u, err
 	}
 	tx.Commit()
+	r.logger.Info(logging.Postgres, logging.Insert, "CreateUser success", map[logging.ExtraKey]interface{}{
+		logging.Username: u.Username,
+		logging.UserId:   u.ID,
+	})
 	return u, nil
 }
 
 func (r *PostgresUserRepository) FetchUserInfo(ctx context.Context, username string, password string) (model.User, error) {
+	r.logger.Info(logging.Postgres, logging.Select, "FetchUserInfo called", map[logging.ExtraKey]interface{}{
+		logging.Username: username,
+	})
 	var user model.User
 	err := r.database.WithContext(ctx).
 		Model(&model.User{}).
@@ -67,6 +78,11 @@ func (r *PostgresUserRepository) FetchUserInfo(ctx context.Context, username str
 	if err != nil {
 		return user, err
 	}
+
+	r.logger.Info(logging.Postgres, logging.Select, "FetchUserInfo success", map[logging.ExtraKey]interface{}{
+		logging.Username: username,
+		logging.UserId:   user.ID,
+	})
 
 	return user, nil
 }

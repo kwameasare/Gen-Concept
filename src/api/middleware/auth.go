@@ -1,13 +1,13 @@
 package middleware
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
 	"gen-concept-api/api/helper"
 	"gen-concept-api/config"
 	constant "gen-concept-api/constant"
+	"gen-concept-api/pkg/logging"
 	"gen-concept-api/pkg/service_errors"
 	"gen-concept-api/usecase"
 
@@ -37,6 +37,11 @@ func Authentication(cfg *config.Config) gin.HandlerFunc {
 			}
 		}
 		if err != nil {
+			// Ensure CORS headers are set even when authentication fails
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+			c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+			c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+
 			c.AbortWithStatusJSON(http.StatusUnauthorized, helper.GenerateBaseResponseWithError(
 				nil, false, helper.AuthError, err,
 			))
@@ -57,14 +62,27 @@ func Authentication(cfg *config.Config) gin.HandlerFunc {
 }
 
 func Authorization(validRoles []string) gin.HandlerFunc {
+	logger := logging.NewLogger(config.GetConfig())
 	return func(c *gin.Context) {
 		if len(c.Keys) == 0 {
+			logger.Warn(logging.Validation, logging.Api, "Authorization failed: no context keys", nil)
+			// Ensure CORS headers are set even when authorization fails
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+			c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+			c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+
 			c.AbortWithStatusJSON(http.StatusForbidden, helper.GenerateBaseResponse(nil, false, helper.ForbiddenError))
 			return
 		}
 		rolesVal := c.Keys[constant.RolesKey]
-		fmt.Println(rolesVal)
+		// fmt.Println(rolesVal)
 		if rolesVal == nil {
+			logger.Warn(logging.Validation, logging.Api, "Authorization failed: no roles in context", nil)
+			// Ensure CORS headers are set even when authorization fails
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+			c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+			c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+
 			c.AbortWithStatusJSON(http.StatusForbidden, helper.GenerateBaseResponse(nil, false, helper.ForbiddenError))
 			return
 		}
@@ -80,6 +98,18 @@ func Authorization(validRoles []string) gin.HandlerFunc {
 				return
 			}
 		}
+
+		logger.Warn(logging.Validation, logging.Api, "Authorization failed: role mismatch", map[logging.ExtraKey]interface{}{
+			"UserRoles":      roles,
+			"RequiredRoles":  validRoles,
+			logging.Username: c.Keys[constant.UsernameKey],
+		})
+
+		// Ensure CORS headers are set even when authorization fails
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
+
 		c.AbortWithStatusJSON(http.StatusForbidden, helper.GenerateBaseResponse(nil, false, helper.ForbiddenError))
 	}
 }

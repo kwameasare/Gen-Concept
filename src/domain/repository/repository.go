@@ -43,6 +43,11 @@ type BlueprintRepository interface {
 type EntityRepository interface {
 	BaseRepository[model.Entity]
 }
+
+type EntityFieldRepository interface {
+	BaseRepository[model.EntityField]
+}
+
 type UserRepository interface {
 	ExistsMobileNumber(ctx context.Context, mobileNumber string) (bool, error)
 	ExistsUsername(ctx context.Context, username string) (bool, error)
@@ -54,4 +59,8 @@ type UserRepository interface {
 
 type RoleRepository interface {
 	BaseRepository[model.Role]
+}
+
+type OrganizationRepository interface {
+	BaseRepository[model.Organization]
 }

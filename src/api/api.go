@@ -31,7 +31,7 @@ func InitServer(cfg *config.Config) {
 	r.Use(middleware.DefaultStructuredLogger(cfg))
 	r.Use(middleware.Cors(cfg))
 	r.Use(middleware.Prometheus())
-	r.Use(gin.Logger(), gin.CustomRecovery(middleware.ErrorHandler) /*middleware.TestMiddleware()*/, middleware.LimitByRequest())
+	r.Use(gin.CustomRecovery(middleware.ErrorHandler) /*middleware.TestMiddleware()*/, middleware.LimitByRequest())
 
 	RegisterRoutes(r, cfg)
 	RegisterSwagger(r, cfg)
@@ -54,6 +54,7 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 
 		// User
 		users := v1.Group("/users")
+		organizations := v1.Group("/organizations")
 
 		// Base
 		files := v1.Group("/files", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
@@ -65,6 +66,7 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		//Project
 		projects := v1.Group("/projects", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		entities := v1.Group("/entities", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+		entityFields := v1.Group("/entity-fields", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		// Journey
 		journeys := v1.Group("/journeys", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 
@@ -74,6 +76,7 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 
 		// User
 		router.User(users, cfg)
+		router.Organization(organizations, cfg)
 
 		// Base
 		router.File(files, cfg)
@@ -84,11 +87,12 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 
 		//Project
 		router.Project(projects, cfg)
-		// Entity	
+		// Entity
 		router.Entity(entities, cfg)
+		// Entity Fields
+		router.EntityField(entityFields, cfg)
 		// Journey
 		router.Journey(journeys, cfg)
-
 
 		r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	}

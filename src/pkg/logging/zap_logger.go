@@ -2,6 +2,8 @@ package logging
 
 import (
 	"fmt"
+	"io"
+	"os"
 	"time"
 
 	"gen-concept-api/config"
@@ -44,14 +46,17 @@ func (l *zapLogger) getLogLevel() zapcore.Level {
 func (l *zapLogger) Init() {
 	once.Do(func() {
 		fileName := fmt.Sprintf("%s%s-%s.%s", l.cfg.Logger.FilePath, time.Now().Format("2006-01-02"), uuid.New(), "log")
-		w := zapcore.AddSync(&lumberjack.Logger{
-			Filename:   fileName,
-			MaxSize:    1,
-			MaxAge:     20,
-			LocalTime:  true,
-			MaxBackups: 5,
-			Compress:   true,
-		})
+		w := zapcore.AddSync(io.MultiWriter(
+			&lumberjack.Logger{
+				Filename:   fileName,
+				MaxSize:    1,
+				MaxAge:     20,
+				LocalTime:  true,
+				MaxBackups: 5,
+				Compress:   true,
+			},
+			os.Stdout,
+		))
 
 		config := zap.NewProductionEncoderConfig()
 		config.EncodeTime = zapcore.ISO8601TimeEncoder

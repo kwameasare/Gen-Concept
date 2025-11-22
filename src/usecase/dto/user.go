@@ -3,10 +3,10 @@ package dto
 import model "gen-concept-api/domain/model"
 
 type TokenDetail struct {
-	AccessToken            string
-	RefreshToken           string
-	AccessTokenExpireTime  int64
-	RefreshTokenExpireTime int64
+	AccessToken            string `json:"accessToken"`
+	RefreshToken           string `json:"refreshToken"`
+	AccessTokenExpireTime  int64  `json:"accessTokenExpireTime"`
+	RefreshTokenExpireTime int64  `json:"refreshTokenExpireTime"`
 }
 
 type RegisterUserByUsername struct {

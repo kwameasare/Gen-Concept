@@ -144,7 +144,7 @@ services:
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
       - "--web.console.templates=/usr/share/prometheus/consoles"
     ports:
-      - 9090:9090
+      - 9091:9090
     links:
       - alertmanager:alertmanager
     networks:
@@ -203,9 +203,9 @@ services:
     image: gen-api:latest
     container_name: genx-api1
     environment:
-      - PORT=9003
+      - PORT=5000
     ports:
-      - 9003:5000
+      - 5005:5000
     networks:
       - webapi_network
     volumes:
@@ -214,22 +214,7 @@ services:
       - postgres
       - elasticsearch
     restart: unless-stopped
-  gen-api2:
-    build: ../src/
-    image: gen-api:latest
-    container_name: genx-api2
-    environment:
-      - PORT=9002
-    ports:
-      - 9002:5000
-    networks:
-      - webapi_network
-    volumes:
-      - logs:/app/logs
-    depends_on:
-      - postgres
-      - elasticsearch
-    restart: unless-stopped
+
 ####################### VOLUME AND NETWORKS #######################
 volumes:
   postgres:
