@@ -463,6 +463,7 @@ func ToEntityFieldResponse(from dto.EntityField) EntityField {
 	return EntityField{
 		FieldName:                from.FieldName,
 		Uuid:                     from.Uuid,
+		EntityID:                 from.EntityUuid,
 		DisplayName:              from.DisplayName,
 		FieldDescription:         from.FieldDescription,
 		FieldType:                from.FieldType,

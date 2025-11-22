@@ -47,6 +47,8 @@ const fieldSchema = z.object({
     isBackendOnly: z.boolean().default(false),
     displayStatus: z.string().default("Show"),
     sampleData: z.string().optional(),
+    collectionItemType: z.string().default("Primitive"),
+    collectionEntity: z.string().optional(),
 });
 
 type FieldFormData = z.infer<typeof fieldSchema>;
@@ -66,6 +68,12 @@ interface Entity {
     preferredDB: string;
     modeOfDBInteraction: string;
     entityFields: EntityField[];
+}
+
+interface Project {
+    uuid: string;
+    projectName: string;
+    entities: Entity[];
 }
 
 interface EntityField {
@@ -89,6 +97,8 @@ interface EntityField {
     isBackendOnly: boolean;
     displayStatus: string;
     sampleData: string;
+    collectionItemType: string;
+    collectionEntity: string;
 }
 
 const FIELD_TYPES = [
@@ -114,14 +124,18 @@ export default function EntityDetailPage() {
     const { projectId, entityId } = useParams<{ projectId: string; entityId: string }>();
     const navigate = useNavigate();
     const [entity, setEntity] = useState<Entity | null>(null);
+    const [project, setProject] = useState<Project | null>(null);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [createEntityOpen, setCreateEntityOpen] = useState(false);
+    const [newEntityName, setNewEntityName] = useState("");
 
     const {
         register,
         handleSubmit,
         reset,
         control,
+        setValue,
         watch,
         formState: { errors },
     } = useForm<FieldFormData>({
@@ -146,12 +160,41 @@ export default function EntityDetailPage() {
             isBackendOnly: false,
             displayStatus: "Show",
             sampleData: "",
+            collectionItemType: "Primitive",
+            collectionEntity: "",
         },
     });
 
     const isEnum = watch("isEnum");
     const isDerived = watch("isDerived");
     const isCollection = watch("isCollection");
+    const collectionItemType = watch("collectionItemType");
+
+    // Mutual exclusivity logic
+    useEffect(() => {
+        const subscription = watch((value, { name }) => {
+            if (name === "isEnum" && value.isEnum) {
+                setValue("isCollection", false);
+                setValue("isDerived", false);
+            } else if (name === "isCollection" && value.isCollection) {
+                setValue("isEnum", false);
+                setValue("isDerived", false);
+            } else if (name === "isDerived" && value.isDerived) {
+                setValue("isEnum", false);
+                setValue("isCollection", false);
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [watch]);
+
+    const fetchProject = async () => {
+        try {
+            const res = await api.get<Project>(`/projects/${projectId}`);
+            setProject(res);
+        } catch (error) {
+            console.error("Failed to fetch project", error);
+        }
+    };
 
     const fetchEntity = async () => {
         try {
@@ -163,10 +206,43 @@ export default function EntityDetailPage() {
     };
 
     useEffect(() => {
+        if (projectId) {
+            fetchProject();
+        }
+    }, [projectId]);
+
+    useEffect(() => {
         if (entityId) {
             fetchEntity();
         }
     }, [entityId]);
+
+    const handleCreateEntity = async () => {
+        if (!newEntityName) return;
+        try {
+            const payload = {
+                entityName: newEntityName,
+                entityDescription: "Ad-hoc entity created from field definition",
+                projectId: projectId,
+                implementsRBAC: false,
+                isAuthenticationRequired: false,
+                implementsAudit: false,
+                implementsChangeManagement: false,
+                isReadOnly: false,
+                isIndependentEntity: true,
+                version: "1.0",
+                isBackendOnly: false,
+                preferredDB: "Postgres",
+                modeOfDBInteraction: "ORM",
+            };
+            await api.post("/entities/", payload);
+            setCreateEntityOpen(false);
+            setNewEntityName("");
+            fetchProject(); // Refresh project to get new entity list
+        } catch (error) {
+            console.error("Failed to create entity", error);
+        }
+    };
 
     const onSubmit = async (data: FieldFormData) => {
         setLoading(true);
@@ -286,7 +362,222 @@ export default function EntityDetailPage() {
                                         />
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="border-t pt-4">
+                                        <h4 className="font-medium mb-4">Data Structure</h4>
+                                        <div className="space-y-4">
+                                            <div className="flex gap-4">
+                                                <div className="flex items-center space-x-2">
+                                                    <Controller
+                                                        name="isEnum"
+                                                        control={control}
+                                                        render={({ field }) => (
+                                                            <Switch
+                                                                id="isEnum"
+                                                                checked={field.value}
+                                                                onCheckedChange={field.onChange}
+                                                            />
+                                                        )}
+                                                    />
+                                                    <Label htmlFor="isEnum">Is Enum</Label>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <Controller
+                                                        name="isCollection"
+                                                        control={control}
+                                                        render={({ field }) => (
+                                                            <Switch
+                                                                id="isCollection"
+                                                                checked={field.value}
+                                                                onCheckedChange={field.onChange}
+                                                            />
+                                                        )}
+                                                    />
+                                                    <Label htmlFor="isCollection">Is Collection</Label>
+                                                </div>
+                                                <div className="flex items-center space-x-2">
+                                                    <Controller
+                                                        name="isDerived"
+                                                        control={control}
+                                                        render={({ field }) => (
+                                                            <Switch
+                                                                id="isDerived"
+                                                                checked={field.value}
+                                                                onCheckedChange={field.onChange}
+                                                            />
+                                                        )}
+                                                    />
+                                                    <Label htmlFor="isDerived">Is Derived</Label>
+                                                </div>
+                                            </div>
+
+                                            {/* Enum Configuration */}
+                                            {isEnum && (
+                                                <div className="space-y-2 p-4 bg-gray-50 rounded-md">
+                                                    <Label htmlFor="enumValues">
+                                                        Enum Values (comma-separated)
+                                                    </Label>
+                                                    <Input
+                                                        id="enumValues"
+                                                        placeholder="active, inactive, pending"
+                                                        {...register("enumValues")}
+                                                    />
+                                                </div>
+                                            )}
+
+                                            {/* Collection Configuration */}
+                                            {isCollection && (
+                                                <div className="space-y-4 p-4 bg-gray-50 rounded-md">
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div className="space-y-2">
+                                                            <Label>Collection Type</Label>
+                                                            <Controller
+                                                                name="collectionType"
+                                                                control={control}
+                                                                render={({ field }) => (
+                                                                    <Select
+                                                                        onValueChange={field.onChange}
+                                                                        defaultValue={field.value}
+                                                                    >
+                                                                        <SelectTrigger>
+                                                                            <SelectValue placeholder="Select type" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            {COLLECTION_TYPES.map((type) => (
+                                                                                <SelectItem key={type} value={type}>
+                                                                                    {type}
+                                                                                </SelectItem>
+                                                                            ))}
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                )}
+                                                            />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <Label>Item Type</Label>
+                                                            <Controller
+                                                                name="collectionItemType"
+                                                                control={control}
+                                                                render={({ field }) => (
+                                                                    <Select
+                                                                        onValueChange={field.onChange}
+                                                                        defaultValue={field.value}
+                                                                    >
+                                                                        <SelectTrigger>
+                                                                            <SelectValue placeholder="Select item type" />
+                                                                        </SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem value="Primitive">Primitive</SelectItem>
+                                                                            <SelectItem value="Entity">Entity</SelectItem>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                )}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    {collectionItemType === "Entity" && (
+                                                        <div className="space-y-2">
+                                                            <Label>Select Entity</Label>
+                                                            <div className="flex gap-2">
+                                                                <Controller
+                                                                    name="collectionEntity"
+                                                                    control={control}
+                                                                    render={({ field }) => (
+                                                                        <Select
+                                                                            onValueChange={field.onChange}
+                                                                            defaultValue={field.value}
+                                                                        >
+                                                                            <SelectTrigger className="flex-1">
+                                                                                <SelectValue placeholder="Select entity" />
+                                                                            </SelectTrigger>
+                                                                            <SelectContent>
+                                                                                {project?.entities?.map((e) => (
+                                                                                    <SelectItem key={e.uuid} value={e.uuid}>
+                                                                                        {e.entityName}
+                                                                                    </SelectItem>
+                                                                                ))}
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                    )}
+                                                                />
+                                                                <Dialog open={createEntityOpen} onOpenChange={setCreateEntityOpen}>
+                                                                    <DialogTrigger asChild>
+                                                                        <Button variant="outline" size="icon">
+                                                                            <Plus className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </DialogTrigger>
+                                                                    <DialogContent>
+                                                                        <DialogHeader>
+                                                                            <DialogTitle>Create New Entity</DialogTitle>
+                                                                            <DialogDescription>
+                                                                                Create a new entity to use in this collection.
+                                                                            </DialogDescription>
+                                                                        </DialogHeader>
+                                                                        <div className="space-y-4 py-4">
+                                                                            <div className="space-y-2">
+                                                                                <Label>Entity Name</Label>
+                                                                                <Input
+                                                                                    value={newEntityName}
+                                                                                    onChange={(e) => setNewEntityName(e.target.value)}
+                                                                                    placeholder="e.g., OrderItem"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <DialogFooter>
+                                                                            <Button onClick={handleCreateEntity}>Create Entity</Button>
+                                                                        </DialogFooter>
+                                                                    </DialogContent>
+                                                                </Dialog>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            {/* Derived Configuration */}
+                                            {isDerived && (
+                                                <div className="space-y-4 p-4 bg-gray-50 rounded-md">
+                                                    <div className="space-y-2">
+                                                        <Label>Derivative Type</Label>
+                                                        <Controller
+                                                            name="derivativeType"
+                                                            control={control}
+                                                            render={({ field }) => (
+                                                                <Select
+                                                                    onValueChange={field.onChange}
+                                                                    defaultValue={field.value}
+                                                                >
+                                                                    <SelectTrigger>
+                                                                        <SelectValue placeholder="Select type" />
+                                                                    </SelectTrigger>
+                                                                    <SelectContent>
+                                                                        {DERIVATIVE_TYPES.map((type) => (
+                                                                            <SelectItem key={type} value={type}>
+                                                                                {type}
+                                                                            </SelectItem>
+                                                                        ))}
+                                                                    </SelectContent>
+                                                                </Select>
+                                                            )}
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label htmlFor="derivativeExpression">
+                                                            Derivative Expression
+                                                        </Label>
+                                                        <Input
+                                                            id="derivativeExpression"
+                                                            placeholder="firstName + ' ' + lastName"
+                                                            {...register("derivativeExpression")}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Field Type - Only show if not Entity Collection */}
+                                    {(!isCollection || collectionItemType === "Primitive") && (
                                         <div className="space-y-2">
                                             <Label>Field Type</Label>
                                             <Controller
@@ -311,7 +602,9 @@ export default function EntityDetailPage() {
                                                 )}
                                             />
                                         </div>
+                                    )}
 
+                                    <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <Label>Display Status</Label>
                                             <Controller
@@ -336,15 +629,14 @@ export default function EntityDetailPage() {
                                                 )}
                                             />
                                         </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="sampleData">Sample Data</Label>
-                                        <Input
-                                            id="sampleData"
-                                            placeholder="john.doe@example.com"
-                                            {...register("sampleData")}
-                                        />
+                                        <div className="space-y-2">
+                                            <Label htmlFor="sampleData">Sample Data</Label>
+                                            <Input
+                                                id="sampleData"
+                                                placeholder="john.doe@example.com"
+                                                {...register("sampleData")}
+                                            />
+                                        </div>
                                     </div>
 
                                     <div className="border-t pt-4">
@@ -433,135 +725,6 @@ export default function EntityDetailPage() {
                                                     )}
                                                 />
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="border-t pt-4">
-                                        <h4 className="font-medium mb-4">Advanced Options</h4>
-                                        <div className="space-y-4">
-                                            <div className="flex items-center justify-between">
-                                                <Label>Is Enum</Label>
-                                                <Controller
-                                                    name="isEnum"
-                                                    control={control}
-                                                    render={({ field }) => (
-                                                        <Switch
-                                                            checked={field.value}
-                                                            onCheckedChange={field.onChange}
-                                                        />
-                                                    )}
-                                                />
-                                            </div>
-
-                                            {isEnum && (
-                                                <div className="space-y-2">
-                                                    <Label htmlFor="enumValues">
-                                                        Enum Values (comma-separated)
-                                                    </Label>
-                                                    <Input
-                                                        id="enumValues"
-                                                        placeholder="active, inactive, pending"
-                                                        {...register("enumValues")}
-                                                    />
-                                                </div>
-                                            )}
-
-                                            <div className="flex items-center justify-between">
-                                                <Label>Is Collection</Label>
-                                                <Controller
-                                                    name="isCollection"
-                                                    control={control}
-                                                    render={({ field }) => (
-                                                        <Switch
-                                                            checked={field.value}
-                                                            onCheckedChange={field.onChange}
-                                                        />
-                                                    )}
-                                                />
-                                            </div>
-
-                                            {isCollection && (
-                                                <div className="space-y-2">
-                                                    <Label>Collection Type</Label>
-                                                    <Controller
-                                                        name="collectionType"
-                                                        control={control}
-                                                        render={({ field }) => (
-                                                            <Select
-                                                                onValueChange={field.onChange}
-                                                                defaultValue={field.value}
-                                                            >
-                                                                <SelectTrigger>
-                                                                    <SelectValue placeholder="Select type" />
-                                                                </SelectTrigger>
-                                                                <SelectContent>
-                                                                    {COLLECTION_TYPES.map((type) => (
-                                                                        <SelectItem key={type} value={type}>
-                                                                            {type}
-                                                                        </SelectItem>
-                                                                    ))}
-                                                                </SelectContent>
-                                                            </Select>
-                                                        )}
-                                                    />
-                                                </div>
-                                            )}
-
-                                            <div className="flex items-center justify-between">
-                                                <Label>Is Derived</Label>
-                                                <Controller
-                                                    name="isDerived"
-                                                    control={control}
-                                                    render={({ field }) => (
-                                                        <Switch
-                                                            checked={field.value}
-                                                            onCheckedChange={field.onChange}
-                                                        />
-                                                    )}
-                                                />
-                                            </div>
-
-                                            {isDerived && (
-                                                <>
-                                                    <div className="space-y-2">
-                                                        <Label>Derivative Type</Label>
-                                                        <Controller
-                                                            name="derivativeType"
-                                                            control={control}
-                                                            render={({ field }) => (
-                                                                <Select
-                                                                    onValueChange={field.onChange}
-                                                                    defaultValue={field.value}
-                                                                >
-                                                                    <SelectTrigger>
-                                                                        <SelectValue placeholder="Select type" />
-                                                                    </SelectTrigger>
-                                                                    <SelectContent>
-                                                                        {DERIVATIVE_TYPES.map((type) => (
-                                                                            <SelectItem
-                                                                                key={type}
-                                                                                value={type}
-                                                                            >
-                                                                                {type}
-                                                                            </SelectItem>
-                                                                        ))}
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            )}
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label htmlFor="derivativeExpression">
-                                                            Derivative Expression
-                                                        </Label>
-                                                        <Input
-                                                            id="derivativeExpression"
-                                                            placeholder="firstName + ' ' + lastName"
-                                                            {...register("derivativeExpression")}
-                                                        />
-                                                    </div>
-                                                </>
-                                            )}
                                         </div>
                                     </div>
 
