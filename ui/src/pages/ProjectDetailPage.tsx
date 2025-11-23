@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { JourneyList } from "@/components/JourneyList";
 
 const entitySchema = z.object({
     entityName: z.string().min(2, "Entity name is required"),
@@ -394,75 +396,94 @@ export default function ProjectDetailPage() {
             </div>
 
             <div className="max-w-7xl mx-auto px-8 py-8">
-                <div className="mb-6">
-                    <h2 className="text-xl font-semibold">Entities</h2>
-                    <p className="text-sm text-muted-foreground">
-                        Manage the entities in your project
-                    </p>
-                </div>
+                <Tabs defaultValue="entities" className="space-y-6">
+                    <TabsList>
+                        <TabsTrigger value="entities">Entities</TabsTrigger>
+                        <TabsTrigger value="journeys">Journeys</TabsTrigger>
+                    </TabsList>
 
-                {project.entities && project.entities.length > 0 ? (
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {project.entities.map((entity) => (
-                            <Card
-                                key={entity.uuid}
-                                className="hover:shadow-md transition-shadow cursor-pointer"
-                                onClick={() => navigate(`/projects/${id}/entities/${entity.uuid}`)}
-                            >
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-lg font-medium">
-                                        {entity.entityName}
-                                    </CardTitle>
-                                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-                                        <Button variant="ghost" size="sm">
-                                            <Edit className="h-4 w-4" />
-                                        </Button>
-                                        <Button variant="ghost" size="sm">
-                                            <Trash2 className="h-4 w-4 text-red-500" />
-                                        </Button>
-                                    </div>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-sm text-muted-foreground mb-4">
-                                        {entity.entityDescription || "No description"}
-                                    </p>
-                                    <div className="flex flex-wrap gap-1">
-                                        <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
-                                            {entity.preferredDB}
-                                        </span>
-                                        <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700">
-                                            {entity.modeOfDBInteraction}
-                                        </span>
-                                        {entity.implementsRBAC && (
-                                            <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
-                                                RBAC
-                                            </span>
-                                        )}
-                                        {entity.isAuthenticationRequired && (
-                                            <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700">
-                                                Auth
-                                            </span>
-                                        )}
-                                        {entity.implementsAudit && (
-                                            <span className="inline-flex items-center rounded-full bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700">
-                                                Audit
-                                            </span>
-                                        )}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                ) : (
-                    <Card className="p-12 text-center">
-                        <div className="text-muted-foreground">
-                            <p className="mb-4">No entities yet</p>
-                            <Button onClick={() => setOpen(true)}>
-                                <Plus className="mr-2 h-4 w-4" /> Create your first entity
-                            </Button>
+                    <TabsContent value="entities" className="space-y-6">
+                        <div className="mb-6">
+                            <h2 className="text-xl font-semibold">Entities</h2>
+                            <p className="text-sm text-muted-foreground">
+                                Manage the entities in your project
+                            </p>
                         </div>
-                    </Card>
-                )}
+
+                        {project.entities && project.entities.length > 0 ? (
+                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                {project.entities.map((entity) => (
+                                    <Card
+                                        key={entity.uuid}
+                                        className="hover:shadow-md transition-shadow cursor-pointer"
+                                        onClick={() => navigate(`/projects/${id}/entities/${entity.uuid}`)}
+                                    >
+                                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                            <CardTitle className="text-lg font-medium">
+                                                {entity.entityName}
+                                            </CardTitle>
+                                            <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                                                <Button variant="ghost" size="sm">
+                                                    <Edit className="h-4 w-4" />
+                                                </Button>
+                                                <Button variant="ghost" size="sm">
+                                                    <Trash2 className="h-4 w-4 text-red-500" />
+                                                </Button>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="text-sm text-muted-foreground mb-4">
+                                                {entity.entityDescription || "No description"}
+                                            </p>
+                                            <div className="flex flex-wrap gap-1">
+                                                <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                                                    {entity.preferredDB}
+                                                </span>
+                                                <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700">
+                                                    {entity.modeOfDBInteraction}
+                                                </span>
+                                                {entity.implementsRBAC && (
+                                                    <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
+                                                        RBAC
+                                                    </span>
+                                                )}
+                                                {entity.isAuthenticationRequired && (
+                                                    <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700">
+                                                        Auth
+                                                    </span>
+                                                )}
+                                                {entity.implementsAudit && (
+                                                    <span className="inline-flex items-center rounded-full bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700">
+                                                        Audit
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        ) : (
+                            <Card className="p-12 text-center">
+                                <div className="text-muted-foreground">
+                                    <p className="mb-4">No entities yet</p>
+                                    <Button onClick={() => setOpen(true)}>
+                                        <Plus className="mr-2 h-4 w-4" /> Create your first entity
+                                    </Button>
+                                </div>
+                            </Card>
+                        )}
+                    </TabsContent>
+
+                    <TabsContent value="journeys">
+                        <div className="mb-6">
+                            <h2 className="text-xl font-semibold">Journeys</h2>
+                            <p className="text-sm text-muted-foreground">
+                                Manage the journeys and workflows for your project
+                            </p>
+                        </div>
+                        <JourneyList projectId={id!} />
+                    </TabsContent>
+                </Tabs>
             </div>
         </div>
     );

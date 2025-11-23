@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import ReactFlow, {
     ReactFlowProvider,
     addEdge,
@@ -11,7 +12,7 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import { Button } from "@/components/ui/button";
-import { Save } from "lucide-react";
+import { Save, ArrowLeft } from "lucide-react";
 
 const initialNodes = [
     {
@@ -26,6 +27,8 @@ let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 export default function JourneyBuilderPage() {
+    const { projectId } = useParams<{ projectId: string }>();
+    const navigate = useNavigate();
     const reactFlowWrapper = useRef<HTMLDivElement>(null);
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -71,7 +74,12 @@ export default function JourneyBuilderPage() {
     return (
         <div className="h-screen flex flex-col">
             <header className="h-14 border-b flex items-center justify-between px-6 bg-white z-10">
-                <h1 className="font-semibold">Journey Builder</h1>
+                <div className="flex items-center gap-4">
+                    <Button variant="ghost" size="sm" onClick={() => navigate(`/projects/${projectId}`)}>
+                        <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                    </Button>
+                    <h1 className="font-semibold">Journey Builder</h1>
+                </div>
                 <Button size="sm">
                     <Save className="w-4 h-4 mr-2" /> Save Journey
                 </Button>

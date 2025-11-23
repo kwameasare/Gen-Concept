@@ -49,17 +49,7 @@ func GetEntityFieldRepository(cfg *config.Config) contractRepository.EntityField
 }
 
 func GetJourneyRepository(cfg *config.Config) contractRepository.JourneyRepository {
-	var preloads []database.PreloadEntity = []database.PreloadEntity{
-		{Entity: "EntityJourneys"},
-		{Entity: "EntityJourneys.Operations"},
-		{Entity: "EntityJourneys.Operations.BackendJourney"},
-		{Entity: "EntityJourneys.Operations.BackendJourney.FieldsInvolved"},
-		{Entity: "EntityJourneys.Operations.BackendJourney.RetryConditions"},
-		{Entity: "EntityJourneys.Operations.BackendJourney.ResponseActions"},
-		{Entity: "EntityJourneys.Operations.Filters"},
-		{Entity: "EntityJourneys.Operations.Sort"},
-	}
-	return infraRepository.NewBaseRepository[model.Journey](cfg, preloads)
+	return infraRepository.NewJourneyRepository(cfg)
 }
 func GetBlueprintRepository(cfg *config.Config) contractRepository.BlueprintRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{

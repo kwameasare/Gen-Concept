@@ -4,6 +4,7 @@ import OnboardingPage from "./pages/OnboardingPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProjectDetailPage from "./pages/ProjectDetailPage";
 import EntityDetailPage from "./pages/EntityDetailPage";
+import JourneyBuilderPage from "./pages/JourneyBuilderPage";
 
 function App() {
     return (
@@ -14,6 +15,7 @@ function App() {
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/projects/:id" element={<ProjectDetailPage />} />
                 <Route path="/projects/:projectId/entities/:entityId" element={<EntityDetailPage />} />
+                <Route path="/projects/:projectId/journeys/builder" element={<JourneyBuilderPage />} />
                 <Route path="/" element={<Navigate to="/login" replace />} />
             </Routes>
         </BrowserRouter>

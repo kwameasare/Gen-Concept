@@ -8,9 +8,11 @@ import (
 )
 
 type Journey struct {
-	UUID           uuid.UUID       `json:"uuid"`
-	ProjectUUID    uuid.UUID       `json:"projectUUID"`
-	EntityJourneys []EntityJourney `json:"entityJourneys"`
+	UUID                uuid.UUID                `json:"uuid"`
+	ProjectUUID         uuid.UUID                `json:"projectUUid"`
+	ProgrammingLanguage enum.ProgrammingLanguage `json:"programmingLanguage"`
+	BlueprintID         uuid.UUID                `json:"blueprintId"`
+	EntityJourneys      []EntityJourney          `json:"entityJourneys"`
 }
 
 type EntityJourney struct {
@@ -67,24 +69,23 @@ type RetryCondition struct {
 }
 
 type ResponseAction struct {
-	UUID           uuid.UUID               `json:"uuid"`
-	Index          int                     `json:"index"`
-	Type           enum.ResponseActionType `json:"type"`
-	FieldID        string                  `json:"fieldId,omitempty"`
-	Value          string                  `json:"value,omitempty"`
-	Description    string                  `json:"description,omitempty"`
-	FieldsInvolved []ResFieldInvolved      `json:"fieldsInvolved,omitempty"`
-	Condition      string                  `json:"condition,omitempty"`
-	AbortOnFail    bool                    `json:"abortOnFail,omitempty"`
-	Error          string                  `json:"error,omitempty"`
+	UUID                 uuid.UUID               `json:"uuid"`
+	Index                int                     `json:"index"`
+	Type                 enum.ResponseActionType `json:"type"`
+	FieldID              string                  `json:"fieldId,omitempty"`
+	Value                string                  `json:"value,omitempty"`
+	Description          string                  `json:"description,omitempty"`
+	FieldsInvolved       []ResFieldInvolved      `json:"fieldsInvolved,omitempty"`
+	Condition            string                  `json:"condition,omitempty"`
+	AbortOnFail          bool                    `json:"abortOnFail,omitempty"`
+	Error                string                  `json:"error,omitempty"`
+	NestedResponseAction *ResponseAction         `json:"nestedResponseAction,omitempty"`
 }
 type ResFieldInvolved struct {
-	UUID             uuid.UUID `json:"uuid"`
-	ID               string    `gorm:"not null;size:150"`
-	Name             string    `gorm:"not null;size:150"`
-	Source           string    `gorm:"size:150"`
-	ResponseActionID uint
-	ResponseAction   ResponseAction `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	UUID   uuid.UUID `json:"uuid"`
+	ID     string    `json:"id"`
+	Name   string    `json:"name"`
+	Source string    `json:"source,omitempty"`
 }
 type Filter struct {
 	UUID     uuid.UUID         `json:"uuid"`
@@ -111,6 +112,8 @@ type Sort struct {
 func (j *Journey) FromUsecaseJourneyDTO(ucJourney *dto.Journey) {
 	j.UUID = ucJourney.UUID
 	j.ProjectUUID = ucJourney.ProjectUUID
+	j.ProgrammingLanguage = ucJourney.ProgrammingLanguage
+	j.BlueprintID = ucJourney.BlueprintID
 	for _, ucEntityJourney := range ucJourney.EntityJourneys {
 		var entityJourney EntityJourney
 		entityJourney.FromUsecaseEntityJourneyDTO(&ucEntityJourney)
@@ -222,6 +225,11 @@ func (ra *ResponseAction) FromUsecaseResponseActionDTO(ucResponseAction *dto.Res
 		fieldInvolved.FromUsecaseResponseActionFieldInvolvedDTO(&ucFieldInvolved)
 		ra.FieldsInvolved = append(ra.FieldsInvolved, fieldInvolved)
 	}
+	if ucResponseAction.NestedResponseAction != nil {
+		var nestedResponseAction ResponseAction
+		nestedResponseAction.FromUsecaseResponseActionDTO(ucResponseAction.NestedResponseAction)
+		ra.NestedResponseAction = &nestedResponseAction
+	}
 }
 
 func (f *Filter) FromUsecaseFilterDTO(ucFilter *dto.Filter) {
@@ -256,8 +264,10 @@ func (s *Sort) FromUsecaseSortDTO(ucSort *dto.Sort) {
 
 func (j *Journey) ToUsecaseJourneyDTO() *dto.Journey {
 	ucJourney := &dto.Journey{
-		UUID:        j.UUID,
-		ProjectUUID: j.ProjectUUID,
+		UUID:                j.UUID,
+		ProjectUUID:         j.ProjectUUID,
+		ProgrammingLanguage: j.ProgrammingLanguage,
+		BlueprintID:         j.BlueprintID,
 	}
 	for _, entityJourney := range j.EntityJourneys {
 		ucEntityJourney := entityJourney.ToUsecaseEntityJourneyDTO()
@@ -377,6 +387,10 @@ func (ra *ResponseAction) ToUsecaseResponseActionDTO() *dto.ResponseAction {
 	for _, fieldInvolved := range ra.FieldsInvolved {
 		ucFieldInvolved := fieldInvolved.ToUsecaseResFieldInvolvedDTO()
 		ucResponseAction.FieldsInvolved = append(ucResponseAction.FieldsInvolved, *ucFieldInvolved)
+	}
+	if ra.NestedResponseAction != nil {
+		ucNestedResponseAction := ra.NestedResponseAction.ToUsecaseResponseActionDTO()
+		ucResponseAction.NestedResponseAction = ucNestedResponseAction
 	}
 	return ucResponseAction
 }
