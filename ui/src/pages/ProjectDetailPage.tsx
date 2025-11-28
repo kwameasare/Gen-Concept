@@ -79,6 +79,8 @@ export default function ProjectDetailPage() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [project, setProject] = useState<Project | null>(null);
+    const [loadingProject, setLoadingProject] = useState(true);
+    const [projectError, setProjectError] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -107,11 +109,19 @@ export default function ProjectDetailPage() {
     });
 
     const fetchProject = async () => {
+        setLoadingProject(true);
+        setProjectError(null);
         try {
             const res = await api.get<Project>(`/projects/${id}`);
             setProject(res);
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to fetch project", error);
+            const errorMsg = error.response?.status === 429
+                ? "Too many requests. Please wait a moment and try again."
+                : "Failed to load project. Please try again.";
+            setProjectError(errorMsg);
+        } finally {
+            setLoadingProject(false);
         }
     };
 
@@ -139,10 +149,34 @@ export default function ProjectDetailPage() {
         }
     };
 
+    if (loadingProject) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="text-muted-foreground">Loading project...</div>
+            </div>
+        );
+    }
+
+    if (projectError) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="text-center space-y-4">
+                    <p className="text-red-500">{projectError}</p>
+                    <div className="space-x-2">
+                        <Button onClick={fetchProject}>Retry</Button>
+                        <Button variant="outline" onClick={() => navigate("/dashboard")}>
+                            Back to Dashboard
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (!project) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-muted-foreground">Loading...</div>
+                <div className="text-muted-foreground">Project not found</div>
             </div>
         );
     }

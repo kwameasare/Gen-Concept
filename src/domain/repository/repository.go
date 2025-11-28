@@ -34,6 +34,7 @@ type ProjectRepository interface {
 
 type JourneyRepository interface {
 	BaseRepository[model.Journey]
+	UpdateJourney(ctx context.Context, journey *model.Journey) (*model.Journey, error)
 }
 
 type BlueprintRepository interface {

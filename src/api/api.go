@@ -69,6 +69,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		entityFields := v1.Group("/entity-fields", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		// Journey
 		journeys := v1.Group("/journeys", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+		// Blueprints
+		blueprints := v1.Group("/blueprints", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 
 		// Test
 		router.Health(health)
@@ -93,6 +95,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		router.EntityField(entityFields, cfg)
 		// Journey
 		router.Journey(journeys, cfg)
+		// Blueprints
+		router.Blueprint(blueprints, cfg)
 
 		r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	}

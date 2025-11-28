@@ -41,4 +41,10 @@ export const api = {
             body: JSON.stringify(body),
         }),
     get: <T>(endpoint: string) => request<T>(endpoint, { method: "GET" }),
+    put: <T>(endpoint: string, body: any) =>
+        request<T>(endpoint, {
+            method: "PUT",
+            body: JSON.stringify(body),
+        }),
+    delete: <T>(endpoint: string) => request<T>(endpoint, { method: "DELETE" }),
 };

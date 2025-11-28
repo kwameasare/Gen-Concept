@@ -79,6 +79,11 @@ export function JourneyList({ projectId }: JourneyListProps) {
 
     return (
         <div className="space-y-6">
+            <div className="flex justify-end mb-4">
+                <Button onClick={() => navigate(`/projects/${projectId}/journeys/builder`)}>
+                    <Edit className="mr-2 h-4 w-4" /> Edit Journey
+                </Button>
+            </div>
             {journeys.map((journey) => (
                 <div key={journey.uuid} className="space-y-4">
                     {journey.entityJourneys?.map((ej) => (

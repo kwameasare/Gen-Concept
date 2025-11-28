@@ -9,9 +9,8 @@ import (
 
 type Journey struct {
 	UUID                uuid.UUID                `json:"uuid"`
-	ProjectUUID         uuid.UUID                `json:"projectUUid"`
+	ProjectUUID         uuid.UUID                `json:"projectUuid"`
 	ProgrammingLanguage enum.ProgrammingLanguage `json:"programmingLanguage"`
-	BlueprintID         uuid.UUID                `json:"blueprintId"`
 	EntityJourneys      []EntityJourney          `json:"entityJourneys"`
 }
 
@@ -113,7 +112,7 @@ func (j *Journey) FromUsecaseJourneyDTO(ucJourney *dto.Journey) {
 	j.UUID = ucJourney.UUID
 	j.ProjectUUID = ucJourney.ProjectUUID
 	j.ProgrammingLanguage = ucJourney.ProgrammingLanguage
-	j.BlueprintID = ucJourney.BlueprintID
+	j.ProgrammingLanguage = ucJourney.ProgrammingLanguage
 	for _, ucEntityJourney := range ucJourney.EntityJourneys {
 		var entityJourney EntityJourney
 		entityJourney.FromUsecaseEntityJourneyDTO(&ucEntityJourney)
@@ -267,7 +266,6 @@ func (j *Journey) ToUsecaseJourneyDTO() *dto.Journey {
 		UUID:                j.UUID,
 		ProjectUUID:         j.ProjectUUID,
 		ProgrammingLanguage: j.ProgrammingLanguage,
-		BlueprintID:         j.BlueprintID,
 	}
 	for _, entityJourney := range j.EntityJourneys {
 		ucEntityJourney := entityJourney.ToUsecaseEntityJourneyDTO()

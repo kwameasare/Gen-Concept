@@ -85,6 +85,7 @@ func (h *JourneyHandler) Update(c *gin.Context) {
 	request := new(dto.Journey)
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
+		logger.Errorf("Error binding request: %v", err)
 		c.AbortWithStatusJSON(http.StatusBadRequest,
 			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
 		return

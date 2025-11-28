@@ -29,14 +29,19 @@ func (w bodyLogWriter) WriteString(s string) (int, error) {
 
 func DefaultStructuredLogger(cfg *config.Config) gin.HandlerFunc {
 	logger := logging.NewLogger(cfg)
-	return structuredLogger(logger)
+	return structuredLogger(logger, cfg)
 }
 
-func structuredLogger(logger logging.Logger) gin.HandlerFunc {
+func structuredLogger(logger logging.Logger, cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if strings.Contains(c.FullPath(), "swagger") {
 			c.Next()
+		} else if strings.Contains(c.Request.URL.Path, "metrics") {
+			// Skip logging for metrics
+			c.Next()
 		} else {
+			// Debug print
+			// fmt.Printf("DEBUG: Path=%s FullPath=%s\n", c.Request.URL.Path, c.FullPath())
 			blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 			start := time.Now() // start
 			path := c.FullPath()

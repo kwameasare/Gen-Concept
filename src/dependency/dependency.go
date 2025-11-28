@@ -52,11 +52,7 @@ func GetJourneyRepository(cfg *config.Config) contractRepository.JourneyReposito
 	return infraRepository.NewJourneyRepository(cfg)
 }
 func GetBlueprintRepository(cfg *config.Config) contractRepository.BlueprintRepository {
-	var preloads []database.PreloadEntity = []database.PreloadEntity{
-		{Entity: "Functionality"},
-		{Entity: "Functionality.FunctionalOperation"},
-	}
-	return infraRepository.NewBaseRepository[model.Blueprint](cfg, preloads)
+	return infraRepository.NewBlueprintRepository(cfg)
 }
 
 func GetRoleRepository(cfg *config.Config) contractRepository.RoleRepository {

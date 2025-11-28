@@ -10,7 +10,8 @@ import (
 )
 
 func LimitByRequest() gin.HandlerFunc {
-	lmt := tollbooth.NewLimiter(1, nil)
+	// Increased from 1 to 100 requests per second for development
+	lmt := tollbooth.NewLimiter(100, nil)
 	return func(c *gin.Context) {
 		err := tollbooth.LimitByRequest(lmt, c.Writer, c.Request)
 		if err != nil {
