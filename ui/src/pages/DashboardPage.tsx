@@ -30,6 +30,7 @@ import BlueprintForm from "@/components/BlueprintForm";
 import type { BlueprintFormData } from "@/components/BlueprintForm";
 import type { Blueprint } from "@/types/blueprint";
 import { useNavigate } from "react-router-dom";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const projectSchema = z.object({
     projectName: z.string().min(2, "Project name is required"),
@@ -153,13 +154,16 @@ export default function DashboardPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
+        <div className="min-h-screen bg-background p-8">
             <div className="max-w-6xl mx-auto space-y-8">
-                <div>
-                    <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-                    <p className="text-muted-foreground">
-                        Manage your enterprise projects and blueprints.
-                    </p>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+                        <p className="text-muted-foreground">
+                            Manage your enterprise projects and blueprints.
+                        </p>
+                    </div>
+                    <ThemeToggle />
                 </div>
 
                 <Tabs defaultValue="projects" className="w-full">
