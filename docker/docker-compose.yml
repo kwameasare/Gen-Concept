@@ -215,6 +215,18 @@ services:
       - elasticsearch
     restart: unless-stopped
 
+  gen-ui:
+    build: ../ui/
+    image: gen-ui:latest
+    container_name: genx-ui
+    ports:
+      - 2025:80
+    networks:
+      - webapi_network
+    depends_on:
+      - gen-api1
+    restart: unless-stopped
+
 ####################### VOLUME AND NETWORKS #######################
 volumes:
   postgres:

@@ -24,3 +24,5 @@ go.work
 *.log.gz
 __debug_bin
 */cmd/uploads
+node_modules/
+ui/node_modules/

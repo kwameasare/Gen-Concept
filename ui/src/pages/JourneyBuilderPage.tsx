@@ -179,7 +179,7 @@ export default function JourneyBuilderPage() {
         setEdges(newEdges);
     }, [setNodes, setEdges]);
 
-    const handleOperationSelect = (entityId: string, op: Operation) => {
+    const handleOperationSelect = (_entityId: string, op: Operation) => {
         setSelectedOperationId(op.uuid);
         setSelectedNode(null);
         loadOperationFlow(op);
