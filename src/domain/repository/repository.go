@@ -39,6 +39,8 @@ type JourneyRepository interface {
 
 type BlueprintRepository interface {
 	BaseRepository[model.Blueprint]
+	CreateWithRelationships(ctx context.Context, blueprint model.Blueprint) (model.Blueprint, error)
+	UpdateWithRelationships(ctx context.Context, uuid uuid.UUID, blueprint model.Blueprint) (model.Blueprint, error)
 }
 
 type EntityRepository interface {
@@ -64,4 +66,8 @@ type RoleRepository interface {
 
 type OrganizationRepository interface {
 	BaseRepository[model.Organization]
+}
+
+type LibraryRepository interface {
+	BaseRepository[model.Library]
 }

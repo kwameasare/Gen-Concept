@@ -1,0 +1,27 @@
+package model
+
+type Library struct {
+	BaseModel
+	Name                   string                 `gorm:"size:255;uniqueIndex" json:"standardName"`
+	Version                string                 `gorm:"size:50" json:"version"`
+	Description            string                 `gorm:"size:1000" json:"description"`
+	RepositoryURL          string                 `gorm:"size:500" json:"repositoryURL"`
+	Namespace              string                 `gorm:"size:255" json:"namespace"`
+	ExposedFunctionalities []LibraryFunctionality `gorm:"foreignKey:LibraryID" json:"exposedFunctionalities"`
+	Blueprints             []Blueprint            `gorm:"many2many:blueprint_libraries" json:"blueprints,omitempty"`
+}
+
+type LibraryFunctionality struct {
+	BaseModel
+	Name        string `gorm:"size:255" json:"name"`
+	Type        string `gorm:"size:100" json:"type"` // Utility, Service, Helper, etc.
+	Description string `gorm:"size:1000" json:"description"`
+	LibraryID   uint   `json:"libraryID"`
+}
+
+type BlueprintLibrary struct {
+	BaseModel
+	BlueprintID     uint   `json:"blueprintID"`
+	LibraryID       uint   `json:"libraryID"`
+	RequiredVersion string `gorm:"size:50" json:"requiredVersion"` // Which version this blueprint requires
+}

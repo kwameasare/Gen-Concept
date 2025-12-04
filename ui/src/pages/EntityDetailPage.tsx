@@ -267,15 +267,15 @@ export default function EntityDetailPage() {
 
     if (!entity) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="text-muted-foreground">Loading...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="border-b bg-white">
+        <div className="min-h-screen bg-background">
+            <div className="border-b bg-card">
                 <div className="max-w-7xl mx-auto px-8 py-6">
                     <div className="flex items-center gap-4 mb-4">
                         <Button
@@ -412,7 +412,7 @@ export default function EntityDetailPage() {
 
                                             {/* Enum Configuration */}
                                             {isEnum && (
-                                                <div className="space-y-2 p-4 bg-gray-50 rounded-md">
+                                                <div className="space-y-2 p-4 bg-muted rounded-md">
                                                     <Label htmlFor="enumValues">
                                                         Enum Values (comma-separated)
                                                     </Label>
@@ -426,7 +426,7 @@ export default function EntityDetailPage() {
 
                                             {/* Collection Configuration */}
                                             {isCollection && (
-                                                <div className="space-y-4 p-4 bg-gray-50 rounded-md">
+                                                <div className="space-y-4 p-4 bg-muted rounded-md">
                                                     <div className="grid grid-cols-2 gap-4">
                                                         <div className="space-y-2">
                                                             <Label>Collection Type</Label>
@@ -536,7 +536,7 @@ export default function EntityDetailPage() {
 
                                             {/* Derived Configuration */}
                                             {isDerived && (
-                                                <div className="space-y-4 p-4 bg-gray-50 rounded-md">
+                                                <div className="space-y-4 p-4 bg-muted rounded-md">
                                                     <div className="space-y-2">
                                                         <Label>Derivative Type</Label>
                                                         <Controller
@@ -796,7 +796,7 @@ export default function EntityDetailPage() {
                                             </span>
                                         )}
                                         {field.isReadOnly && (
-                                            <span className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-700">
+                                            <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground">
                                                 Read-only
                                             </span>
                                         )}

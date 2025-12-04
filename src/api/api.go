@@ -71,6 +71,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		journeys := v1.Group("/journeys", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		// Blueprints
 		blueprints := v1.Group("/blueprints", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+		// Libraries
+		libraries := v1.Group("/libraries", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 
 		// Test
 		router.Health(health)
@@ -97,6 +99,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		router.Journey(journeys, cfg)
 		// Blueprints
 		router.Blueprint(blueprints, cfg)
+		// Libraries
+		router.Library(libraries, cfg)
 
 		r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,8 +16,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
-import type { Blueprint } from "@/types/blueprint";
-import { useState } from "react";
+import type { Blueprint, Library } from "@/types/blueprint";
+import { api } from "@/lib/api";
 import {
     FUNCTIONALITY_CATEGORIES,
     FUNCTIONALITY_TYPES,
@@ -40,11 +40,21 @@ const functionalitySchema = z.object({
     operations: z.array(functionalOperationSchema).default([]),
 });
 
+const libraryReferenceSchema = z.object({
+    uuid: z.string(),
+    standardName: z.string(),
+    version: z.string(),
+    namespace: z.string().optional(),
+    repositoryURL: z.string().optional(),
+    exposedFunctionalities: z.array(z.any()).optional(),
+});
+
 const blueprintSchema = z.object({
     standardName: z.string().min(2, "Blueprint name is required"),
     type: z.string().min(1, "Type is required"),
     description: z.string().optional(),
     functionalities: z.array(functionalitySchema).default([]),
+    libraries: z.array(libraryReferenceSchema).default([]),
 });
 
 export type BlueprintFormData = z.infer<typeof blueprintSchema>;
@@ -75,8 +85,27 @@ export default function BlueprintForm({
             type: "",
             description: "",
             functionalities: [],
+            libraries: [],
         },
     });
+
+    const [availableLibraries, setAvailableLibraries] = useState<Library[]>([]);
+
+    useEffect(() => {
+        fetchLibraries();
+    }, []);
+
+    const fetchLibraries = async () => {
+        try {
+            const response: any = await api.post("/libraries/get-by-filter", {
+                pageNumber: 1,
+                pageSize: 100,
+            });
+            setAvailableLibraries(response.items || []);
+        } catch (error) {
+            console.error("Error fetching libraries:", error);
+        }
+    };
 
     const {
         fields: functionalities,
@@ -85,6 +114,15 @@ export default function BlueprintForm({
     } = useFieldArray({
         control,
         name: "functionalities",
+    });
+
+    const {
+        fields: libraries,
+        append: appendLibrary,
+        remove: removeLibrary,
+    } = useFieldArray({
+        control,
+        name: "libraries",
     });
 
     const [expandedFunctionalities, setExpandedFunctionalities] = useState<Set<number>>(
@@ -187,6 +225,83 @@ export default function BlueprintForm({
                         onRemove={() => removeFunctionality(funcIndex)}
                     />
                 ))}
+            </div>
+
+            {/* Libraries Section */}
+            <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">Internal Libraries</h3>
+                    <div className="flex gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => window.open("/libraries", "_blank")}
+                        >
+                            Manage Libraries
+                        </Button>
+                        <Select
+                            value=""
+                            onValueChange={(libraryUuid) => {
+                                if (libraryUuid === "none") return;
+                                const selected = availableLibraries.find((lib) => lib.uuid === libraryUuid);
+                                if (selected && !libraries.find((l) => l.uuid === selected.uuid)) {
+                                    appendLibrary(selected);
+                                }
+                            }}
+                        >
+                            <SelectTrigger className="w-[200px]">
+                                <SelectValue placeholder="Add Library" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {availableLibraries.length === 0 ? (
+                                    <SelectItem value="none" disabled>
+                                        No libraries found
+                                    </SelectItem>
+                                ) : availableLibraries.filter(
+                                    (lib) => !libraries.find((l) => l.uuid === lib.uuid)
+                                ).length === 0 ? (
+                                    <SelectItem value="none" disabled>
+                                        All libraries added
+                                    </SelectItem>
+                                ) : (
+                                    availableLibraries
+                                        .filter((lib) => !libraries.find((l) => l.uuid === lib.uuid))
+                                        .map((lib) => (
+                                            <SelectItem key={lib.uuid} value={lib.uuid}>
+                                                {lib.standardName} ({lib.version})
+                                            </SelectItem>
+                                        ))
+                                )}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+
+                {libraries.length > 0 && (
+                    <div className="grid gap-4">
+                        {libraries.map((library, index) => (
+                            <Card key={library.id}>
+                                <CardContent className="pt-4 flex items-center justify-between">
+                                    <div>
+                                        <p className="font-medium">{library.standardName}</p>
+                                        <p className="text-sm text-muted-foreground">
+                                            Version {library.version} • {library.namespace}
+                                        </p>
+                                    </div>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => removeLibrary(index)}
+                                    >
+                                        <Trash2 className="h-4 w-4 text-red-500" />
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* Form Actions */}
@@ -459,3 +574,4 @@ function FunctionalityCard({
         </Card>
     );
 }
+

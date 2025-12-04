@@ -39,11 +39,11 @@ func createTables(database *gorm.DB) {
 
 	//Project
 	tables = addNewTable(database, models.Project{}, tables)
-	tables= addNewTable(database, models.Entity{}, tables)
-	tables= addNewTable(database, models.DependsOnEntity{}, tables)
-	tables= addNewTable(database, models.EntityField{}, tables)
-	tables= addNewTable(database, models.InputValidation{}, tables)
-	
+	tables = addNewTable(database, models.Entity{}, tables)
+	tables = addNewTable(database, models.DependsOnEntity{}, tables)
+	tables = addNewTable(database, models.EntityField{}, tables)
+	tables = addNewTable(database, models.InputValidation{}, tables)
+
 	//Journey
 	tables = addNewTable(database, models.Journey{}, tables)
 	tables = addNewTable(database, models.EntityJourney{}, tables)
@@ -60,11 +60,16 @@ func createTables(database *gorm.DB) {
 	tables = addNewTable(database, models.Functionality{}, tables)
 	tables = addNewTable(database, models.FunctionalOperation{}, tables)
 
+	// Library
+	tables = addNewTable(database, models.Library{}, tables)
+	tables = addNewTable(database, models.LibraryFunctionality{}, tables)
+	tables = addNewTable(database, models.BlueprintLibrary{}, tables)
+
 	er := database.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";").Error
 	if er != nil {
 		logger.Error(logging.Postgres, logging.Migration, er.Error(), nil)
 	}
-	
+
 	err := database.Migrator().AutoMigrate(tables...)
 	if err != nil {
 		logger.Error(logging.Postgres, logging.Migration, err.Error(), nil)
@@ -73,8 +78,8 @@ func createTables(database *gorm.DB) {
 }
 
 func addNewTable(database *gorm.DB, model interface{}, tables []interface{}) []interface{} {
-	fmt.Print( "\n HEEEEEEEERRRRRRRRREEEEE >>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
-	fmt.Printf( "\n Checking table %s", model)
+	fmt.Print("\n HEEEEEEEERRRRRRRRREEEEE >>>>>>>>>>>>>>>>>>>>>>>>>>>\n")
+	fmt.Printf("\n Checking table %s", model)
 	if !database.Migrator().HasTable(model) {
 		tables = append(tables, model)
 	}

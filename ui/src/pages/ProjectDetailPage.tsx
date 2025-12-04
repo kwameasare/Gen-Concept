@@ -151,7 +151,7 @@ export default function ProjectDetailPage() {
 
     if (loadingProject) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="text-muted-foreground">Loading project...</div>
             </div>
         );
@@ -159,7 +159,7 @@ export default function ProjectDetailPage() {
 
     if (projectError) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="text-center space-y-4">
                     <p className="text-red-500">{projectError}</p>
                     <div className="space-x-2">
@@ -175,15 +175,15 @@ export default function ProjectDetailPage() {
 
     if (!project) {
         return (
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="text-muted-foreground">Project not found</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="border-b bg-white">
+        <div className="min-h-screen bg-background">
+            <div className="border-b bg-card">
                 <div className="max-w-7xl mx-auto px-8 py-6">
                     <div className="flex items-center gap-4 mb-4">
                         <Button
@@ -470,24 +470,24 @@ export default function ProjectDetailPage() {
                                                 {entity.entityDescription || "No description"}
                                             </p>
                                             <div className="flex flex-wrap gap-1">
-                                                <span className="inline-flex items-center rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700">
+                                                <span className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-950 px-2 py-1 text-xs font-medium text-blue-700 dark:text-blue-300">
                                                     {entity.preferredDB}
                                                 </span>
-                                                <span className="inline-flex items-center rounded-full bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700">
+                                                <span className="inline-flex items-center rounded-full bg-purple-50 dark:bg-purple-950 px-2 py-1 text-xs font-medium text-purple-700 dark:text-purple-300">
                                                     {entity.modeOfDBInteraction}
                                                 </span>
                                                 {entity.implementsRBAC && (
-                                                    <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700">
+                                                    <span className="inline-flex items-center rounded-full bg-green-50 dark:bg-green-950 px-2 py-1 text-xs font-medium text-green-700 dark:text-green-300">
                                                         RBAC
                                                     </span>
                                                 )}
                                                 {entity.isAuthenticationRequired && (
-                                                    <span className="inline-flex items-center rounded-full bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700">
+                                                    <span className="inline-flex items-center rounded-full bg-orange-50 dark:bg-orange-950 px-2 py-1 text-xs font-medium text-orange-700 dark:text-orange-300">
                                                         Auth
                                                     </span>
                                                 )}
                                                 {entity.implementsAudit && (
-                                                    <span className="inline-flex items-center rounded-full bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-700">
+                                                    <span className="inline-flex items-center rounded-full bg-yellow-50 dark:bg-yellow-950 px-2 py-1 text-xs font-medium text-yellow-700 dark:text-yellow-300">
                                                         Audit
                                                     </span>
                                                 )}

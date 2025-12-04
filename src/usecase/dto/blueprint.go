@@ -1,23 +1,25 @@
 package dto
+
 import (
 	"github.com/google/uuid"
 )
+
 type Blueprint struct {
-	Uuid            uuid.UUID        `json:"uuid"`
-	StandardName    string           `json:"standardName"`
-	Type            string           `json:"type"`
-	Description     string           `json:"description"`
-	Functionalities []Functionality  `json:"functionalities"`
+	Uuid            uuid.UUID       `json:"uuid"`
+	StandardName    string          `json:"standardName"`
+	Type            string          `json:"type"`
+	Description     string          `json:"description"`
+	Functionalities []Functionality `json:"functionalities"`
+	Libraries       []Library       `json:"libraries"`
 }
 
-
 type Functionality struct {
-	Uuid               uuid.UUID   `json:"uuid"`
-	Category           string      `json:"category"`
-	Type               string      `json:"type"`
-	Provider           string      `json:"provider"`
-	ImplementsGenerics bool        `json:"implementsGenerics"`
-	FilePathsCSV       string      `json:"filePathsCSV"`
+	Uuid               uuid.UUID             `json:"uuid"`
+	Category           string                `json:"category"`
+	Type               string                `json:"type"`
+	Provider           string                `json:"provider"`
+	ImplementsGenerics bool                  `json:"implementsGenerics"`
+	FilePathsCSV       string                `json:"filePathsCSV"`
 	Operations         []FunctionalOperation `json:"operations"`
 }
 

@@ -54,7 +54,7 @@ export default function BlueprintDetailPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gray-50 p-8">
+            <div className="min-h-screen bg-background p-8">
                 <div className="max-w-4xl mx-auto">
                     <p>Loading...</p>
                 </div>
@@ -64,7 +64,7 @@ export default function BlueprintDetailPage() {
 
     if (error || !blueprint) {
         return (
-            <div className="min-h-screen bg-gray-50 p-8">
+            <div className="min-h-screen bg-background p-8">
                 <div className="max-w-4xl mx-auto">
                     <Button variant="ghost" onClick={() => navigate("/dashboard")}>
                         <ArrowLeft className="mr-2 h-4 w-4" />
@@ -77,7 +77,7 @@ export default function BlueprintDetailPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-8">
+        <div className="min-h-screen bg-background p-8">
             <div className="max-w-4xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
@@ -187,7 +187,7 @@ export default function BlueprintDetailPage() {
                                                         {func.operations.map((op, opIndex) => (
                                                             <div
                                                                 key={op.uuid || opIndex}
-                                                                className="p-3 bg-gray-50 rounded-md"
+                                                                className="p-3 bg-muted rounded-md"
                                                             >
                                                                 <h5 className="font-medium">
                                                                     {op.name}
@@ -202,6 +202,78 @@ export default function BlueprintDetailPage() {
                                                     </div>
                                                 </div>
                                             )}
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Libraries */}
+                        {blueprint.libraries && blueprint.libraries.length > 0 && (
+                            <div className="space-y-4">
+                                <h2 className="text-2xl font-semibold">Internal Libraries</h2>
+                                {blueprint.libraries.map((library, index) => (
+                                    <Card key={library.uuid || index}>
+                                        <CardHeader>
+                                            <CardTitle className="text-lg">
+                                                {library.standardName}
+                                            </CardTitle>
+                                            <p className="text-sm text-muted-foreground">
+                                                Version {library.version} • {library.namespace}
+                                            </p>
+                                        </CardHeader>
+                                        <CardContent className="space-y-4">
+                                            {library.description && (
+                                                <p className="text-sm">{library.description}</p>
+                                            )}
+
+                                            {library.repositoryURL && (
+                                                <div>
+                                                    <h4 className="text-sm font-medium text-gray-500 mb-1">
+                                                        Repository
+                                                    </h4>
+                                                    <a
+                                                        href={library.repositoryURL}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                                                    >
+                                                        {library.repositoryURL}
+                                                    </a>
+                                                </div>
+                                            )}
+
+                                            {/* Exposed Functionalities */}
+                                            {library.exposedFunctionalities &&
+                                                library.exposedFunctionalities.length > 0 && (
+                                                    <div className="border-t pt-4">
+                                                        <h4 className="font-medium mb-3">
+                                                            Exposed Functionalities
+                                                        </h4>
+                                                        <div className="grid grid-cols-2 gap-2">
+                                                            {library.exposedFunctionalities.map(
+                                                                (func, funcIndex) => (
+                                                                    <div
+                                                                        key={func.uuid || funcIndex}
+                                                                        className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md"
+                                                                    >
+                                                                        <h5 className="font-medium text-sm">
+                                                                            {func.name}
+                                                                        </h5>
+                                                                        <p className="text-xs text-muted-foreground">
+                                                                            {func.type}
+                                                                        </p>
+                                                                        {func.description && (
+                                                                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                                                                {func.description}
+                                                                            </p>
+                                                                        )}
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )}
                                         </CardContent>
                                     </Card>
                                 ))}

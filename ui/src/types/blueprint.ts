@@ -4,6 +4,24 @@ export interface Blueprint {
     type: string;
     description: string;
     functionalities?: Functionality[];
+    libraries?: Library[];
+}
+
+export interface Library {
+    uuid: string;
+    standardName: string;
+    version: string;
+    description: string;
+    repositoryURL: string;
+    namespace: string;
+    exposedFunctionalities?: LibraryFunctionality[];
+}
+
+export interface LibraryFunctionality {
+    uuid: string;
+    name: string;
+    type: string;
+    description: string;
 }
 
 export interface Functionality {

@@ -342,7 +342,7 @@ export default function JourneyBuilderPage() {
 
     return (
         <div className="h-screen flex flex-col">
-            <header className="h-14 border-b flex items-center justify-between px-6 bg-white z-10">
+            <header className="h-14 border-b flex items-center justify-between px-6 bg-card z-10">
                 <div className="flex items-center gap-4">
                     <Button variant="ghost" size="sm" onClick={() => navigate(`/projects/${projectId}`)}>
                         <ArrowLeft className="w-4 h-4 mr-2" /> Back
@@ -354,8 +354,8 @@ export default function JourneyBuilderPage() {
                 </Button>
             </header>
             <div className="flex-1 flex overflow-hidden">
-                <aside className="w-72 border-r bg-gray-50 flex flex-col z-10 overflow-y-auto shrink-0">
-                    <div className="p-4 border-b bg-white flex items-center justify-between">
+                <aside className="w-72 border-r bg-muted flex flex-col z-10 overflow-y-auto shrink-0">
+                    <div className="p-4 border-b bg-card flex items-center justify-between">
                         <div>
                             <h2 className="font-semibold mb-1">Explorer</h2>
                             <p className="text-xs text-muted-foreground">Select an operation to edit</p>
@@ -415,12 +415,12 @@ export default function JourneyBuilderPage() {
                         )}
                     </div>
 
-                    <div className={cn("mt-auto p-4 border-t bg-white", !selectedOperationId && "opacity-50 pointer-events-none")}>
+                    <div className={cn("mt-auto p-4 border-t bg-card", !selectedOperationId && "opacity-50 pointer-events-none")}>
                         <div className="text-sm font-medium mb-2">Toolbox</div>
                         <p className="text-[10px] text-muted-foreground mb-2">Drag items to the canvas</p>
                         <div className="grid grid-cols-2 gap-2">
                             <div
-                                className="bg-white p-2 rounded border shadow-sm cursor-move text-xs flex flex-col items-center gap-1 hover:border-blue-500 transition-colors"
+                                className="bg-card p-2 rounded border shadow-sm cursor-move text-xs flex flex-col items-center gap-1 hover:border-blue-500 transition-colors"
                                 onDragStart={(event) => event.dataTransfer.setData("application/reactflow", "API_CALL")}
                                 draggable
                             >
@@ -428,7 +428,7 @@ export default function JourneyBuilderPage() {
                                 API Call
                             </div>
                             <div
-                                className="bg-white p-2 rounded border shadow-sm cursor-move text-xs flex flex-col items-center gap-1 hover:border-blue-500 transition-colors"
+                                className="bg-card p-2 rounded border shadow-sm cursor-move text-xs flex flex-col items-center gap-1 hover:border-blue-500 transition-colors"
                                 onDragStart={(event) => event.dataTransfer.setData("application/reactflow", "DATABASE_OPERATION")}
                                 draggable
                             >
@@ -459,7 +459,7 @@ export default function JourneyBuilderPage() {
                             </ReactFlow>
                         </ReactFlowProvider>
                     ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-gray-50/50">
+                        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-muted/50">
                             <div className="text-center">
                                 <Layers className="w-12 h-12 mx-auto mb-4 opacity-20" />
                                 <p>Select an operation from the sidebar to view its flow</p>
@@ -469,7 +469,7 @@ export default function JourneyBuilderPage() {
                 </div>
 
                 {selectedNode && selectedNode.data.stepData && (
-                    <aside className="w-80 border-l bg-white p-4 overflow-y-auto shadow-xl z-20">
+                    <aside className="w-80 border-l bg-card p-4 overflow-y-auto shadow-xl z-20">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-semibold text-lg">Step Details</h3>
                             <Button variant="ghost" size="sm" onClick={() => setSelectedNode(null)}>
@@ -493,7 +493,7 @@ export default function JourneyBuilderPage() {
                             {selectedNode.data.stepData.condition && (
                                 <div>
                                     <label className="text-xs font-medium text-muted-foreground">Condition</label>
-                                    <div className="text-sm font-mono bg-gray-50 p-2 rounded border mt-1">
+                                    <div className="text-sm font-mono bg-muted p-2 rounded border mt-1">
                                         {selectedNode.data.stepData.condition}
                                     </div>
                                 </div>
@@ -502,7 +502,7 @@ export default function JourneyBuilderPage() {
                             {selectedNode.data.stepData.curl && (
                                 <div>
                                     <label className="text-xs font-medium text-muted-foreground">cURL</label>
-                                    <div className="text-xs font-mono bg-gray-50 p-2 rounded border mt-1 break-all">
+                                    <div className="text-xs font-mono bg-muted p-2 rounded border mt-1 break-all">
                                         {selectedNode.data.stepData.curl}
                                     </div>
                                 </div>
@@ -526,7 +526,7 @@ export default function JourneyBuilderPage() {
                                     <label className="text-xs font-medium text-muted-foreground">Response Actions</label>
                                     <div className="space-y-2 mt-1">
                                         {selectedNode.data.stepData.responseActions.map((action: any, idx: number) => (
-                                            <div key={idx} className="text-xs bg-gray-50 p-2 rounded border">
+                                            <div key={idx} className="text-xs bg-muted p-2 rounded border">
                                                 <div className="font-medium text-purple-700">{action.type}</div>
                                                 {action.fieldId && <div>Field: {action.fieldId}</div>}
                                                 {action.value && <div>Value: {action.value}</div>}
