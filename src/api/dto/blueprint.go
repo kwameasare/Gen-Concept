@@ -1,17 +1,19 @@
 package dto
 
 import (
-	"github.com/google/uuid"
 	"gen-concept-api/usecase/dto"
+
+	"github.com/google/uuid"
 )
 
 // Blueprint is a DTO for blueprint-related data
 type Blueprint struct {
-	Uuid            uuid.UUID        `json:"uuid"`
-	StandardName    string           `json:"standardName"`
-	Type            string           `json:"type"`
-	Description     string           `json:"description"`
-	Functionalities []Functionality  `json:"functionalities"`
+	Uuid            uuid.UUID       `json:"uuid"`
+	StandardName    string          `json:"standardName"`
+	Type            string          `json:"type"`
+	Description     string          `json:"description"`
+	Functionalities []Functionality `json:"functionalities"`
+	Libraries       []Library       `json:"libraries"`
 }
 
 func (b Blueprint) Validate() error {
@@ -28,12 +30,12 @@ func (b Blueprint) Validate() error {
 
 // Functionality represents a specific functionality of the blueprint
 type Functionality struct {
-	Uuid               uuid.UUID   `json:"uuid"`
-	Category           string      `json:"category"`
-	Type               string      `json:"type"`
-	Provider           string      `json:"provider"`
-	ImplementsGenerics bool        `json:"implementsGenerics"`
-	FilePathsCSV       string      `json:"filePathsCSV"`
+	Uuid               uuid.UUID             `json:"uuid"`
+	Category           string                `json:"category"`
+	Type               string                `json:"type"`
+	Provider           string                `json:"provider"`
+	ImplementsGenerics bool                  `json:"implementsGenerics"`
+	FilePathsCSV       string                `json:"filePathsCSV"`
 	Operations         []FunctionalOperation `json:"operations"`
 }
 
@@ -71,6 +73,7 @@ func ToUseCaseBlueprint(from Blueprint) dto.Blueprint {
 		Type:            from.Type,
 		Description:     from.Description,
 		Functionalities: ToUseCaseFunctionalities(from.Functionalities),
+		Libraries:       ToUseCaseLibraries(from.Libraries),
 	}
 }
 
@@ -114,6 +117,15 @@ func ToUseCaseOperation(from FunctionalOperation) dto.FunctionalOperation {
 	}
 }
 
+// ToUseCaseLibraries converts a slice of Library
+func ToUseCaseLibraries(from []Library) []dto.Library {
+	libs := make([]dto.Library, len(from))
+	for i, lib := range from {
+		libs[i] = ToUseCaseLibrary(lib)
+	}
+	return libs
+}
+
 // ToBlueprintResponse converts a usecase Blueprint back to the DTO
 func ToBlueprintResponse(from dto.Blueprint) Blueprint {
 	return Blueprint{
@@ -122,6 +134,7 @@ func ToBlueprintResponse(from dto.Blueprint) Blueprint {
 		Type:            from.Type,
 		Description:     from.Description,
 		Functionalities: ToFunctionalitiesResponse(from.Functionalities),
+		Libraries:       ToLibrariesResponse(from.Libraries),
 	}
 }
 
@@ -163,4 +176,13 @@ func ToOperationResponse(from dto.FunctionalOperation) FunctionalOperation {
 		Name:        from.Name,
 		Description: from.Description,
 	}
+}
+
+// ToLibrariesResponse converts a slice of usecase Libraries
+func ToLibrariesResponse(from []dto.Library) []Library {
+	libs := make([]Library, len(from))
+	for i, lib := range from {
+		libs[i] = ToLibraryResponse(lib)
+	}
+	return libs
 }

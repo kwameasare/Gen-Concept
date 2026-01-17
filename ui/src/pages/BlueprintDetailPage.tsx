@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Edit, X } from "lucide-react";
+import { ArrowLeft, Edit, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { api } from "@/lib/api";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import BlueprintForm from "@/components/BlueprintForm";
 import type { Blueprint } from "@/types/blueprint";
 import type { BlueprintFormData } from "@/components/BlueprintForm";
@@ -16,6 +17,7 @@ export default function BlueprintDetailPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -49,6 +51,16 @@ export default function BlueprintDetailPage() {
             setError("Failed to update blueprint");
         } finally {
             setIsSaving(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            await api.delete(`/blueprints/${id}`);
+            navigate("/dashboard");
+        } catch (err) {
+            console.error("Failed to delete blueprint", err);
+            setError("Failed to delete blueprint");
         }
     };
 
@@ -86,10 +98,19 @@ export default function BlueprintDetailPage() {
                         Back to Dashboard
                     </Button>
                     {!isEditing ? (
-                        <Button onClick={() => setIsEditing(true)}>
-                            <Edit className="mr-2 h-4 w-4" />
-                            Edit
-                        </Button>
+                        <div className="flex gap-2">
+                            <Button onClick={() => setIsEditing(true)}>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Edit
+                            </Button>
+                            <Button
+                                variant="destructive"
+                                onClick={() => setDeleteDialogOpen(true)}
+                            >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                            </Button>
+                        </div>
                     ) : (
                         <Button variant="outline" onClick={() => setIsEditing(false)}>
                             <X className="mr-2 h-4 w-4" />
@@ -282,6 +303,16 @@ export default function BlueprintDetailPage() {
                     </>
                 )}
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <DeleteConfirmDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onConfirm={handleDelete}
+                title="Delete Blueprint"
+                description="Are you sure you want to delete this blueprint? This action cannot be undone."
+                itemName={blueprint?.standardName}
+            />
         </div>
     );
 }

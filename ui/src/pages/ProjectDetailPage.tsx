@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Plus, ArrowLeft, Trash2, Edit } from "lucide-react";
 import { api } from "@/lib/api";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -83,6 +84,11 @@ export default function ProjectDetailPage() {
     const [projectError, setProjectError] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [deleteProjectDialog, setDeleteProjectDialog] = useState(false);
+    const [deleteEntityDialog, setDeleteEntityDialog] = useState<{ open: boolean; entity: Entity | null }>({
+        open: false,
+        entity: null,
+    });
 
     const {
         register,
@@ -146,6 +152,25 @@ export default function ProjectDetailPage() {
             console.error("Failed to create entity", error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDeleteProject = async () => {
+        try {
+            await api.delete(`/projects/${id}`);
+            navigate("/dashboard");
+        } catch (error) {
+            console.error("Failed to delete project", error);
+        }
+    };
+
+    const handleDeleteEntity = async () => {
+        if (!deleteEntityDialog.entity) return;
+        try {
+            await api.delete(`/entities/${deleteEntityDialog.entity.uuid}`);
+            fetchProject();
+        } catch (error) {
+            console.error("Failed to delete entity", error);
         }
     };
 
@@ -219,212 +244,221 @@ export default function ProjectDetailPage() {
                                 )}
                             </div>
                         </div>
-                        <Dialog open={open} onOpenChange={setOpen}>
-                            <DialogTrigger asChild>
-                                <Button>
-                                    <Plus className="mr-2 h-4 w-4" /> Add Entity
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
-                                <DialogHeader>
-                                    <DialogTitle>Create Entity</DialogTitle>
-                                    <DialogDescription>
-                                        Add a new entity to your project.
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="entityName">Entity Name</Label>
-                                        <Input
-                                            id="entityName"
-                                            placeholder="User"
-                                            {...register("entityName")}
-                                        />
-                                        {errors.entityName && (
-                                            <p className="text-sm text-red-500">
-                                                {errors.entityName.message}
-                                            </p>
-                                        )}
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="entityDescription">Description</Label>
-                                        <Input
-                                            id="entityDescription"
-                                            placeholder="Brief description..."
-                                            {...register("entityDescription")}
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="version">Version</Label>
-                                        <Input
-                                            id="version"
-                                            placeholder="1.0"
-                                            {...register("version")}
-                                        />
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4">
+                        <div className="flex gap-2">
+                            <Dialog open={open} onOpenChange={setOpen}>
+                                <DialogTrigger asChild>
+                                    <Button>
+                                        <Plus className="mr-2 h-4 w-4" /> Add Entity
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+                                    <DialogHeader>
+                                        <DialogTitle>Create Entity</DialogTitle>
+                                        <DialogDescription>
+                                            Add a new entity to your project.
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                                         <div className="space-y-2">
-                                            <Label>Database</Label>
-                                            <Controller
-                                                name="preferredDB"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Select
-                                                        onValueChange={field.onChange}
-                                                        defaultValue={field.value}
-                                                    >
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select database" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {DB_OPTIONS.map((db) => (
-                                                                <SelectItem key={db} value={db}>
-                                                                    {db}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                                                )}
+                                            <Label htmlFor="entityName">Entity Name</Label>
+                                            <Input
+                                                id="entityName"
+                                                placeholder="User"
+                                                {...register("entityName")}
+                                            />
+                                            {errors.entityName && (
+                                                <p className="text-sm text-red-500">
+                                                    {errors.entityName.message}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="entityDescription">Description</Label>
+                                            <Input
+                                                id="entityDescription"
+                                                placeholder="Brief description..."
+                                                {...register("entityDescription")}
                                             />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label>DB Interaction</Label>
-                                            <Controller
-                                                name="modeOfDBInteraction"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Select
-                                                        onValueChange={field.onChange}
-                                                        defaultValue={field.value}
-                                                    >
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select mode" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {DB_INTERACTION_MODES.map((mode) => (
-                                                                <SelectItem key={mode} value={mode}>
-                                                                    {mode}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <Label>RBAC</Label>
-                                            <Controller
-                                                name="implementsRBAC"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                )}
+                                            <Label htmlFor="version">Version</Label>
+                                            <Input
+                                                id="version"
+                                                placeholder="1.0"
+                                                {...register("version")}
                                             />
                                         </div>
 
-                                        <div className="flex items-center justify-between">
-                                            <Label>Authentication Required</Label>
-                                            <Controller
-                                                name="isAuthenticationRequired"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                )}
-                                            />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <Label>Database</Label>
+                                                <Controller
+                                                    name="preferredDB"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Select
+                                                            onValueChange={field.onChange}
+                                                            defaultValue={field.value}
+                                                        >
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Select database" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                {DB_OPTIONS.map((db) => (
+                                                                    <SelectItem key={db} value={db}>
+                                                                        {db}
+                                                                    </SelectItem>
+                                                                ))}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label>DB Interaction</Label>
+                                                <Controller
+                                                    name="modeOfDBInteraction"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Select
+                                                            onValueChange={field.onChange}
+                                                            defaultValue={field.value}
+                                                        >
+                                                            <SelectTrigger>
+                                                                <SelectValue placeholder="Select mode" />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                {DB_INTERACTION_MODES.map((mode) => (
+                                                                    <SelectItem key={mode} value={mode}>
+                                                                        {mode}
+                                                                    </SelectItem>
+                                                                ))}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    )}
+                                                />
+                                            </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between">
-                                            <Label>Audit Trail</Label>
-                                            <Controller
-                                                name="implementsAudit"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                )}
-                                            />
+                                        <div className="space-y-4">
+                                            <div className="flex items-center justify-between">
+                                                <Label>RBAC</Label>
+                                                <Controller
+                                                    name="implementsRBAC"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Switch
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center justify-between">
+                                                <Label>Authentication Required</Label>
+                                                <Controller
+                                                    name="isAuthenticationRequired"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Switch
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center justify-between">
+                                                <Label>Audit Trail</Label>
+                                                <Controller
+                                                    name="implementsAudit"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Switch
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center justify-between">
+                                                <Label>Change Management</Label>
+                                                <Controller
+                                                    name="implementsChangeManagement"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Switch
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center justify-between">
+                                                <Label>Read Only</Label>
+                                                <Controller
+                                                    name="isReadOnly"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Switch
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center justify-between">
+                                                <Label>Independent Entity</Label>
+                                                <Controller
+                                                    name="isIndependentEntity"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Switch
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
+
+                                            <div className="flex items-center justify-between">
+                                                <Label>Backend Only</Label>
+                                                <Controller
+                                                    name="isBackendOnly"
+                                                    control={control}
+                                                    render={({ field }) => (
+                                                        <Switch
+                                                            checked={field.value}
+                                                            onCheckedChange={field.onChange}
+                                                        />
+                                                    )}
+                                                />
+                                            </div>
                                         </div>
 
-                                        <div className="flex items-center justify-between">
-                                            <Label>Change Management</Label>
-                                            <Controller
-                                                name="implementsChangeManagement"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                )}
-                                            />
-                                        </div>
-
-                                        <div className="flex items-center justify-between">
-                                            <Label>Read Only</Label>
-                                            <Controller
-                                                name="isReadOnly"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                )}
-                                            />
-                                        </div>
-
-                                        <div className="flex items-center justify-between">
-                                            <Label>Independent Entity</Label>
-                                            <Controller
-                                                name="isIndependentEntity"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                )}
-                                            />
-                                        </div>
-
-                                        <div className="flex items-center justify-between">
-                                            <Label>Backend Only</Label>
-                                            <Controller
-                                                name="isBackendOnly"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <Switch
-                                                        checked={field.value}
-                                                        onCheckedChange={field.onChange}
-                                                    />
-                                                )}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <DialogFooter>
-                                        <Button type="submit" disabled={loading}>
-                                            {loading ? "Creating..." : "Create Entity"}
-                                        </Button>
-                                    </DialogFooter>
-                                </form>
-                            </DialogContent>
-                        </Dialog>
+                                        <DialogFooter>
+                                            <Button type="submit" disabled={loading}>
+                                                {loading ? "Creating..." : "Create Entity"}
+                                            </Button>
+                                        </DialogFooter>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+                            <Button
+                                variant="destructive"
+                                onClick={() => setDeleteProjectDialog(true)}
+                            >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete Project
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -460,7 +494,11 @@ export default function ProjectDetailPage() {
                                                 <Button variant="ghost" size="sm">
                                                     <Edit className="h-4 w-4" />
                                                 </Button>
-                                                <Button variant="ghost" size="sm">
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => setDeleteEntityDialog({ open: true, entity })}
+                                                >
                                                     <Trash2 className="h-4 w-4 text-red-500" />
                                                 </Button>
                                             </div>
@@ -518,6 +556,25 @@ export default function ProjectDetailPage() {
                         <JourneyList projectId={id!} />
                     </TabsContent>
                 </Tabs>
+
+                {/* Delete Confirmation Dialogs */}
+                <DeleteConfirmDialog
+                    open={deleteProjectDialog}
+                    onOpenChange={setDeleteProjectDialog}
+                    onConfirm={handleDeleteProject}
+                    title="Delete Project"
+                    description="Are you sure you want to delete this project? All related entities, fields, and journeys will also be deleted. This action cannot be undone."
+                    itemName={project?.projectName}
+                />
+
+                <DeleteConfirmDialog
+                    open={deleteEntityDialog.open}
+                    onOpenChange={(open) => setDeleteEntityDialog({ open, entity: null })}
+                    onConfirm={handleDeleteEntity}
+                    title="Delete Entity"
+                    description="Are you sure you want to delete this entity? This action cannot be undone."
+                    itemName={deleteEntityDialog.entity?.entityName}
+                />
             </div>
         </div>
     );

@@ -7,7 +7,7 @@ type Library struct {
 	Description            string                 `gorm:"size:1000" json:"description"`
 	RepositoryURL          string                 `gorm:"size:500" json:"repositoryURL"`
 	Namespace              string                 `gorm:"size:255" json:"namespace"`
-	ExposedFunctionalities []LibraryFunctionality `gorm:"foreignKey:LibraryID" json:"exposedFunctionalities"`
+	ExposedFunctionalities []LibraryFunctionality `gorm:"foreignKey:LibraryID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"exposedFunctionalities"`
 	Blueprints             []Blueprint            `gorm:"many2many:blueprint_libraries" json:"blueprints,omitempty"`
 }
 

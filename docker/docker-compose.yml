@@ -98,7 +98,7 @@ services:
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - "5434:5432"
     networks:
       - webapi_network
     restart: unless-stopped
@@ -128,7 +128,7 @@ services:
       - ./redis/redis.conf:/etc/redis/redis.conf
       - redis:/etc/redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
     networks:
       - webapi_network
 

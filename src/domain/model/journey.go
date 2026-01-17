@@ -19,7 +19,7 @@ type EntityJourney struct {
 	EntityID   string `gorm:"not null;size:150"`
 	EntityName string `gorm:"not null;size:150"`
 	JourneyID  uint
-	Journey    Journey     `gorm:"foreignKey:JourneyID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	Journey    Journey     `gorm:"foreignKey:JourneyID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	Operations []Operation `gorm:"foreignKey:EntityJourneyID"`
 }
 
@@ -29,7 +29,7 @@ type Operation struct {
 	Name            string             `gorm:"not null;size:150"`
 	Description     string             `gorm:"size:1000"`
 	EntityJourneyID uint
-	EntityJourney   EntityJourney `gorm:"foreignKey:EntityJourneyID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	EntityJourney   EntityJourney `gorm:"foreignKey:EntityJourneyID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	FrontendJourney []interface{} `gorm:"type:text;serializer:json"`
 	BackendJourney  []JourneyStep `gorm:"foreignKey:OperationID"`
 	Filters         []Filter      `gorm:"foreignKey:OperationID"`
@@ -59,7 +59,7 @@ type JourneyStep struct {
 	Message         string                     `gorm:"size:1000"`
 	Recipients      []string                   `gorm:"type:text;serializer:json"`
 	OperationID     uint
-	Operation       Operation `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	Operation       Operation `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type FieldInvolved struct {
@@ -68,7 +68,7 @@ type FieldInvolved struct {
 	Name          string `gorm:"not null;size:150"`
 	Source        string `gorm:"size:150"`
 	JourneyStepID uint
-	JourneyStep   JourneyStep `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	JourneyStep   JourneyStep `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type RetryCondition struct {
@@ -76,7 +76,7 @@ type RetryCondition struct {
 	Condition     string `gorm:"not null;size:1000"`
 	Error         string `gorm:"size:1000"`
 	JourneyStepID uint
-	JourneyStep   JourneyStep `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	JourneyStep   JourneyStep `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type ResponseAction struct {
@@ -91,9 +91,9 @@ type ResponseAction struct {
 	AbortOnFail            bool
 	Error                  string `gorm:"size:1000"`
 	JourneyStepID          uint
-	JourneyStep            JourneyStep `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	JourneyStep            JourneyStep `gorm:"foreignKey:JourneyStepID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 	NestedResponseActionID *uint
-	NestedResponseAction   *ResponseAction `gorm:"foreignKey:NestedResponseActionID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	NestedResponseAction   *ResponseAction `gorm:"foreignKey:NestedResponseActionID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 type ResFieldInvolved struct {
 	BaseModel
@@ -101,7 +101,7 @@ type ResFieldInvolved struct {
 	Name             string `gorm:"not null;size:150"`
 	Source           string `gorm:"size:150"`
 	ResponseActionID uint
-	ResponseAction   ResponseAction `gorm:"foreignKey:ResponseActionID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	ResponseAction   ResponseAction `gorm:"foreignKey:ResponseActionID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 type Filter struct {
 	BaseModel
@@ -113,7 +113,7 @@ type Filter struct {
 	Error       string            `gorm:"size:1000"`
 	Operator    enum.OperatorType `gorm:"type:varchar(50)"`
 	OperationID uint
-	Operation   Operation `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	Operation   Operation `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type Range struct {
@@ -121,12 +121,12 @@ type Range struct {
 	Value    int    `gorm:"not null"`
 	Unit     string `gorm:"size:50"`
 	FilterID uint
-	Filter   Filter `gorm:"foreignKey:FilterID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	Filter   Filter `gorm:"foreignKey:FilterID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 type Sort struct {
 	BaseModel
 	FieldID     string `gorm:"not null;size:150"`
 	OperationID uint
-	Operation   Operation `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
+	Operation   Operation `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }

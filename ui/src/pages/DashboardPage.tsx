@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Plus, Folder, FileText } from "lucide-react";
+import { Plus, Folder, FileText, Trash2 } from "lucide-react";
 import { api } from "@/lib/api";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -73,6 +74,14 @@ export default function DashboardPage() {
     const [open, setOpen] = useState(false);
     const [blueprintOpen, setBlueprintOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [deleteProjectDialog, setDeleteProjectDialog] = useState<{ open: boolean; project: Project | null }>({
+        open: false,
+        project: null,
+    });
+    const [deleteBlueprintDialog, setDeleteBlueprintDialog] = useState<{ open: boolean; blueprint: Blueprint | null }>({
+        open: false,
+        blueprint: null,
+    });
 
     const {
         register,
@@ -150,6 +159,26 @@ export default function DashboardPage() {
             console.error("Failed to create blueprint", error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDeleteProject = async () => {
+        if (!deleteProjectDialog.project) return;
+        try {
+            await api.delete(`/projects/${deleteProjectDialog.project.uuid}`);
+            fetchProjects();
+        } catch (error) {
+            console.error("Failed to delete project", error);
+        }
+    };
+
+    const handleDeleteBlueprint = async () => {
+        if (!deleteBlueprintDialog.blueprint) return;
+        try {
+            await api.delete(`/blueprints/${deleteBlueprintDialog.blueprint.uuid}`);
+            fetchBlueprints();
+        } catch (error) {
+            console.error("Failed to delete blueprint", error);
         }
     };
 
@@ -300,7 +329,19 @@ export default function DashboardPage() {
                                         <CardTitle className="text-sm font-medium">
                                             {project.projectType}
                                         </CardTitle>
-                                        <Folder className="h-4 w-4 text-muted-foreground" />
+                                        <div className="flex items-center gap-2">
+                                            <Folder className="h-4 w-4 text-muted-foreground" />
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDeleteProjectDialog({ open: true, project });
+                                                }}
+                                            >
+                                                <Trash2 className="h-4 w-4 text-red-500" />
+                                            </Button>
+                                        </div>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">{project.projectName}</div>
@@ -366,7 +407,19 @@ export default function DashboardPage() {
                                         <CardTitle className="text-sm font-medium">
                                             {blueprint.type}
                                         </CardTitle>
-                                        <FileText className="h-4 w-4 text-muted-foreground" />
+                                        <div className="flex items-center gap-2">
+                                            <FileText className="h-4 w-4 text-muted-foreground" />
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setDeleteBlueprintDialog({ open: true, blueprint });
+                                                }}
+                                            >
+                                                <Trash2 className="h-4 w-4 text-red-500" />
+                                            </Button>
+                                        </div>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">{blueprint.standardName}</div>
@@ -386,6 +439,25 @@ export default function DashboardPage() {
                         </div>
                     </TabsContent>
                 </Tabs>
+
+                {/* Delete Confirmation Dialogs */}
+                <DeleteConfirmDialog
+                    open={deleteProjectDialog.open}
+                    onOpenChange={(open) => setDeleteProjectDialog({ open, project: null })}
+                    onConfirm={handleDeleteProject}
+                    title="Delete Project"
+                    description="Are you sure you want to delete this project? This action cannot be undone."
+                    itemName={deleteProjectDialog.project?.projectName}
+                />
+
+                <DeleteConfirmDialog
+                    open={deleteBlueprintDialog.open}
+                    onOpenChange={(open) => setDeleteBlueprintDialog({ open, blueprint: null })}
+                    onConfirm={handleDeleteBlueprint}
+                    title="Delete Blueprint"
+                    description="Are you sure you want to delete this blueprint? This action cannot be undone."
+                    itemName={deleteBlueprintDialog.blueprint?.standardName}
+                />
             </div>
         </div>
     );

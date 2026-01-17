@@ -30,8 +30,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Save, ArrowLeft, Layers, Zap, Database, Globe, Plus } from "lucide-react";
+import { Save, ArrowLeft, Layers, Zap, Database, Globe, Plus, Trash2 } from "lucide-react";
 import { api } from "@/lib/api";
+import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import { Journey, Operation } from "@/types/journey";
 import { cn } from "@/lib/utils";
 
@@ -53,6 +54,7 @@ export default function JourneyBuilderPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedOperationId, setSelectedOperationId] = useState<string | null>(null);
+    const [deleteJourneyDialog, setDeleteJourneyDialog] = useState(false);
 
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -340,6 +342,17 @@ export default function JourneyBuilderPage() {
         }
     };
 
+    const handleDeleteJourney = async () => {
+        if (!journey) return;
+        try {
+            await api.delete(`/journeys/${journey.uuid}`);
+            navigate(`/projects/${projectId}`);
+        } catch (error) {
+            console.error("Failed to delete journey", error);
+            setError("Failed to delete journey.");
+        }
+    };
+
     return (
         <div className="h-screen flex flex-col">
             <header className="h-14 border-b flex items-center justify-between px-6 bg-card z-10">
@@ -349,9 +362,20 @@ export default function JourneyBuilderPage() {
                     </Button>
                     <h1 className="font-semibold">Journey Builder</h1>
                 </div>
-                <Button size="sm">
-                    <Save className="w-4 h-4 mr-2" /> Save Journey
-                </Button>
+                <div className="flex gap-2">
+                    <Button size="sm">
+                        <Save className="w-4 h-4 mr-2" /> Save Journey
+                    </Button>
+                    {journey && (
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => setDeleteJourneyDialog(true)}
+                        >
+                            <Trash2 className="w-4 h-4 mr-2" /> Delete Journey
+                        </Button>
+                    )}
+                </div>
             </header>
             <div className="flex-1 flex overflow-hidden">
                 <aside className="w-72 border-r bg-muted flex flex-col z-10 overflow-y-auto shrink-0">
@@ -602,6 +626,16 @@ export default function JourneyBuilderPage() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            {/* Delete Confirmation Dialog */}
+            <DeleteConfirmDialog
+                open={deleteJourneyDialog}
+                onOpenChange={setDeleteJourneyDialog}
+                onConfirm={handleDeleteJourney}
+                title="Delete Journey"
+                description="Are you sure you want to delete this entire journey configuration? This action cannot be undone."
+                itemName={journey?.programmingLanguage ? `${journey.programmingLanguage} Journey` : "Journey"}
+            />
         </div >
     );
 }
