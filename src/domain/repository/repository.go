@@ -41,6 +41,7 @@ type BlueprintRepository interface {
 	BaseRepository[model.Blueprint]
 	CreateWithRelationships(ctx context.Context, blueprint model.Blueprint) (model.Blueprint, error)
 	UpdateWithRelationships(ctx context.Context, uuid uuid.UUID, blueprint model.Blueprint) (model.Blueprint, error)
+	GetByUuidWithRelationships(ctx context.Context, uuid uuid.UUID) (model.Blueprint, error)
 }
 
 type EntityRepository interface {

@@ -12,8 +12,18 @@ type Blueprint struct {
 	StandardName    string          `json:"standardName"`
 	Type            string          `json:"type"`
 	Description     string          `json:"description"`
+	TemplatePath    string          `json:"templatePath"`
+	Placeholders    []Placeholder   `json:"placeholders"`
 	Functionalities []Functionality `json:"functionalities"`
 	Libraries       []Library       `json:"libraries"`
+}
+
+type Placeholder struct {
+	Uuid        uuid.UUID `json:"uuid"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Type        string    `json:"type"`
+	DefaultVal  string    `json:"defaultVal"`
 }
 
 func (b Blueprint) Validate() error {
@@ -72,9 +82,25 @@ func ToUseCaseBlueprint(from Blueprint) dto.Blueprint {
 		StandardName:    from.StandardName,
 		Type:            from.Type,
 		Description:     from.Description,
+		TemplatePath:    from.TemplatePath,
+		Placeholders:    ToUseCasePlaceholders(from.Placeholders),
 		Functionalities: ToUseCaseFunctionalities(from.Functionalities),
 		Libraries:       ToUseCaseLibraries(from.Libraries),
 	}
+}
+
+func ToUseCasePlaceholders(from []Placeholder) []dto.Placeholder {
+	pl := make([]dto.Placeholder, len(from))
+	for i, p := range from {
+		pl[i] = dto.Placeholder{
+			Uuid:        p.Uuid,
+			Name:        p.Name,
+			Description: p.Description,
+			Type:        p.Type,
+			DefaultVal:  p.DefaultVal,
+		}
+	}
+	return pl
 }
 
 // ToUseCaseFunctionalities converts a slice of Functionality
@@ -133,9 +159,25 @@ func ToBlueprintResponse(from dto.Blueprint) Blueprint {
 		StandardName:    from.StandardName,
 		Type:            from.Type,
 		Description:     from.Description,
+		TemplatePath:    from.TemplatePath,
+		Placeholders:    ToPlaceholdersResponse(from.Placeholders),
 		Functionalities: ToFunctionalitiesResponse(from.Functionalities),
 		Libraries:       ToLibrariesResponse(from.Libraries),
 	}
+}
+
+func ToPlaceholdersResponse(from []dto.Placeholder) []Placeholder {
+	pl := make([]Placeholder, len(from))
+	for i, p := range from {
+		pl[i] = Placeholder{
+			Uuid:        p.Uuid,
+			Name:        p.Name,
+			Description: p.Description,
+			Type:        p.Type,
+			DefaultVal:  p.DefaultVal,
+		}
+	}
+	return pl
 }
 
 // ToFunctionalitiesResponse converts a slice of usecase Functionalities

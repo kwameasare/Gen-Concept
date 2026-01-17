@@ -52,6 +52,23 @@ func (u *BlueprintUsecase) Create(ctx context.Context, req dto.Blueprint) (dto.B
 		blueprintModel.Libraries = libraries
 	}
 
+	// Manually ensure placeholders are converted
+	if len(req.Placeholders) > 0 {
+		placeholders := make([]model.Placeholder, len(req.Placeholders))
+		for i, p := range req.Placeholders {
+			placeholders[i] = model.Placeholder{
+				BaseModel: model.BaseModel{
+					Uuid: p.Uuid,
+				},
+				Name:        p.Name,
+				Description: p.Description,
+				Type:        p.Type,
+				DefaultVal:  p.DefaultVal,
+			}
+		}
+		blueprintModel.Placeholders = placeholders
+	}
+
 	// Use the custom repository method to create with relationships
 	created, err := u.repository.CreateWithRelationships(ctx, blueprintModel)
 	if err != nil {
@@ -86,6 +103,23 @@ func (s *BlueprintUsecase) Update(ctx context.Context, uuid uuid.UUID, req dto.B
 			}
 		}
 		blueprintModel.Libraries = libraries
+	}
+
+	// Manually ensure placeholders are converted
+	if len(req.Placeholders) > 0 {
+		placeholders := make([]model.Placeholder, len(req.Placeholders))
+		for i, p := range req.Placeholders {
+			placeholders[i] = model.Placeholder{
+				BaseModel: model.BaseModel{
+					Uuid: p.Uuid,
+				},
+				Name:        p.Name,
+				Description: p.Description,
+				Type:        p.Type,
+				DefaultVal:  p.DefaultVal,
+			}
+		}
+		blueprintModel.Placeholders = placeholders
 	}
 
 	// Use the custom repository method to update with relationships

@@ -25,10 +25,32 @@ func mapJourneyIDs(existing *model.Journey, incoming *model.Journey) {
 							incomingOp.CreatedAt = existingOp.CreatedAt
 							incomingOp.CreatedBy = existingOp.CreatedBy
 
-							// Map BackendJourney steps if necessary (omitted for brevity, can be added if steps have IDs)
+							// Map BackendJourney steps
+							mapJourneySteps(existingOp.BackendJourney, incomingOp.BackendJourney)
 							break
 						}
 					}
+				}
+				break
+			}
+		}
+	}
+}
+
+func mapJourneySteps(existingSteps []model.JourneyStep, incomingSteps []model.JourneyStep) {
+	for i := range incomingSteps {
+		incomingStep := &incomingSteps[i]
+		for _, existingStep := range existingSteps {
+			if incomingStep.Uuid == existingStep.Uuid {
+				incomingStep.ID = existingStep.ID
+				incomingStep.OperationID = existingStep.OperationID
+				incomingStep.ParentStepID = existingStep.ParentStepID
+				incomingStep.CreatedAt = existingStep.CreatedAt
+				incomingStep.CreatedBy = existingStep.CreatedBy
+
+				// Recursively map SubSteps
+				if len(incomingStep.SubSteps) > 0 && len(existingStep.SubSteps) > 0 {
+					mapJourneySteps(existingStep.SubSteps, incomingStep.SubSteps)
 				}
 				break
 			}

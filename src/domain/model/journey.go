@@ -60,6 +60,11 @@ type JourneyStep struct {
 	Recipients      []string                   `gorm:"type:text;serializer:json"`
 	OperationID     uint
 	Operation       Operation `gorm:"foreignKey:OperationID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+
+	// Hierarchical fields
+	ParentStepID *uint         `gorm:"index"` // Pointer to allow null (top-level steps)
+	SubSteps     []JourneyStep `gorm:"foreignKey:ParentStepID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
+	Level        string        `gorm:"type:varchar(50);default:'HIGH'"` // HIGH, MEDIUM, LOW/CODE
 }
 
 type FieldInvolved struct {

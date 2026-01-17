@@ -13,6 +13,10 @@ type Library struct {
 	Organization           *Organization          `json:"organization,omitempty"`
 	TeamID                 *uint                  `json:"teamID,omitempty"`
 	Team                   *Team                  `json:"team,omitempty"`
+	// Advanced Discovery Fields
+	GitReference string `gorm:"size:255" json:"gitReference"` // e.g., branch or specific ref
+	CommitHash   string `gorm:"size:100" json:"commitHash"`
+	Tag          string `gorm:"size:100" json:"tag"`
 }
 
 type LibraryFunctionality struct {

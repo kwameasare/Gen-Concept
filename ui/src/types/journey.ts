@@ -44,6 +44,8 @@ export interface JourneyStep {
     channels?: string[];
     message?: string;
     recipients?: string[];
+    subSteps?: JourneyStep[];
+    level?: string;
 }
 
 export interface FieldInvolved {

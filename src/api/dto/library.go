@@ -17,6 +17,9 @@ type Library struct {
 	ExposedFunctionalities []LibraryFunctionality `json:"exposedFunctionalities"`
 	OrganizationID         *uint                  `json:"organizationID,omitempty"`
 	TeamID                 *uint                  `json:"teamID,omitempty"`
+	GitReference           string                 `json:"gitReference"`
+	CommitHash             string                 `json:"commitHash"`
+	Tag                    string                 `json:"tag"`
 }
 
 type LibraryFunctionality struct {
@@ -48,6 +51,9 @@ func ToUseCaseLibrary(library Library) usecaseDto.Library {
 		ExposedFunctionalities: functionalities,
 		OrganizationID:         library.OrganizationID,
 		TeamID:                 library.TeamID,
+		GitReference:           library.GitReference,
+		CommitHash:             library.CommitHash,
+		Tag:                    library.Tag,
 	}
 }
 
@@ -73,5 +79,8 @@ func ToLibraryResponse(library usecaseDto.Library) Library {
 		ExposedFunctionalities: functionalities,
 		OrganizationID:         library.OrganizationID,
 		TeamID:                 library.TeamID,
+		GitReference:           library.GitReference,
+		CommitHash:             library.CommitHash,
+		Tag:                    library.Tag,
 	}
 }

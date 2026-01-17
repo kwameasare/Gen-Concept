@@ -15,4 +15,5 @@ func Library(r *gin.RouterGroup, cfg *config.Config) {
 	r.DELETE("/:id", h.Delete)
 	r.GET("/:id", h.GetById)
 	r.POST(GetByFilterExp, h.GetByFilter)
+	r.POST("/discover", h.Discover)
 }

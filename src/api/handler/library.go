@@ -6,6 +6,7 @@ import (
 	"gen-concept-api/config"
 	"gen-concept-api/dependency"
 	"gen-concept-api/domain/filter"
+	"gen-concept-api/infra/git"
 	"gen-concept-api/usecase"
 	"net/http"
 
@@ -19,7 +20,7 @@ type LibraryHandler struct {
 
 func NewLibraryHandler(cfg *config.Config) *LibraryHandler {
 	return &LibraryHandler{
-		usecase: usecase.NewLibraryUsecase(cfg, dependency.GetLibraryRepository(cfg)),
+		usecase: usecase.NewLibraryUsecase(cfg, dependency.GetLibraryRepository(cfg), git.NewGitHubProvider()),
 	}
 }
 
@@ -141,4 +142,27 @@ func (h *LibraryHandler) GetByFilter(c *gin.Context) {
 	response.Items = &items
 
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(response, true, 0))
+}
+
+func (h *LibraryHandler) Discover(c *gin.Context) {
+	request := struct {
+		RepositoryURL string `json:"repositoryUrl" binding:"required"`
+		Token         string `json:"token"`
+	}{}
+	err := c.ShouldBindJSON(&request)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest,
+			helper.GenerateBaseResponseWithValidationError(nil, false, helper.ValidationError, err))
+		return
+	}
+
+	library, err := h.usecase.DiscoverAndImport(c, request.RepositoryURL, request.Token)
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err),
+			helper.GenerateBaseResponseWithError(nil, false, helper.InternalError, err))
+		return
+	}
+
+	response := dto.ToLibraryResponse(library)
+	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(response, true, 0))
 }

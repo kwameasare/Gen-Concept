@@ -30,11 +30,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Save, ArrowLeft, Layers, Zap, Database, Globe, Plus, Trash2 } from "lucide-react";
+import { Save, ArrowLeft, Layers, Zap, Database, Globe, Plus, Trash2, ChevronRight, Home, Eye, Code } from "lucide-react";
 import { api } from "@/lib/api";
 import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
-import { Journey, Operation } from "@/types/journey";
+import { Journey, Operation, JourneyStep } from "@/types/journey";
 import { cn } from "@/lib/utils";
+
+
+interface BreadcrumbItem {
+    id: string; // Operation UUID or Step UUID
+    label: string;
+    steps: JourneyStep[];
+}
 
 const initialNodes: Node[] = [];
 
@@ -54,6 +61,8 @@ export default function JourneyBuilderPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedOperationId, setSelectedOperationId] = useState<string | null>(null);
+    const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
+    const [viewMode, setViewMode] = useState<"business" | "technical">("business");
     const [deleteJourneyDialog, setDeleteJourneyDialog] = useState(false);
 
     // Modal State
@@ -95,10 +104,21 @@ export default function JourneyBuilderPage() {
         fetchJourney();
     }, [fetchJourney]);
 
-    const loadOperationFlow = useCallback((operation: Operation) => {
+    const loadFlow = useCallback((steps: JourneyStep[], mode: "business" | "technical") => {
         const newNodes: Node[] = [];
         const newEdges: Edge[] = [];
         let yPos = 50;
+
+        // Filter steps based on mode
+        let filteredSteps = [...(steps || [])];
+        if (mode === "business") {
+            // In Business mode, only show steps with level HIGH or undefined (default)
+            // and skip steps that are explicitly LOW/CODE or defined as technical
+            filteredSteps = filteredSteps.filter(s => !s.level || s.level === "HIGH" || s.level === "MEDIUM");
+        }
+
+        // Start Node
+
 
         // Start Node
         newNodes.push({
@@ -109,30 +129,42 @@ export default function JourneyBuilderPage() {
             style: { background: '#f0fdf4', borderColor: '#22c55e', width: 150 }
         });
 
-        operation.backendJourney?.sort((a, b) => a.index - b.index).forEach((step, index) => {
+        // Sort steps by index
+        const sortedSteps = filteredSteps.sort((a, b) => a.index - b.index);
+
+        sortedSteps.forEach((step, index) => {
             const nodeId = step.uuid || `step-${index}`;
+            const hasSubSteps = step.subSteps && step.subSteps.length > 0;
+
             newNodes.push({
                 id: nodeId,
                 type: "default",
                 data: {
                     label: step.type,
                     description: step.description,
-                    stepData: step
+                    stepData: step,
+                    hasSubSteps: hasSubSteps
                 },
                 position: { x: 250, y: yPos + (index + 1) * 120 },
                 style: {
-                    background: '#fff',
-                    border: '1px solid #e2e8f0',
+                    background: step.level === "LOW" ? '#f1f5f9' : '#fff', // Gray bg for low level steps (if visible)
+                    border: hasSubSteps ? '2px solid #3b82f6' : '1px solid #e2e8f0', // Highlight if has substeps
                     borderRadius: '8px',
                     padding: '10px',
                     width: '200px',
                     textAlign: 'center',
-                    fontSize: '12px'
+                    fontSize: '12px',
+                    cursor: hasSubSteps ? 'pointer' : 'default',
+                    opacity: mode === "business" && step.level === "LOW" ? 0.5 : 1
                 }
             });
 
             // Connect to previous node
-            const sourceId = index === 0 ? "start" : (operation.backendJourney[index - 1].uuid || `step-${index - 1}`);
+            const sourceId = index === 0 ? "start" : (sortedSteps[index - 1].uuid || `step-${index - 1}`);
+
+            // If filtering caused gaps, we just connect strictly linearly in the filtered list
+            // This simplifies the visualization for business users
+
             newEdges.push({
                 id: `e-${sourceId}-${nodeId}`,
                 source: sourceId,
@@ -143,14 +175,14 @@ export default function JourneyBuilderPage() {
         });
 
         // End Node
-        if (operation.backendJourney?.length > 0) {
-            const lastStep = operation.backendJourney[operation.backendJourney.length - 1];
-            const lastNodeId = lastStep.uuid || `step-${operation.backendJourney.length - 1}`;
+        if (sortedSteps.length > 0) {
+            const lastStep = sortedSteps[sortedSteps.length - 1];
+            const lastNodeId = lastStep.uuid || `step-${sortedSteps.length - 1}`;
             newNodes.push({
                 id: "end",
                 type: "output",
                 data: { label: "End" },
-                position: { x: 250, y: yPos + (operation.backendJourney.length + 1) * 120 },
+                position: { x: 250, y: yPos + (sortedSteps.length + 1) * 120 },
                 style: { background: '#fef2f2', borderColor: '#ef4444', width: 150 }
             });
             newEdges.push({
@@ -184,7 +216,45 @@ export default function JourneyBuilderPage() {
     const handleOperationSelect = (_entityId: string, op: Operation) => {
         setSelectedOperationId(op.uuid);
         setSelectedNode(null);
-        loadOperationFlow(op);
+        setBreadcrumbs([{
+            id: op.uuid,
+            label: op.name,
+            steps: op.backendJourney || []
+        }]);
+        loadFlow(op.backendJourney || [], viewMode);
+    };
+
+    // Reload flow when viewMode changes
+    useEffect(() => {
+        if (selectedOperationId) {
+            const currentSteps = breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].steps : [];
+            loadFlow(currentSteps, viewMode);
+        }
+    }, [viewMode, loadFlow, selectedOperationId]); // breadcrumbs dependency omitted to prevent loop, logic depends on latest breadcrumb
+
+    const handleNodeDoubleClick = useCallback((_event: React.MouseEvent, node: Node) => {
+        const stepData = node.data.stepData as JourneyStep;
+        if (stepData && stepData.subSteps && stepData.subSteps.length > 0) {
+            // Zoom in
+            const newBreadcrumbs = [
+                ...breadcrumbs,
+                {
+                    id: stepData.uuid,
+                    label: stepData.type, // Use step type or description as label
+                    steps: stepData.subSteps
+                }
+            ];
+            setBreadcrumbs(newBreadcrumbs);
+            loadFlow(stepData.subSteps, viewMode);
+            setSelectedNode(null); // Deselect on zoom
+        }
+    }, [breadcrumbs, loadFlow, viewMode]);
+
+    const handleBreadcrumbClick = (index: number) => {
+        const newBreadcrumbs = breadcrumbs.slice(0, index + 1);
+        setBreadcrumbs(newBreadcrumbs);
+        loadFlow(newBreadcrumbs[index].steps, viewMode);
+        setSelectedNode(null);
     };
 
     const onConnect = useCallback(
@@ -366,6 +436,30 @@ export default function JourneyBuilderPage() {
                     <Button size="sm">
                         <Save className="w-4 h-4 mr-2" /> Save Journey
                     </Button>
+                    <div className="border-l pl-2 ml-2 flex items-center">
+                        <div className="bg-muted p-1 rounded-md flex gap-1">
+                            <button
+                                onClick={() => setViewMode("business")}
+                                className={cn(
+                                    "p-1.5 rounded-sm text-xs font-medium flex items-center gap-1 transition-all",
+                                    viewMode === "business" ? "bg-white shadow-sm text-primary" : "text-muted-foreground hover:text-foreground"
+                                )}
+                                title="Business View (High Level)"
+                            >
+                                <Eye className="w-3 h-3" /> Business
+                            </button>
+                            <button
+                                onClick={() => setViewMode("technical")}
+                                className={cn(
+                                    "p-1.5 rounded-sm text-xs font-medium flex items-center gap-1 transition-all",
+                                    viewMode === "technical" ? "bg-white shadow-sm text-primary" : "text-muted-foreground hover:text-foreground"
+                                )}
+                                title="Technical View (All Details)"
+                            >
+                                <Code className="w-3 h-3" /> Technical
+                            </button>
+                        </div>
+                    </div>
                     {journey && (
                         <Button
                             variant="destructive"
@@ -473,6 +567,7 @@ export default function JourneyBuilderPage() {
                                 onEdgesChange={onEdgesChange}
                                 onConnect={onConnect}
                                 onNodeClick={onNodeClick}
+                                onNodeDoubleClick={handleNodeDoubleClick}
                                 onInit={setReactFlowInstance}
                                 onDrop={onDrop}
                                 onDragOver={onDragOver}
@@ -480,6 +575,23 @@ export default function JourneyBuilderPage() {
                             >
                                 <Controls />
                                 <Background />
+                                <div className="absolute top-4 left-4 z-10 bg-white/90 p-2 rounded-md shadow-sm border flex items-center gap-2 text-sm">
+                                    {breadcrumbs.map((crumb, index) => (
+                                        <div key={crumb.id} className="flex items-center">
+                                            {index > 0 && <ChevronRight className="w-4 h-4 text-muted-foreground mx-1" />}
+                                            <button
+                                                onClick={() => handleBreadcrumbClick(index)}
+                                                className={cn(
+                                                    "hover:underline flex items-center gap-1",
+                                                    index === breadcrumbs.length - 1 ? "font-bold text-primary" : "text-muted-foreground"
+                                                )}
+                                            >
+                                                {index === 0 && <Home className="w-3 h-3" />}
+                                                {crumb.label}
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                             </ReactFlow>
                         </ReactFlowProvider>
                     ) : (
@@ -565,6 +677,12 @@ export default function JourneyBuilderPage() {
                                     {JSON.stringify(selectedNode.data.stepData, null, 2)}
                                 </pre>
                             </div>
+
+                            {selectedNode.data.stepData.subSteps && selectedNode.data.stepData.subSteps.length > 0 && (
+                                <div className="bg-blue-50 border border-blue-100 p-2 rounded text-xs text-blue-700">
+                                    Contains {selectedNode.data.stepData.subSteps.length} sub-steps. Double-click node to view.
+                                </div>
+                            )}
                         </div>
                     </aside>
                 )}

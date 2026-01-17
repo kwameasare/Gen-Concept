@@ -52,6 +52,10 @@ type BackendJourney struct {
 	Channels        []enum.NotificationChannel `json:"channels,omitempty"`
 	Message         string                     `json:"message,omitempty"`
 	Recipients      []string                   `json:"recipients,omitempty"`
+
+	// Hierarchical fields
+	SubSteps []BackendJourney `json:"subSteps,omitempty"`
+	Level    string           `json:"level,omitempty"`
 }
 
 type FieldInvolved struct {
@@ -186,6 +190,12 @@ func (bj *BackendJourney) FromUsecaseBackendJourneyDTO(ucBackendJourney *dto.Jou
 		var responseAction ResponseAction
 		responseAction.FromUsecaseResponseActionDTO(&ucResponseAction)
 		bj.ResponseActions = append(bj.ResponseActions, responseAction)
+	}
+	bj.Level = ucBackendJourney.Level
+	for _, ucSubStep := range ucBackendJourney.SubSteps {
+		var subStep BackendJourney
+		subStep.FromUsecaseBackendJourneyDTO(&ucSubStep)
+		bj.SubSteps = append(bj.SubSteps, subStep)
 	}
 }
 
@@ -341,6 +351,12 @@ func (bj *BackendJourney) ToUsecaseBackendJourneyDTO() *dto.JourneyStep {
 	for _, responseAction := range bj.ResponseActions {
 		ucResponseAction := responseAction.ToUsecaseResponseActionDTO()
 		ucBackendJourney.ResponseActions = append(ucBackendJourney.ResponseActions, *ucResponseAction)
+	}
+
+	ucBackendJourney.Level = bj.Level
+	for _, subStep := range bj.SubSteps {
+		ucSubStep := subStep.ToUsecaseBackendJourneyDTO()
+		ucBackendJourney.SubSteps = append(ucBackendJourney.SubSteps, *ucSubStep)
 	}
 	return ucBackendJourney
 }

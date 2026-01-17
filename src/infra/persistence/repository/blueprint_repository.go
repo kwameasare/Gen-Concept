@@ -93,6 +93,7 @@ func (r *BlueprintRepository) CreateWithRelationships(ctx context.Context, bluep
 		Preload("Functionalities.Operations").
 		Preload("Libraries").
 		Preload("Libraries.ExposedFunctionalities").
+		Preload("Placeholders").
 		Where("uuid = ?", blueprintToCreate.Uuid).
 		First(&result).Error; err != nil {
 		return model.Blueprint{}, err
@@ -207,10 +208,27 @@ func (r *BlueprintRepository) UpdateWithRelationships(ctx context.Context, bluep
 		Preload("Functionalities.Operations").
 		Preload("Libraries").
 		Preload("Libraries.ExposedFunctionalities").
+		Preload("Placeholders").
 		Where("uuid = ?", blueprintUuid).
 		First(&result).Error; err != nil {
 		return model.Blueprint{}, err
 	}
 
+	return result, nil
+}
+
+// GetByUuidWithRelationships
+func (r *BlueprintRepository) GetByUuidWithRelationships(ctx context.Context, uuid uuid.UUID) (model.Blueprint, error) {
+	var result model.Blueprint
+	if err := r.database.WithContext(ctx).
+		Preload("Functionalities").
+		Preload("Functionalities.Operations").
+		Preload("Libraries").
+		Preload("Libraries.ExposedFunctionalities").
+		Preload("Placeholders").
+		Where("uuid = ?", uuid).
+		First(&result).Error; err != nil {
+		return model.Blueprint{}, err
+	}
 	return result, nil
 }

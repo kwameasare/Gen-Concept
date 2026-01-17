@@ -53,6 +53,10 @@ type JourneyStep struct {
 	Channels        []enum.NotificationChannel `json:"channels,omitempty"`
 	Message         string                     `json:"message,omitempty"`
 	Recipients      []string                   `json:"recipients,omitempty"`
+
+	// Hierarchical fields
+	SubSteps []JourneyStep `json:"subSteps,omitempty"`
+	Level    string        `json:"level,omitempty"`
 }
 
 type FieldInvolved struct {

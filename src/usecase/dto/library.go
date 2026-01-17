@@ -16,6 +16,9 @@ type Library struct {
 	ExposedFunctionalities []LibraryFunctionality `json:"exposedFunctionalities"`
 	OrganizationID         *uint                  `json:"organizationID,omitempty"`
 	TeamID                 *uint                  `json:"teamID,omitempty"`
+	GitReference           string                 `json:"gitReference"`
+	CommitHash             string                 `json:"commitHash"`
+	Tag                    string                 `json:"tag"`
 }
 
 type LibraryFunctionality struct {
@@ -51,6 +54,9 @@ func (l Library) ToModel() model.Library {
 		ExposedFunctionalities: functionalities,
 		OrganizationID:         l.OrganizationID,
 		TeamID:                 l.TeamID,
+		GitReference:           l.GitReference,
+		CommitHash:             l.CommitHash,
+		Tag:                    l.Tag,
 	}
 }
 
@@ -76,5 +82,8 @@ func FromLibraryModel(library model.Library) Library {
 		ExposedFunctionalities: functionalities,
 		OrganizationID:         library.OrganizationID,
 		TeamID:                 library.TeamID,
+		GitReference:           library.GitReference,
+		CommitHash:             library.CommitHash,
+		Tag:                    library.Tag,
 	}
 }
