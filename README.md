@@ -12,6 +12,13 @@
 
 If you like this repo or found it helpful, please give it a star. Thanks!
 
+## Gen-Concept Features
+1.  **Hierarchical Journeys**: Infinite level nesting of processes from High-Level interactions to Code-level implementation.
+2.  **Blueprint System**: Define reusable templates with variables and placeholders.
+3.  **Library Discovery**: Import libraries directly from public/private GitHub repositories using `gen_library.json`.
+4.  **Generation Engine**: Generate valid code from Blueprints, filling in gaps using User Input or AI Agents.
+5.  **AI Assistant**: Context-aware AI to assist in code generation and logic filling.
+
 ## Used Tools
 
 1. [Gin as web framework](https://github.com/gin-gonic/gin)

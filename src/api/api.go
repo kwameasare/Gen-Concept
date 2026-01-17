@@ -75,6 +75,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		libraries := v1.Group("/libraries", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 		// Generation
 		generation := v1.Group("/generation", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+		// Importer
+		importer := v1.Group("/importer", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
 
 		// Test
 		router.Health(health)
@@ -106,6 +108,8 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		router.Library(libraries, cfg)
 		// Generation
 		router.Generation(generation, cfg)
+		// Importer
+		router.Importer(importer, cfg)
 
 		// Teams
 		teams := v1.Group("/teams", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
