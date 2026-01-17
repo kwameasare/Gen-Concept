@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { api, setToken } from "@/lib/api";
+import { api, setToken, setUser } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -51,6 +51,9 @@ export default function OnboardingPage() {
             });
 
             setToken(tokenData.accessToken);
+            if ((tokenData as any).user) {
+                setUser((tokenData as any).user);
+            }
             navigate("/dashboard");
         } catch (err: any) {
             setError(err.message || "Failed to onboard");

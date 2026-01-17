@@ -96,14 +96,38 @@ func createDefaultUserInformation(database *gorm.DB) {
 	defaultRole := models.Role{Name: constant.DefaultRoleName}
 	createRoleIfNotExists(database, &defaultRole)
 
+	var createdOrgId uint
+	createdOrgId = createDefaultOrganization(database)
+
 	u := models.User{Username: constant.DefaultUserName, FirstName: "Test", LastName: "Test",
-		MobileNumber: "233557262205", Email: "admin@admin.com"}
+		MobileNumber: "233557262205", Email: "admin@admin.com", OrganizationID: createdOrgId}
 	pass := "12345678"
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(pass), bcrypt.DefaultCost)
 	u.Password = string(hashedPassword)
 
 	createAdminUserIfNotExists(database, &u, adminRole.ID)
 
+}
+
+func createDefaultOrganization(database *gorm.DB) uint {
+	org := models.Organization{
+		Name:             "Default Organization",
+		Description:      "Default Organization",
+		Domain:           "default.com",
+		SubscriptionPlan: "Enterprise",
+	}
+
+	exists := 0
+	database.
+		Model(&models.Organization{}).
+		Select("id").
+		Where("domain = ?", org.Domain).
+		First(&exists)
+	if exists == 0 {
+		database.Create(&org)
+		return org.ID
+	}
+	return uint(exists)
 }
 
 func createRoleIfNotExists(database *gorm.DB, r *models.Role) {

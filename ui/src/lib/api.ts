@@ -2,7 +2,16 @@ const BASE_URL = "http://localhost:5005/api/v1";
 
 export const setToken = (token: string) => localStorage.setItem("token", token);
 export const getToken = () => localStorage.getItem("token");
-export const removeToken = () => localStorage.removeItem("token");
+export const removeToken = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+};
+
+export const setUser = (user: any) => localStorage.setItem("user", JSON.stringify(user));
+export const getUser = () => {
+    const userStr = localStorage.getItem("user");
+    return userStr ? JSON.parse(userStr) : null;
+};
 
 export async function request<T>(
     endpoint: string,

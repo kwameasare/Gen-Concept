@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Plus, Folder, FileText, Trash2 } from "lucide-react";
-import { api } from "@/lib/api";
+import { Plus, Folder, FileText, Trash2, LogOut } from "lucide-react";
+import { api, removeToken } from "@/lib/api";
 import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -192,7 +192,21 @@ export default function DashboardPage() {
                             Manage your enterprise projects and blueprints.
                         </p>
                     </div>
-                    <ThemeToggle />
+                    <div className="flex items-center gap-4">
+                        <Button variant="outline" onClick={() => navigate("/teams")}>
+                            Manage Teams
+                        </Button>
+                        <Button variant="outline" onClick={() => navigate("/libraries")}>
+                            Manage Libraries
+                        </Button>
+                        <ThemeToggle />
+                        <Button variant="ghost" size="icon" onClick={() => {
+                            removeToken();
+                            navigate("/login");
+                        }}>
+                            <LogOut className="h-5 w-5" />
+                        </Button>
+                    </div>
                 </div>
 
                 <Tabs defaultValue="projects" className="w-full">

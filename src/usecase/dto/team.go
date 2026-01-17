@@ -7,6 +7,7 @@ import (
 )
 
 type Team struct {
+	ID             uint      `json:"id"`
 	Uuid           uuid.UUID `json:"uuid"`
 	Name           string    `json:"name"`
 	Description    string    `json:"description"`
@@ -36,6 +37,7 @@ func (t CreateTeam) ToModel() model.Team {
 
 func FromTeamModel(team model.Team) Team {
 	return Team{
+		ID:             team.ID,
 		Uuid:           team.Uuid,
 		Name:           team.Name,
 		Description:    team.Description,

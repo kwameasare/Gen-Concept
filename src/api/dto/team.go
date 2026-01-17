@@ -7,6 +7,7 @@ import (
 )
 
 type Team struct {
+	ID             uint      `json:"id"`
 	Uuid           uuid.UUID `json:"uuid"`
 	Name           string    `json:"name"`
 	Description    string    `json:"description"`
@@ -44,6 +45,7 @@ func ToUseCaseUpdateTeam(t UpdateTeam) usecaseDto.UpdateTeam {
 // ToTeamResponse
 func ToTeamResponse(t usecaseDto.Team) Team {
 	return Team{
+		ID:             t.ID,
 		Uuid:           t.Uuid,
 		Name:           t.Name,
 		Description:    t.Description,

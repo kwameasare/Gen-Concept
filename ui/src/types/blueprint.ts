@@ -15,6 +15,8 @@ export interface Library {
     repositoryURL: string;
     namespace: string;
     exposedFunctionalities?: LibraryFunctionality[];
+    organizationID?: number;
+    teamID?: number;
 }
 
 export interface LibraryFunctionality {

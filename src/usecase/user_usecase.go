@@ -62,6 +62,7 @@ func (u *UserUsecase) LoginByUsername(ctx context.Context, username string, pass
 	if err != nil {
 		return nil, err
 	}
+	token.User = user
 	u.logger.Info(logging.Internal, logging.Api, "LoginByUsername success", map[logging.ExtraKey]interface{}{
 		logging.Username: username,
 	})
