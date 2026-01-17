@@ -33,6 +33,8 @@ func createTables(database *gorm.DB) {
 	tables = addNewTable(database, models.Property{}, tables)
 
 	// User
+	tables = addNewTable(database, models.Organization{}, tables)
+	tables = addNewTable(database, models.Team{}, tables)
 	tables = addNewTable(database, models.User{}, tables)
 	tables = addNewTable(database, models.Role{}, tables)
 	tables = addNewTable(database, models.UserRole{}, tables)

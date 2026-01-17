@@ -16,6 +16,8 @@ func NewLibraryRepository(cfg *config.Config) repository.LibraryRepository {
 		BaseRepository: NewBaseRepository[model.Library](cfg, []database.PreloadEntity{
 			{Entity: "ExposedFunctionalities"},
 			{Entity: "Blueprints"},
+			{Entity: "Organization"},
+			{Entity: "Team"},
 		}),
 	}
 }

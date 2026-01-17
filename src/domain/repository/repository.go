@@ -71,3 +71,7 @@ type OrganizationRepository interface {
 type LibraryRepository interface {
 	BaseRepository[model.Library]
 }
+
+type TeamRepository interface {
+	BaseRepository[model.Team]
+}

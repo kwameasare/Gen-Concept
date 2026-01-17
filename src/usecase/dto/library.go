@@ -14,6 +14,8 @@ type Library struct {
 	RepositoryURL          string                 `json:"repositoryURL"`
 	Namespace              string                 `json:"namespace"`
 	ExposedFunctionalities []LibraryFunctionality `json:"exposedFunctionalities"`
+	OrganizationID         *uint                  `json:"organizationID,omitempty"`
+	TeamID                 *uint                  `json:"teamID,omitempty"`
 }
 
 type LibraryFunctionality struct {
@@ -47,6 +49,8 @@ func (l Library) ToModel() model.Library {
 		RepositoryURL:          l.RepositoryURL,
 		Namespace:              l.Namespace,
 		ExposedFunctionalities: functionalities,
+		OrganizationID:         l.OrganizationID,
+		TeamID:                 l.TeamID,
 	}
 }
 
@@ -70,5 +74,7 @@ func FromLibraryModel(library model.Library) Library {
 		RepositoryURL:          library.RepositoryURL,
 		Namespace:              library.Namespace,
 		ExposedFunctionalities: functionalities,
+		OrganizationID:         library.OrganizationID,
+		TeamID:                 library.TeamID,
 	}
 }

@@ -9,6 +9,10 @@ type Library struct {
 	Namespace              string                 `gorm:"size:255" json:"namespace"`
 	ExposedFunctionalities []LibraryFunctionality `gorm:"foreignKey:LibraryID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"exposedFunctionalities"`
 	Blueprints             []Blueprint            `gorm:"many2many:blueprint_libraries" json:"blueprints,omitempty"`
+	OrganizationID         *uint                  `json:"organizationID,omitempty"`
+	Organization           *Organization          `json:"organization,omitempty"`
+	TeamID                 *uint                  `json:"teamID,omitempty"`
+	Team                   *Team                  `json:"team,omitempty"`
 }
 
 type LibraryFunctionality struct {

@@ -7,4 +7,5 @@ type Organization struct {
 	Domain           string `gorm:"type:string;size:100;unique"`
 	SubscriptionPlan string `gorm:"type:string;size:50;default:'Free'"`
 	Users            []User `gorm:"foreignKey:OrganizationID"`
+	Teams            []Team `gorm:"foreignKey:OrganizationID"`
 }

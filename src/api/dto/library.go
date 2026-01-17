@@ -15,6 +15,8 @@ type Library struct {
 	RepositoryURL          string                 `json:"repositoryURL"`
 	Namespace              string                 `json:"namespace"`
 	ExposedFunctionalities []LibraryFunctionality `json:"exposedFunctionalities"`
+	OrganizationID         *uint                  `json:"organizationID,omitempty"`
+	TeamID                 *uint                  `json:"teamID,omitempty"`
 }
 
 type LibraryFunctionality struct {
@@ -44,6 +46,8 @@ func ToUseCaseLibrary(library Library) usecaseDto.Library {
 		RepositoryURL:          library.RepositoryURL,
 		Namespace:              library.Namespace,
 		ExposedFunctionalities: functionalities,
+		OrganizationID:         library.OrganizationID,
+		TeamID:                 library.TeamID,
 	}
 }
 
@@ -67,5 +71,7 @@ func ToLibraryResponse(library usecaseDto.Library) Library {
 		RepositoryURL:          library.RepositoryURL,
 		Namespace:              library.Namespace,
 		ExposedFunctionalities: functionalities,
+		OrganizationID:         library.OrganizationID,
+		TeamID:                 library.TeamID,
 	}
 }

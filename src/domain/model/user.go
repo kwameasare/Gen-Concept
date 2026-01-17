@@ -12,6 +12,7 @@ type User struct {
 	OrganizationID uint
 	Organization   Organization `gorm:"foreignKey:OrganizationID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL"`
 	UserRoles      *[]UserRole
+	Teams          []Team `gorm:"many2many:team_users"`
 }
 
 type Role struct {

@@ -59,6 +59,10 @@ func GetLibraryRepository(cfg *config.Config) contractRepository.LibraryReposito
 	return infraRepository.NewLibraryRepository(cfg)
 }
 
+func GetTeamRepository(cfg *config.Config) contractRepository.TeamRepository {
+	return infraRepository.NewTeamRepository(cfg)
+}
+
 func GetRoleRepository(cfg *config.Config) contractRepository.RoleRepository {
 	var preloads []database.PreloadEntity = []database.PreloadEntity{}
 	return infraRepository.NewBaseRepository[model.Role](cfg, preloads)

@@ -100,7 +100,12 @@ func RegisterRoutes(r *gin.Engine, cfg *config.Config) {
 		// Blueprints
 		router.Blueprint(blueprints, cfg)
 		// Libraries
+		// Libraries
 		router.Library(libraries, cfg)
+
+		// Teams
+		teams := v1.Group("/teams", middleware.Authentication(cfg), middleware.Authorization([]string{"admin"}))
+		router.Team(teams, cfg)
 
 		r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 	}
