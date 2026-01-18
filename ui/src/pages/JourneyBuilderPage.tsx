@@ -33,7 +33,7 @@ import {
 import { Save, ArrowLeft, Layers, Zap, Database, Globe, Plus, Trash2, ChevronRight, Home, Eye, Code } from "lucide-react";
 import { api } from "@/lib/api";
 import { DeleteConfirmDialog } from "@/components/DeleteConfirmDialog";
-import { Journey, Operation, JourneyStep } from "@/types/journey";
+import { Journey, Operation, JourneyStep, JourneyNode, JourneyEdge } from "@/types/journey";
 import { cn } from "@/lib/utils";
 
 
@@ -61,6 +61,7 @@ export default function JourneyBuilderPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedOperationId, setSelectedOperationId] = useState<string | null>(null);
+    const [currentParentId, setCurrentParentId] = useState<string | null>(null); // For Zoom/Drill-down
     const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([]);
     const [viewMode, setViewMode] = useState<"business" | "technical">("business");
     const [deleteJourneyDialog, setDeleteJourneyDialog] = useState(false);
@@ -71,11 +72,37 @@ export default function JourneyBuilderPage() {
     const [newEntityId, setNewEntityId] = useState("");
     const [programmingLanguage, setProgrammingLanguage] = useState("Golang");
 
-    const fetchJourney = useCallback(async () => {
-        if (!projectId) return;
+    // Fetch Graph Data (Nodes & Edges) from Backend
+    const fetchGraph = useCallback(async (parentId?: string) => {
+        if (!journey || !journey.uuid) return;
 
         setIsLoading(true);
         setError(null);
+        try {
+            // Build Query Params
+            const params = new URLSearchParams();
+            if (parentId) params.append("parent_id", parentId);
+            if (viewMode === "business") params.append("level", "HIGH"); // Business view filters for HIGH level nodes
+
+            const res = await api.get<{ result: { nodes: JourneyNode[], edges: JourneyEdge[] } }>(
+                `/journeys/${journey.uuid}/graph?${params.toString()}`
+            );
+
+            if (res && res.result) {
+                loadGraph(res.result.nodes, res.result.edges);
+            }
+        } catch (error: any) {
+            console.error("Failed to fetch graph", error);
+            setError("Failed to load journey graph.");
+        } finally {
+            setIsLoading(false);
+        }
+    }, [journey, viewMode]);
+
+    // Initial fetch of Journey Metadata
+    const fetchJourneyMetadata = useCallback(async () => {
+        if (!projectId) return;
+        // ... Keep existing logic to find the journey UUID first ...
         try {
             const res = await api.post<{ items: Journey[] }>("/journeys/get-by-filter", {
                 pageNumber: 1,
@@ -89,123 +116,74 @@ export default function JourneyBuilderPage() {
             if (res.items && res.items.length > 0) {
                 setJourney(res.items[0]);
             } else {
-                setJourney(null); // No journey found
+                setJourney(null);
             }
-        } catch (error: any) {
-            console.error("Failed to fetch journey", error);
-            setError(error.response?.status === 429 ? "Too many requests. Please try again later." : "Failed to load journey.");
-        } finally {
-            setIsLoading(false);
+        } catch (e) {
+            console.error(e);
         }
     }, [projectId]);
 
-    // Initial fetch
     useEffect(() => {
-        fetchJourney();
-    }, [fetchJourney]);
+        fetchJourneyMetadata();
+    }, [fetchJourneyMetadata]);
 
-    const loadFlow = useCallback((steps: JourneyStep[], mode: "business" | "technical") => {
+    // Fetch graph when journey is loaded or viewMode/parentId changes
+    useEffect(() => {
+        if (journey) {
+            fetchGraph(currentParentId || undefined);
+        }
+    }, [journey, fetchGraph, currentParentId]);
+
+
+    const loadGraph = useCallback((jNodes: JourneyNode[], jEdges: JourneyEdge[]) => {
         const newNodes: Node[] = [];
         const newEdges: Edge[] = [];
-        let yPos = 50;
 
-        // Filter steps based on mode
-        let filteredSteps = [...(steps || [])];
-        if (mode === "business") {
-            // In Business mode, only show steps with level HIGH or undefined (default)
-            // and skip steps that are explicitly LOW/CODE or defined as technical
-            filteredSteps = filteredSteps.filter(s => !s.level || s.level === "HIGH" || s.level === "MEDIUM");
-        }
-
-        // Start Node
-
-
-        // Start Node
-        newNodes.push({
-            id: "start",
-            type: "input",
-            data: { label: "Start" },
-            position: { x: 250, y: 0 },
-            style: { background: '#f0fdf4', borderColor: '#22c55e', width: 150 }
-        });
-
-        // Sort steps by index
-        const sortedSteps = filteredSteps.sort((a, b) => a.index - b.index);
-
-        sortedSteps.forEach((step, index) => {
-            const nodeId = step.uuid || `step-${index}`;
-            const hasSubSteps = step.subSteps && step.subSteps.length > 0;
+        // Map JourneyNodes to ReactFlow Nodes
+        jNodes.forEach((node) => {
+            // Check if node has metadata for position, else default layout
+            // For now, simpler auto-layout logic or use stored metadata
+            const x = node.metadata?.x || 0;
+            const y = node.metadata?.y || 0;
 
             newNodes.push({
-                id: nodeId,
-                type: "default",
+                id: node.uuid,
+                type: "default", // or custom node type
                 data: {
-                    label: step.type,
-                    description: step.description,
-                    stepData: step,
-                    hasSubSteps: hasSubSteps
+                    label: node.label,
+                    type: node.type,
+                    level: node.level,
+                    nodeData: node, // Store full object
                 },
-                position: { x: 250, y: yPos + (index + 1) * 120 },
+                position: { x, y }, // We need an auto-layout library if x,y are 0
                 style: {
-                    background: step.level === "LOW" ? '#f1f5f9' : '#fff', // Gray bg for low level steps (if visible)
-                    border: hasSubSteps ? '2px solid #3b82f6' : '1px solid #e2e8f0', // Highlight if has substeps
+                    background: node.level === "LOW" ? '#f1f5f9' : '#fff',
+                    border: '1px solid #e2e8f0',
                     borderRadius: '8px',
                     padding: '10px',
                     width: '200px',
                     textAlign: 'center',
-                    fontSize: '12px',
-                    cursor: hasSubSteps ? 'pointer' : 'default',
-                    opacity: mode === "business" && step.level === "LOW" ? 0.5 : 1
                 }
             });
+        });
 
-            // Connect to previous node
-            const sourceId = index === 0 ? "start" : (sortedSteps[index - 1].uuid || `step-${index - 1}`);
-
-            // If filtering caused gaps, we just connect strictly linearly in the filtered list
-            // This simplifies the visualization for business users
-
+        // Map JourneyEdges to ReactFlow Edges
+        jEdges.forEach((edge) => {
             newEdges.push({
-                id: `e-${sourceId}-${nodeId}`,
-                source: sourceId,
-                target: nodeId,
+                id: edge.uuid,
+                source: edge.sourceId,
+                target: edge.targetId,
+                label: edge.label,
                 markerEnd: { type: MarkerType.ArrowClosed },
                 type: 'smoothstep'
             });
         });
 
-        // End Node
-        if (sortedSteps.length > 0) {
-            const lastStep = sortedSteps[sortedSteps.length - 1];
-            const lastNodeId = lastStep.uuid || `step-${sortedSteps.length - 1}`;
-            newNodes.push({
-                id: "end",
-                type: "output",
-                data: { label: "End" },
-                position: { x: 250, y: yPos + (sortedSteps.length + 1) * 120 },
-                style: { background: '#fef2f2', borderColor: '#ef4444', width: 150 }
-            });
-            newEdges.push({
-                id: `e-${lastNodeId}-end`,
-                source: lastNodeId,
-                target: "end",
-                markerEnd: { type: MarkerType.ArrowClosed },
-                type: 'smoothstep'
-            });
-        } else {
-            newNodes.push({
-                id: "end",
-                type: "output",
-                data: { label: "End" },
-                position: { x: 250, y: 120 },
-                style: { background: '#fef2f2', borderColor: '#ef4444', width: 150 }
-            });
-            newEdges.push({
-                id: `e-start-end`,
-                source: "start",
-                target: "end",
-                markerEnd: { type: MarkerType.ArrowClosed },
-                type: 'smoothstep'
+        // Apply simple layout if positions are missing (Naive vertical stack for MVP)
+        // ideally use dagre or elkjs
+        if (newNodes.every(n => n.position.x === 0 && n.position.y === 0)) {
+            newNodes.forEach((node, index) => {
+                node.position = { x: 250, y: index * 100 };
             });
         }
 
@@ -213,47 +191,59 @@ export default function JourneyBuilderPage() {
         setEdges(newEdges);
     }, [setNodes, setEdges]);
 
+
     const handleOperationSelect = (_entityId: string, op: Operation) => {
         setSelectedOperationId(op.uuid);
         setSelectedNode(null);
         setBreadcrumbs([{
             id: op.uuid,
             label: op.name,
-            steps: op.backendJourney || []
+            steps: []
         }]);
-        loadFlow(op.backendJourney || [], viewMode);
+        // When selecting an operation, we treat it as zooming into that operation node (or root)
+        // Ideally, the operation UUID is the parent ID in the graph
+        setCurrentParentId(op.uuid);
     };
 
-    // Reload flow when viewMode changes
-    useEffect(() => {
-        if (selectedOperationId) {
-            const currentSteps = breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].steps : [];
-            loadFlow(currentSteps, viewMode);
-        }
-    }, [viewMode, loadFlow, selectedOperationId]); // breadcrumbs dependency omitted to prevent loop, logic depends on latest breadcrumb
+    // Reload flow when viewMode changes - handled by fetchGraph dependency on viewMode
+    // useEffect(() => {
+    //    if (selectedOperationId) {
+    //        const currentSteps = breadcrumbs.length > 0 ? breadcrumbs[breadcrumbs.length - 1].steps : [];
+    //        loadFlow(currentSteps, viewMode);
+    //    }
+    // }, [viewMode, loadFlow, selectedOperationId]); 
 
+
+    // Double Click to Drill Down
     const handleNodeDoubleClick = useCallback((_event: React.MouseEvent, node: Node) => {
-        const stepData = node.data.stepData as JourneyStep;
-        if (stepData && stepData.subSteps && stepData.subSteps.length > 0) {
-            // Zoom in
-            const newBreadcrumbs = [
-                ...breadcrumbs,
-                {
-                    id: stepData.uuid,
-                    label: stepData.type, // Use step type or description as label
-                    steps: stepData.subSteps
-                }
-            ];
-            setBreadcrumbs(newBreadcrumbs);
-            loadFlow(stepData.subSteps, viewMode);
-            setSelectedNode(null); // Deselect on zoom
-        }
-    }, [breadcrumbs, loadFlow, viewMode]);
+        const jNode = node.data.nodeData as JourneyNode;
+        // Assume double click means "Drill Down" if it's a composite node or based on type
+        // Or simply set parentId to this node's UUID to find children
+
+        // Update breadcrumbs
+        const newCrumb: BreadcrumbItem = {
+            id: jNode.uuid,
+            label: jNode.label || jNode.type,
+            steps: [] // We don't need steps anymore, graph fetch handles it
+        };
+        setBreadcrumbs([...breadcrumbs, newCrumb]);
+
+        setCurrentParentId(jNode.uuid);
+        setSelectedNode(null);
+
+    }, [breadcrumbs]);
 
     const handleBreadcrumbClick = (index: number) => {
-        const newBreadcrumbs = breadcrumbs.slice(0, index + 1);
-        setBreadcrumbs(newBreadcrumbs);
-        loadFlow(newBreadcrumbs[index].steps, viewMode);
+        // Go back to that level
+        if (index === -1) {
+            // Home
+            setCurrentParentId(null);
+            setBreadcrumbs([]);
+        } else {
+            const targetCrumb = breadcrumbs[index];
+            setCurrentParentId(targetCrumb.id);
+            setBreadcrumbs(breadcrumbs.slice(0, index + 1));
+        }
         setSelectedNode(null);
     };
 
@@ -313,7 +303,7 @@ export default function JourneyBuilderPage() {
             const res = await api.post<{ result: Journey }>("/journeys/", payload);
             if (res) {
                 // Refresh journey data
-                fetchJourney();
+                fetchJourneyMetadata();
             }
         } catch (error: any) {
             console.error("Failed to initialize journey", error);
@@ -399,7 +389,7 @@ export default function JourneyBuilderPage() {
             const res = await api.put<{ result: Journey }>(`/journeys/${currentJourney.uuid}`, updatedJourney);
 
             if (res) {
-                await fetchJourney();
+                await fetchJourneyMetadata();
                 // Auto-select the new operation
                 handleOperationSelect(newEntity.uuid, newOperation);
             }
@@ -490,7 +480,7 @@ export default function JourneyBuilderPage() {
                         ) : error ? (
                             <div className="p-4 text-center text-sm text-red-500">
                                 {error}
-                                <Button variant="outline" size="sm" className="mt-2" onClick={fetchJourney}>Retry</Button>
+                                <Button variant="outline" size="sm" className="mt-2" onClick={fetchJourneyMetadata}>Retry</Button>
                             </div>
                         ) : !journey ? (
                             <div className="p-4 text-center text-sm text-muted-foreground">
@@ -576,9 +566,19 @@ export default function JourneyBuilderPage() {
                                 <Controls />
                                 <Background />
                                 <div className="absolute top-4 left-4 z-10 bg-white/90 p-2 rounded-md shadow-sm border flex items-center gap-2 text-sm">
+                                    {/* Home Button */}
+                                    <div className="flex items-center">
+                                        <button
+                                            onClick={() => handleBreadcrumbClick(-1)}
+                                            className={cn("hover:underline flex items-center gap-1", breadcrumbs.length === 0 ? "font-bold text-primary" : "text-muted-foreground")}
+                                        >
+                                            <Home className="w-3 h-3" /> Home
+                                        </button>
+                                    </div>
+
                                     {breadcrumbs.map((crumb, index) => (
                                         <div key={crumb.id} className="flex items-center">
-                                            {index > 0 && <ChevronRight className="w-4 h-4 text-muted-foreground mx-1" />}
+                                            <ChevronRight className="w-4 h-4 text-muted-foreground mx-1" />
                                             <button
                                                 onClick={() => handleBreadcrumbClick(index)}
                                                 className={cn(
@@ -586,7 +586,6 @@ export default function JourneyBuilderPage() {
                                                     index === breadcrumbs.length - 1 ? "font-bold text-primary" : "text-muted-foreground"
                                                 )}
                                             >
-                                                {index === 0 && <Home className="w-3 h-3" />}
                                                 {crumb.label}
                                             </button>
                                         </div>

@@ -66,6 +66,11 @@ func createTables(database *gorm.DB) {
 	tables = addNewTable(database, models.Library{}, tables)
 	tables = addNewTable(database, models.LibraryFunctionality{}, tables)
 	tables = addNewTable(database, models.BlueprintLibrary{}, tables)
+	tables = addNewTable(database, models.LibraryDefinition{}, tables)
+
+	// Journey Graph
+	tables = addNewTable(database, models.JourneyNode{}, tables)
+	tables = addNewTable(database, models.JourneyEdge{}, tables)
 
 	er := database.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";").Error
 	if er != nil {

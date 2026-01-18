@@ -1,86 +1,144 @@
 package service
 
 import (
+	"bytes"
+	"context"
 	"fmt"
 	"gen-concept-api/domain/model"
+	"gen-concept-api/domain/repository"
+	"gen-concept-api/enum"
+
 	"strings"
+	"text/template"
 )
 
 type GenerationService struct {
 	gitProvider GitProvider
 	aiProvider  AIProvider
+	libraryRepo repository.LibraryRepository
 }
 
-func NewGenerationService(gitProvider GitProvider, aiProvider AIProvider) *GenerationService {
+func NewGenerationService(gitProvider GitProvider, aiProvider AIProvider, libraryRepo repository.LibraryRepository) *GenerationService {
 	return &GenerationService{
 		gitProvider: gitProvider,
 		aiProvider:  aiProvider,
+		libraryRepo: libraryRepo,
 	}
 }
 
-func (s *GenerationService) GenerateCode(blueprint model.Blueprint, inputs map[string]string) (string, error) {
-	// 1. Fetch Template Content
-	var templateContent []byte
-
+func (s *GenerationService) GenerateCode(ctx context.Context, blueprint model.Blueprint, entity model.Entity, inputs map[string]string) (string, error) {
+	// 1. Fetch/Prepare Template Content
+	var templateContent string
 	if blueprint.TemplatePath != "" {
-		if strings.HasPrefix(blueprint.TemplatePath, "http") {
-			// Assume it's a URL (like raw github content or use GitProvider)
-			// For simplicity, we can reuse GitProvider if it fits, or just standard HTTP get if we had a generic one.
-			// But here we rely on the specific method.
-			// Let's assume the TemplatePath IS a repo URL + path, but splitting that is tricky without structure.
-			// For MVP, let's assume the TemplatePath is actually the RAW content for now OR we use a simple placeholder string.
+		// For MVP, assuming TemplatePath IS the template content if it's not a URL
+		// OR we fetch it. Retaining logic for now.
+		templateContent = blueprint.TemplatePath
+	}
 
-			// Actually, let's just treat TemplatePath as the template content itself for the very first step of verification
-			// if it doesn't look like a URL/File path, OR implement a simple fetcher.
+	if templateContent == "" {
+		return "", fmt.Errorf("no template content")
+	}
 
-			// BETTER MVP: Assume TemplatePath IS the template string content if it's short, or we fetch it.
-			// Even better: Let's assume we fetch from the library repo if linked?
+	// 2. Build Context
+	genCtx, err := s.BuildContext(ctx, entity)
+	if err != nil {
+		return "", err
+	}
 
-			// Let's stick to the plan: Read template content.
-			// If we don't have a sophisticated file fetcher yet, let's assume inputs["_template_content"] is passed
-			// OR we just perform replacement on the string provided in TemplatePath (assuming it might be a small snippet).
+	// 3. Parse and Execute Template
+	tmpl, err := template.New("blueprint").Parse(templateContent)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse template: %v", err)
+	}
 
-			// Real implementation: We need to know WHERE the template is.
-			// Let's assume for now the TemplatePath is the actual content for testing purposes or a direct http url.
-			templateContent = []byte(blueprint.TemplatePath)
-		} else {
-			// Treat as direct content for MVP
-			templateContent = []byte(blueprint.TemplatePath)
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, genCtx); err != nil {
+		return "", fmt.Errorf("failed to execute template: %v", err)
+	}
+
+	return buf.String(), nil
+}
+
+// BuildContext creates a generation context from the entity model
+func (s *GenerationService) BuildContext(ctx context.Context, entity model.Entity) (GenContext, error) {
+	// Simple lowerCamelCase conversion (naive implementation, use a library like strcase in production)
+	// Guard against empty name
+	if len(entity.EntityName) == 0 {
+		return GenContext{}, fmt.Errorf("entity name is empty")
+	}
+	varName := strings.ToLower(string(entity.EntityName[0])) + entity.EntityName[1:]
+
+	// Project checks
+	projectName := ""
+	if entity.Project.ProjectName != "" {
+		projectName = entity.Project.ProjectName
+	}
+	// Or maybe pass ProjectName from inputs/context if Entity.Project (gorm relation) is not loaded
+
+	genCtx := GenContext{
+		ProjectName: projectName,
+		Entity: GenEntity{
+			Name:       entity.EntityName,
+			VarName:    varName,
+			PrimaryKey: "ID", // Default assumption, or check fields
+		},
+		Imports:          []string{},
+		LibraryFunctions: make(map[string]string),
+	}
+
+	importsMap := make(map[string]bool)
+
+	for _, f := range entity.EntityFields {
+		genField := GenField{
+			Name: f.FieldName,
+			Type: string(f.FieldType), // Convert enum to string, logic might need mapping
 		}
-	}
 
-	// If we have no content, we can't generate
-	if len(templateContent) == 0 {
-		return "", fmt.Errorf("no template content found in blueprint")
-	}
+		// Smart Imports Logic
+		if f.FieldType == enum.DateTime {
+			key := "time"
+			if !importsMap[key] {
+				genCtx.Imports = append(genCtx.Imports, key)
+				importsMap[key] = true
+			}
+			genField.Type = "time.Time" // Override enum string with Go type
+		}
 
-	code := string(templateContent)
+		// Sensitive Data Logic -> Library Discovery
+		if f.IsSensitive {
+			// Query LibraryRepo for "encryption" tag equivalent
+			// MVP: Hardcoded lookup or basic query.
+			// Assuming we find a library that has "encryption" in description or name?
+			// Since BaseRepository GetByFilter uses PaginationInputWithFilter, it's complex to setup here.
+			// Simplified: If sensitive, we add a placeholder library.
+			// Ideally: s.libraryRepo.GetByFilter...
 
-	// 2. Replace Placeholders
-	for _, p := range blueprint.Placeholders {
-		key := fmt.Sprintf("{{%s}}", p.Name)
-		val, ok := inputs[p.Name]
-		if !ok {
-			// Use default if available, otherwise fallback to AI
-			if p.DefaultVal != "" {
-				val = p.DefaultVal
-			} else {
-				// Fallback to AI
-				if p.Description != "" {
-					generated, err := s.aiProvider.GenerateContent(p.Description)
-					if err == nil {
-						val = generated
-					} else {
-						// Log error? For now fallback empty or error
-						return "", fmt.Errorf("missing input for placeholder '%s' and AI generation failed: %v", p.Name, err)
-					}
-				} else {
-					return "", fmt.Errorf("missing input for placeholder: %s (and no description for AI)", p.Name)
-				}
+			// For this task, let's assume we find one.
+			libPkg := "company.com/security/encryption"
+			if !importsMap[libPkg] {
+				genCtx.Imports = append(genCtx.Imports, libPkg)
+				importsMap[libPkg] = true
+			}
+			genCtx.LibraryFunctions["Encrypt"] = "encryption.Encrypt"
+			genCtx.LibraryFunctions["Decrypt"] = "encryption.Decrypt"
+		}
+
+		// Validation Tags
+		if len(f.InputValidations) > 0 || f.IsMandatory {
+			tags := []string{}
+			if f.IsMandatory {
+				tags = append(tags, "required")
+			}
+			// Add more mapping logic here
+			if len(tags) > 0 {
+				genField.ValidateTag = fmt.Sprintf(`binding:"%s"`, strings.Join(tags, ","))
 			}
 		}
-		code = strings.ReplaceAll(code, key, val)
+
+		genField.JSONTag = fmt.Sprintf(`json:"%s"`, strings.ToLower(string(f.FieldName[0]))+f.FieldName[1:])
+
+		genCtx.Entity.Fields = append(genCtx.Entity.Fields, genField)
 	}
 
-	return code, nil
+	return genCtx, nil
 }

@@ -15,5 +15,7 @@ func Journey(r *gin.RouterGroup, cfg *config.Config) {
 	r.DELETE("/:id", h.Delete)
 	r.GET("/:id", h.GetById)
 	r.POST(GetByFilterExp, h.GetByFilter)
-}
 
+	graphHandler := handler.NewJourneyGraphHandler()
+	r.GET("/:id/graph", graphHandler.GetGraph)
+}

@@ -33,3 +33,13 @@ type BlueprintLibrary struct {
 	LibraryID       uint   `json:"libraryID"`
 	RequiredVersion string `gorm:"size:50" json:"requiredVersion"` // Which version this blueprint requires
 }
+
+type LibraryDefinition struct {
+	BaseModel
+	PackageName  string   `gorm:"size:150" json:"packageName"`
+	FunctionName string   `gorm:"size:150;index" json:"functionName"`
+	Signature    string   `gorm:"type:text" json:"signature"`
+	Description  string   `gorm:"size:1000" json:"description"`
+	Tags         []string `gorm:"serializer:json" json:"tags"`
+	RepoURL      string   `gorm:"size:500" json:"repoURL"`
+}

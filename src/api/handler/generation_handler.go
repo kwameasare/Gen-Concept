@@ -21,12 +21,14 @@ type GenerationHandler struct {
 func NewGenerationHandler(cfg *config.Config) *GenerationHandler {
 	// Initialize dependencies manually for now, or via dependency package
 	blueprintRepo := dependency.GetBlueprintRepository(cfg)
+	entityRepo := dependency.GetEntityRepository(cfg)
+	libraryRepo := dependency.GetLibraryRepository(cfg)
 	gitProvider := git.NewGitHubProvider() // Should probably be singleton or passed in
 	aiProvider := gen_ai.NewMockAIProvider()
-	genService := service.NewGenerationService(gitProvider, aiProvider)
+	genService := service.NewGenerationService(gitProvider, aiProvider, libraryRepo)
 
 	return &GenerationHandler{
-		usecase: usecase.NewGenerationUsecase(cfg, blueprintRepo, genService),
+		usecase: usecase.NewGenerationUsecase(cfg, blueprintRepo, entityRepo, genService),
 	}
 }
 

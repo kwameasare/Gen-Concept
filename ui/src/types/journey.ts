@@ -103,3 +103,22 @@ export interface Sort {
     uuid: string;
     fieldId: string;
 }
+
+export interface JourneyNode {
+    uuid: string;
+    journeyId: string;
+    type: string;
+    label: string;
+    level: string;
+    parentNodeId?: string;
+    blueprintId?: string;
+    metadata?: any;
+}
+
+export interface JourneyEdge {
+    uuid: string;
+    journeyId: string;
+    sourceId: string;
+    targetId: string;
+    label?: string;
+}
